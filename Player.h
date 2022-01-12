@@ -23,6 +23,9 @@ public:
 	PLAYER player;
 	OldPlayer oldPlayer;
 
+	//プレイヤーの上下移動慣性
+	int inertia,inertiaSpeed;
+
 	//左上の座標
 	int leftTopX, leftTopY;
 	//左下の座標

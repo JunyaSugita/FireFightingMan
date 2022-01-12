@@ -16,6 +16,9 @@ Player::Player() {
 		0
 	};
 
+	inertia = 0;
+	inertiaSpeed = 0;
+
 	//ç∂è„ÇÃç¿ïW
 	leftTopX = 0;
 	leftTopY = 0;
@@ -63,10 +66,19 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY) {
 	}
 	player.transform.y += G - player.jumpPow;
 
+	inertia = 0;
 	if ((RInputX <= 0 && RInputY < 0) || (RInputX <= 0 && RInputY > 0) || RInputX < 0) {
 		player.transform.x += (RInputX * -1) / 150;
-		player.transform.y += (RInputY * -1) / 80;
+		inertia = (RInputY * -1) / 60;
 	}
+
+	if (inertia > inertiaSpeed) {
+		inertiaSpeed++;
+	}
+	else if (inertia < inertiaSpeed) {
+		inertiaSpeed--;
+	}
+	player.transform.y += inertiaSpeed;
 }
 
 void Player::PlayerJump(int pad) {
