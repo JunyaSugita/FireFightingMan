@@ -60,6 +60,22 @@ void Player::SaveOldPlayer() {
 	oldPlayer.y = player.transform.y;
 }
 
+void Player::GetPlayerBottom(int BLOCK_SIZE) {
+	//¶‰º‚ÌÀ•W‚ÌŽæ“¾
+	leftBottomX = (player.transform.x - player.r) / BLOCK_SIZE;
+	leftBottomY = (player.transform.y + player.r - 1 + 1) / BLOCK_SIZE;
+	//‰E‰º‚ÌÀ•W‚ÌŽæ“¾
+	rightBottomX = (player.transform.x + player.r - 1) / BLOCK_SIZE;
+	rightBottomY = (player.transform.y + player.r - 1 + 1) / BLOCK_SIZE;
+}
+
+void Player::ResetIsJump(int map[][50]) {
+	player.isJump = true;
+	if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
+		player.isJump = false;
+	}
+}
+
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY) {
 	if (LInputX > 0 || LInputX < 0) {
 		player.transform.x += LInputX / 200;
@@ -87,7 +103,7 @@ void Player::PlayerJump(int pad) {
 		player.jumpPow = 20;
 	}
 
-	if (player.isJump == 1 && player.jumpPow > 0) {
+	if (player.isJump == true && player.jumpPow > 0) {
 		player.jumpPow--;
 	}
 }
@@ -169,9 +185,7 @@ void Player::BlockCollision(int map[][50]) {
 		}
 	}
 	if (map[leftBottomY][leftBottomX] == BLOCK) {
-		if (player.jumpPow <= 0) {
-			player.isJump = 0;
-		}
+		player.isJump = false;
 		if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] != BLOCK) {}
 
 		else if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] == BLOCK) {
@@ -188,9 +202,7 @@ void Player::BlockCollision(int map[][50]) {
 		}
 	}
 	if (map[rightBottomY][rightBottomX] == BLOCK) {
-		if (player.jumpPow <= 0) {
-			player.isJump = 0;
-		}
+		player.isJump = false;
 		if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] != BLOCK) {}
 
 		else if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] == BLOCK) {
@@ -208,6 +220,19 @@ void Player::BlockCollision(int map[][50]) {
 	}
 }
 
+void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
+	if (player.isJump == false) {
+		for (int i = 0; i < 100; i++) {
+			if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
+				break;
+			}
+			else {
+				player.transform.y++;
+				GetPlayerBottom(BLOCK_SIZE);
+			}
+		}
+	}
+}
 
 void Player::DrawPlayer() {
 	DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
