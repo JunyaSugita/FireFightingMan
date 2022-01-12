@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include "time.h"
 
 Bullet::Bullet() {
 	for (int i = 0; i < BULLET_CONST; i++) {
@@ -27,6 +28,8 @@ Bullet::Bullet() {
 	}
 
 	map = new Map;
+
+	srand(time(NULL));
 }
 
 Bullet::~Bullet() {
@@ -34,14 +37,16 @@ Bullet::~Bullet() {
 }
 
 void Bullet::BulletShot(Transform transform, int x, int y) {
-	for (int i = 0; i < BULLET_CONST; i++) {
-		if (bullet[i].isBullet == false) {
-			bullet[i].isBullet = true;
-			bullet[i].transform.x = transform.x;
-			bullet[i].transform.y = transform.y - 10;
-			bullet[i].speedX = x / 50;
-			bullet[i].speedY = y / 50;
-			break;
+	for (int j = 0; j < 3; j++) {
+		for (int i = 0; i < BULLET_CONST; i++) {
+			if (bullet[i].isBullet == false) {
+				bullet[i].isBullet = true;
+				bullet[i].transform.x = transform.x;
+				bullet[i].transform.y = transform.y - 10;
+				bullet[i].speedX = x / 50 + rand() % 3 - 1;
+				bullet[i].speedY = y / 50 + rand() % 3 - 1;
+				break;
+			}
 		}
 	}
 }
@@ -96,7 +101,7 @@ void Bullet::BlockCollision(int map[][50]) {
 void Bullet::DrawBullet(int scroll) {
 	for (int i = 0; i < BULLET_CONST; i++) {
 		if (bullet[i].isBullet == true) {
-			DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(0, 0, 255), true);
+			DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(150, 200, 255), true);
 		}
 	}
 }

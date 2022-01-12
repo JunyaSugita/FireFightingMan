@@ -48,6 +48,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 	//プレイヤー位置の保存
 	player->SaveOldPlayer();
 
+	//プレイヤーのジャンプの可否
+	player->GetPlayerBottom(map->BLOCK_SIZE);
+	player->ResetIsJump(map->map);
+
 	//プレイヤーの移動
 	player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry);
 	player->PlayerJump(pad);
@@ -63,8 +67,8 @@ void Scene::Update(char* keys, char* oldkeys) {
 	fire->FireFighting(player->bullet->bullet);
 
 	//マップチップ上の座標位置の取得
-	player->GetPlayer(map->BLOCK_SIZE);
 	player->GetOldPlayer(map->BLOCK_SIZE);
+	player->GetPlayer(map->BLOCK_SIZE);
 	player->bullet->GetBullet(map->BLOCK_SIZE);
 
 	//当たり判定
@@ -72,6 +76,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 	player->bullet->BlockCollision(map->map);
 	rescued->RescuedCollision(player);
 	goal->GetGoal(player, rescued);
+
+	//プレイヤーが地面で浮かないように
+	player->GetPlayerBottom(map->BLOCK_SIZE);
+	player->DownPlayer(map->map, map->BLOCK_SIZE);
 
 	//敵の出現
 	ene->Update(player->bullet->bullet);
@@ -86,8 +94,8 @@ void Scene::Draw() {
 	fire->DrawFire(player->scroll);
 	map->DrawMap(map->map, player->scroll);
 	rescued->Draw(player->scroll);
-	player->DrawPlayer();
 	player->bullet->DrawBullet(player->scroll);
+	player->DrawPlayer();
 	ene->Draw(player->scroll);
 
 	//デバッグ
