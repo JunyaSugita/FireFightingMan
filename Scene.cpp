@@ -71,6 +71,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 	player->GetPlayer(map->BLOCK_SIZE);
 	player->bullet->GetBullet(map->BLOCK_SIZE);
 
+	player->ResetIsJump(map->map);
 	//“–‚½‚è”»’è
 	player->BlockCollision(map->map);
 	player->bullet->BlockCollision(map->map);
