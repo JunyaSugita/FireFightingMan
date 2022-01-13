@@ -84,7 +84,7 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY) {
 
 	inertia = 0;
 	if ((RInputX <= 0 && RInputY < 0) || (RInputX <= 0 && RInputY > 0) || RInputX < 0) {
-		player.transform.x += (RInputX * -1) / 100;
+		player.transform.x += (RInputX * -1) / 180;
 		inertia = (RInputY * -1) / 40;
 	}
 
