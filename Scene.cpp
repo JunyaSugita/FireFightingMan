@@ -107,6 +107,11 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			//スクロール
 			player->GetScroll();
+
+			for (int i = 0; i < 10; i++) {
+				particle->Move(fire->fire[i].transform.x,fire->fire[i].transform.y,player->scroll);
+			}
+
 			break;
 	}
 }
