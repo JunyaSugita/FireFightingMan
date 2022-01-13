@@ -12,7 +12,7 @@ Enemy::Enemy() {
 		enemy[i].transform.y = 0;
 		enemy[i].r = 32;
 		enemy[i].time = 0;
-		enemy[i].coolTime = 0;
+		enemy[i].coolTime = 300;
 		enemy[i].hp = 80;
 		enemy[i].way = 0;
 		enemy[i].Xs = 1;
@@ -68,7 +68,7 @@ void Enemy::BulletColision(BULLET bullet[]) {
 					(bullet[j].transform.y - enemy[i].transform.y) * (bullet[j].transform.y - enemy[i].transform.y)) {
 
 					bullet[j].isBullet = 0;
-					enemy[i].isAlive = 0;
+					enemy[i].isAlive = 2;
 					enemy[i].coolTime = 3000;
 				}
 			}
