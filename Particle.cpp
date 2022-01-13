@@ -32,7 +32,7 @@ Particle::~Particle() {
 }
 
 //ˆÚ“®
-void Particle::Move(int x,int y,int scroll) {
+void Particle::Move(int x, int y, int scroll, int fireR) {
 
 	Draw(scroll);
 
@@ -42,6 +42,7 @@ void Particle::Move(int x,int y,int scroll) {
 				particle[i].isEmit = 1;
 				particle[i].transform.x = x + rand() % 31 - 15;
 				particle[i].transform.y = y + rand() % 21 - 10;
+				particle[i].r = fireR / 5 * 3;
 				break;
 			}
 		}
@@ -80,7 +81,7 @@ void Particle::Draw(int scroll) {
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, particle[i].alpha);
 			SetDrawBlendMode(DX_BLENDMODE_ADD, 196);
 			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r, GetColor(255, 0, 0), true);
-			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r-2, GetColor(0, 32, 32), true);
+			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r - 2, GetColor(0, 32, 32), true);
 			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r, GetColor(255, 0, 0), false);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		}

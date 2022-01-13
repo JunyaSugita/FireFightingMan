@@ -109,7 +109,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetScroll();
 
 			for (int i = 0; i < 10; i++) {
-				particle->Move(fire->fire[i].transform.x,fire->fire[i].transform.y,player->scroll);
+				particle->Move(fire->fire[i].transform.x,fire->fire[i].transform.y,player->scroll,fire->fire[i].Xr);
 			}
 
 			break;
@@ -126,7 +126,6 @@ void Scene::Draw() {
 		case 1:
 			// 描画処理
 			goal->Draw(rescued, player->scroll);
-			fire->DrawFire(player->scroll);
 			map->DrawMap(map->map, player->scroll);
 			rescued->Draw(player->scroll);
 			player->bullet->DrawBullet(player->scroll);
