@@ -49,3 +49,14 @@ typedef struct {
 	int coolTime;
 	int way;
 }ENEMY;
+
+//パーティクル
+typedef struct {
+	Transform transform;
+	int r;
+	float speedX;
+	float speedY;
+	int isEmit;
+	int timer;
+	int alpha;
+}EMIT;
