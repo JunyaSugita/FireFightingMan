@@ -157,7 +157,7 @@ void Player::GetScroll() {
 }
 
 void Player::BlockCollision(int map[][50]) {
-	if ((map[rightTopY][rightTopX] == BLOCK || map[leftTopY][leftTopX] == BLOCK) && map[leftTopY][leftTopX] != BLOCK && map[rightTopY][rightTopX] == BLOCK) {
+	if ((map[rightTopY][rightTopX] == BLOCK || map[leftTopY][leftTopX] == BLOCK) && map[leftTopY][leftTopX] != BLOCK && map[rightTopY][rightTopX] != BLOCK) {
 		player.jumpPow = 0;
 	}
 	if (map[leftBottomY][leftBottomX] == BLOCK) {
