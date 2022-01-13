@@ -9,6 +9,12 @@ Scene::Scene() {
 	fire = new Fire;
 	goal = new Goal;
 	ene = new Enemy;
+	particle = new Particle;
+
+	for (int i = 0; i < 10; i++) {
+		x[i] = 100 * i;
+		y[i] = 896;
+	}
 }
 
 //コンストラクタ
@@ -20,6 +26,7 @@ Scene::~Scene() {
 	delete fire;
 	delete goal;
 	delete ene;
+	delete particle;
 }
 
 
@@ -94,7 +101,9 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			//敵の出現
 			ene->Update(player->bullet->bullet);
-
+			for (int i = 0; i < 10; i++) {
+				particle->Move(x[i], y[i],player->scroll);
+			}
 			//スクロール
 			player->GetScroll();
 			break;

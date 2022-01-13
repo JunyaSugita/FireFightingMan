@@ -6,6 +6,7 @@
 #include"Rescued.h"
 #include "Goal.h"
 #include "Enemy.h"
+#include "Particle.h"
 
 
 class Scene {
@@ -18,7 +19,10 @@ public:
 	Goal* goal;
 	DINPUT_JOYSTATE padInput;
 	Enemy* ene;
+	Particle* particle;
 	int pad;
+	int x[10];
+	int y[10];
 
 public:
 	Scene();
