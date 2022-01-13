@@ -30,10 +30,10 @@ void Rescued::RescuedCollision(Player* player) {
 }
 
 //ˆÚ“®ŠÖ”
-void Rescued::Move(Player* player) {
+void Rescued::Move(Transform transform) {
 	if (isRescued == true) {
-		transform.x = player->player.transform.x;
-		transform.y = player->player.transform.y - 25;
+		this->transform.x = transform.x;
+		this->transform.y = transform.y - 25;
 	}
 }
 

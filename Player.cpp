@@ -157,6 +157,9 @@ void Player::GetScroll() {
 }
 
 void Player::BlockCollision(int map[][50]) {
+	if ((map[rightTopY][rightTopX] == BLOCK || map[leftTopY][leftTopX] == BLOCK) && map[leftTopY][leftTopX] != BLOCK && map[rightTopY][rightTopX] == BLOCK) {
+		player.jumpPow = 0;
+	}
 	if (map[leftBottomY][leftBottomX] == BLOCK) {
 		player.isJump = false;
 		if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] != BLOCK) {}
@@ -193,7 +196,6 @@ void Player::BlockCollision(int map[][50]) {
 	}
 	if (map[leftTopY][leftTopX] == BLOCK) {
 		player.isJump = true;
-		player.jumpPow = 0;
 		if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {}
 
 		else if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
@@ -211,7 +213,6 @@ void Player::BlockCollision(int map[][50]) {
 	}
 	if (map[rightTopY][rightTopX] == BLOCK) {
 		player.isJump = true;
-		player.jumpPow = 0;
 		if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] != BLOCK) {}
 
 		else if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
