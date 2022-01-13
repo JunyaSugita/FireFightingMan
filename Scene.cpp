@@ -55,7 +55,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 	//プレイヤーの移動
 	player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry);
 	player->PlayerJump(pad);
-	rescued->Move(player);
+	
 
 	//弾の発射
 	player->PlayerShot(padInput.Rx, padInput.Ry);
@@ -71,6 +71,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 	player->GetPlayer(map->BLOCK_SIZE);
 	player->bullet->GetBullet(map->BLOCK_SIZE);
 
+	player->ResetIsJump(map->map);
 	//当たり判定
 	player->BlockCollision(map->map);
 	player->bullet->BlockCollision(map->map);
@@ -80,6 +81,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 	//プレイヤーが地面で浮かないように
 	player->GetPlayerBottom(map->BLOCK_SIZE);
 	player->DownPlayer(map->map, map->BLOCK_SIZE);
+	rescued->Move(player->player.transform);
 
 	//敵の出現
 	ene->Update(player->bullet->bullet);
