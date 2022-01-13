@@ -19,8 +19,12 @@ Goal::~Goal() {
 void Goal::GetGoal(Player* player, Rescued* rescued) {
 	if (rescued->isRescued == true) {
 		if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
-			if (isGoal == false) {
-				isGoal = true;
+			if (player->player.transform.y + player->player.r > 912 - 96 && 912 > player->player.transform.y - player->player.r) {
+				if (isGoal == false) {
+					isGoal = true;
+					player->scene = 0;
+					Reset(rescued);
+				}
 			}
 		}
 	}
@@ -35,4 +39,11 @@ void Goal::Draw(Rescued* rescued, int scroll) {
 			DrawBox(x - 96 - scroll, 812, x - scroll, 912, GetColor(255, 255, 0), true);
 		}
 	}
+}
+
+//リセット用
+void Goal::Reset(Rescued* rescued) {
+	delete rescued;
+	rescued = new Rescued;
+	isGoal = false;
 }

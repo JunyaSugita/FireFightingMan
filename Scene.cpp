@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-//ÉRÉìÉXÉgÉâÉNÉ^
+//„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 Scene::Scene() {
 	player = new Player;
 	bullet = new Bullet;
@@ -11,7 +11,7 @@ Scene::Scene() {
 	ene = new Enemy;
 }
 
-//ÉRÉìÉXÉgÉâÉNÉ^
+//„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 Scene::~Scene() {
 	delete player;
 	delete bullet;
@@ -23,10 +23,10 @@ Scene::~Scene() {
 }
 
 
-///-----ä÷êî-----///
+///-----Èñ¢Êï∞-----///
 void Scene::Update(char* keys, char* oldkeys) {
 
-	//ó·äOèàóù
+	//‰æãÂ§ñÂá¶ÁêÜ
 	if (keys == nullptr || oldkeys == nullptr) {
 		return;
 	}
@@ -37,75 +37,129 @@ void Scene::Update(char* keys, char* oldkeys) {
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &padInput);
 	pad = GetJoypadInputState(DX_INPUT_PAD1);
 
-	//É}ÉbÉvëIë
+	//„Éû„ÉÉ„ÉóÈÅ∏Êäû
 	map->SelectMap1();
 
-	//âŒÇÃê›íu
-	if (keys[KEY_INPUT_F] == 1) {
-		fire->SetFire(map->map);
+	switch (player->scene) {
+		//„Çø„Ç§„Éà„É´
+		case 0:
+			if (pad & PAD_INPUT_2) {
+				player->scene = 1;
+			}
+			break;
+
+			//„Ç≤„Éº„É†
+		case 1:
+
+			//ÁÅ´„ÅÆË®≠ÁΩÆ
+			if (keys[KEY_INPUT_F] == 1) {
+				fire->SetFire(map->map);
+			}
+
+			//„Éó„É¨„Ç§„É§„Éº‰ΩçÁΩÆ„ÅÆ‰øùÂ≠ò
+			player->SaveOldPlayer();
+
+			//„Éó„É¨„Ç§„É§„Éº„ÅÆ„Ç∏„É£„É≥„Éó„ÅÆÂèØÂê¶
+			player->GetPlayerBottom(map->BLOCK_SIZE);
+			player->ResetIsJump(map->map);
+
+			//„Éó„É¨„Ç§„É§„Éº„ÅÆÁßªÂãï
+			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry);
+			player->PlayerJump(pad);
+			rescued->Move(player->player.transform);
+
+			//Âºæ„ÅÆÁô∫Â∞Ñ
+			player->PlayerShot(padInput.Rx, padInput.Ry);
+
+			//Âºæ„ÅÆÊåôÂãï
+			player->bullet->BulletMove(player->G);
+
+			//Ê∂àÂåñ
+			fire->FireFighting(player->bullet->bullet);
+
+			//„Éû„ÉÉ„Éó„ÉÅ„ÉÉ„Éó‰∏ä„ÅÆÂ∫ßÊ®ô‰ΩçÁΩÆ„ÅÆÂèñÂæó
+			player->GetOldPlayer(map->BLOCK_SIZE);
+			player->GetPlayer(map->BLOCK_SIZE);
+			player->bullet->GetBullet(map->BLOCK_SIZE);
+
+			//ÂΩì„Åü„ÇäÂà§ÂÆö
+			player->BlockCollision(map->map);
+			player->bullet->BlockCollision(map->map);
+			rescued->RescuedCollision(player);
+			goal->GetGoal(player, rescued);
+
+			//„Éó„É¨„Ç§„É§„Éº„ÅåÂú∞Èù¢„ÅßÊµÆ„Åã„Å™„ÅÑ„Çà„ÅÜ„Å´
+			player->GetPlayerBottom(map->BLOCK_SIZE);
+			player->DownPlayer(map->map, map->BLOCK_SIZE);
+
+			//Êïµ„ÅÆÂá∫Áèæ
+			ene->Update(player->bullet->bullet,map);
+
+			//„Çπ„ÇØ„É≠„Éº„É´
+			player->GetScroll();
+			break;
 	}
 
-	//ÉvÉåÉCÉÑÅ[à íuÇÃï€ë∂
+	//„Éó„É¨„Ç§„É§„Éº‰ΩçÁΩÆ„ÅÆ‰øùÂ≠ò
 	player->SaveOldPlayer();
 
-	//ÉvÉåÉCÉÑÅ[ÇÃÉWÉÉÉìÉvÇÃâ¬î€
-	player->GetPlayerBottom(map->BLOCK_SIZE);
-	player->ResetIsJump(map->map);
-
-	//ÉvÉåÉCÉÑÅ[ÇÃà⁄ìÆ
+	//„Éó„É¨„Ç§„É§„Éº„ÅÆÁßªÂãï
 	player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry);
 	player->PlayerJump(pad);
-	
+	rescued->Move(player->player.transform);
 
-	//íeÇÃî≠éÀ
+	//Âºæ„ÅÆÁô∫Â∞Ñ
 	player->PlayerShot(padInput.Rx, padInput.Ry);
 
-	//íeÇÃãììÆ
+	//Âºæ„ÅÆÊåôÂãï
 	player->bullet->BulletMove(player->G);
 
-	//è¡âª
+	//Ê∂àÂåñ
 	fire->FireFighting(player->bullet->bullet);
 
-	//É}ÉbÉvÉ`ÉbÉvè„ÇÃç¿ïWà íuÇÃéÊìæ
-	player->GetOldPlayer(map->BLOCK_SIZE);
+	//„Éû„ÉÉ„Éó„ÉÅ„ÉÉ„Éó‰∏ä„ÅÆÂ∫ßÊ®ô‰ΩçÁΩÆ„ÅÆÂèñÂæó
 	player->GetPlayer(map->BLOCK_SIZE);
+	player->GetOldPlayer(map->BLOCK_SIZE);
 	player->bullet->GetBullet(map->BLOCK_SIZE);
 
-	player->ResetIsJump(map->map);
-	//ìñÇΩÇËîªíË
+	//ÂΩì„Åü„ÇäÂà§ÂÆö
 	player->BlockCollision(map->map);
 	player->bullet->BlockCollision(map->map);
 	rescued->RescuedCollision(player);
 	goal->GetGoal(player, rescued);
 
-	//ÉvÉåÉCÉÑÅ[Ç™ínñ Ç≈ïÇÇ©Ç»Ç¢ÇÊÇ§Ç…
-	player->GetPlayerBottom(map->BLOCK_SIZE);
-	player->DownPlayer(map->map, map->BLOCK_SIZE);
-	rescued->Move(player->player.transform);
+	//Êïµ„ÅÆÂá∫Áèæ
+	ene->Update(player->bullet->bullet,map);
 
-	//ìGÇÃèoåª
-	ene->Update(player->bullet->bullet);
-
-	//ÉXÉNÉçÅ[Éã
+	//„Çπ„ÇØ„É≠„Éº„É´
 	player->GetScroll();
 }
 
 void Scene::Draw() {
-	// ï`âÊèàóù
-	goal->Draw(rescued, player->scroll);
-	fire->DrawFire(player->scroll);
-	map->DrawMap(map->map, player->scroll);
-	rescued->Draw(player->scroll);
-	player->bullet->DrawBullet(player->scroll);
-	player->DrawPlayer();
-	ene->Draw(player->scroll);
 
-	//ÉfÉoÉbÉO
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-	DrawBox(0, 0, 500, 100, GetColor(255, 255, 255), true);
-	DrawFormatString(0, 0, GetColor(50, 50, 50), "X:%d Y:%d Z:%d",
-		padInput.X, padInput.Y, padInput.Z);
-	DrawFormatString(0, 16, GetColor(50, 50, 50), "Rx:%d Ry:%d Rz:%d",
-		padInput.Rx, padInput.Ry, padInput.Rz);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	switch (player->scene) {
+		case 0:
+			DrawFormatString(640, 450, GetColor(255, 255, 255), "B to Start");
+			break;
+
+		case 1:
+			// ÊèèÁîªÂá¶ÁêÜ
+			goal->Draw(rescued, player->scroll);
+			fire->DrawFire(player->scroll);
+			map->DrawMap(map->map, player->scroll);
+			rescued->Draw(player->scroll);
+			player->bullet->DrawBullet(player->scroll);
+			player->DrawPlayer();
+			ene->Draw(player->scroll);
+
+			//„Éá„Éê„ÉÉ„Ç∞
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+			DrawBox(0, 0, 500, 100, GetColor(255, 255, 255), true);
+			DrawFormatString(0, 0, GetColor(50, 50, 50), "X:%d Y:%d Z:%d",
+				padInput.X, padInput.Y, padInput.Z);
+			DrawFormatString(0, 16, GetColor(50, 50, 50), "Rx:%d Ry:%d Rz:%d",
+				padInput.Rx, padInput.Ry, padInput.Rz);
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			break;
+	}
 }
