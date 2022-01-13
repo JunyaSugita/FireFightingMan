@@ -37,14 +37,13 @@ void Scene::Update(char* keys, char* oldkeys) {
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &padInput);
 	pad = GetJoypadInputState(DX_INPUT_PAD1);
 
-	//マップ選択
-	map->SelectMap1();
-
 	switch (player->scene) {
 		//タイトル
 		case 0:
 			if (pad & PAD_INPUT_2) {
 				player->scene = 1;
+				//マップ選択
+				map->SelectMap1();
 			}
 			break;
 
@@ -66,7 +65,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//プレイヤーの移動
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry);
 			player->PlayerJump(pad);
-			rescued->Move(player->player.transform);
+			
 
 			//弾の発射
 			player->PlayerShot(padInput.Rx, padInput.Ry);
@@ -82,6 +81,8 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetPlayer(map->BLOCK_SIZE);
 			player->bullet->GetBullet(map->BLOCK_SIZE);
 
+			player->ResetIsJump(map->map);
+
 			//当たり判定
 			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
@@ -91,6 +92,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//プレイヤーが地面で浮かないように
 			player->GetPlayerBottom(map->BLOCK_SIZE);
 			player->DownPlayer(map->map, map->BLOCK_SIZE);
+			rescued->Move(player);
 
 			//敵の出現
 			ene->Update(player->bullet->bullet,map);
@@ -99,40 +101,6 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetScroll();
 			break;
 	}
-
-	//プレイヤー位置の保存
-	player->SaveOldPlayer();
-
-	//プレイヤーの移動
-	player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry);
-	player->PlayerJump(pad);
-	rescued->Move(player->player.transform);
-
-	//弾の発射
-	player->PlayerShot(padInput.Rx, padInput.Ry);
-
-	//弾の挙動
-	player->bullet->BulletMove(player->G);
-
-	//消化
-	fire->FireFighting(player->bullet->bullet);
-
-	//マップチップ上の座標位置の取得
-	player->GetPlayer(map->BLOCK_SIZE);
-	player->GetOldPlayer(map->BLOCK_SIZE);
-	player->bullet->GetBullet(map->BLOCK_SIZE);
-
-	//当たり判定
-	player->BlockCollision(map->map);
-	player->bullet->BlockCollision(map->map);
-	rescued->RescuedCollision(player);
-	goal->GetGoal(player, rescued);
-
-	//敵の出現
-	ene->Update(player->bullet->bullet,map);
-
-	//スクロール
-	player->GetScroll();
 }
 
 void Scene::Draw() {
