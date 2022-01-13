@@ -130,9 +130,9 @@ void Player::GetPlayer(int BLOCK_SIZE) {
 
 	//ジャンプ用の座標を取得
 	jumpLeftBottomX = (player.transform.x - player.r) / BLOCK_SIZE;
-	jumpLeftBottomY = (player.transform.y  - 1) / BLOCK_SIZE;
+	jumpLeftBottomY = (player.transform.y + player.r - 1 - G) / BLOCK_SIZE;
 	jumpRightBottomX = (player.transform.x + player.r - 1) / BLOCK_SIZE;
-	jumpRightBottomY = (player.transform.y - 1) / BLOCK_SIZE;
+	jumpRightBottomY = (player.transform.y + player.r - 1 - G) / BLOCK_SIZE;
 }
 
 void Player::GetOldPlayer(int BLOCK_SIZE) {
@@ -157,11 +157,13 @@ void Player::GetScroll() {
 }
 
 void Player::BlockCollision(int map[][50]) {
-	if ((map[rightTopY][rightTopX] == BLOCK || map[leftTopY][leftTopX] == BLOCK) && map[leftTopY][leftTopX] != BLOCK && map[rightTopY][rightTopX] != BLOCK) {
+	if ((map[rightTopY][rightTopX] == BLOCK || map[leftTopY][leftTopX] == BLOCK) && map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] != BLOCK) {
 		player.jumpPow = 0;
 	}
 	if (map[leftBottomY][leftBottomX] == BLOCK) {
-		player.isJump = false;
+		if (player.jumpPow <= 0) {
+			player.isJump = false;
+		}
 		if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] != BLOCK) {}
 
 		else if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] == BLOCK) {
@@ -178,7 +180,9 @@ void Player::BlockCollision(int map[][50]) {
 		}
 	}
 	if (map[rightBottomY][rightBottomX] == BLOCK) {
-		player.isJump = false;
+		if (player.jumpPow <= 0) {
+			player.isJump = false;
+		}
 		if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] != BLOCK) {}
 
 		else if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] == BLOCK) {
@@ -237,7 +241,7 @@ void Player::BlockCollision(int map[][50]) {
 }
 
 void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
-	if (player.isJump == false) {
+	if (player.isJump == false && player.jumpPow <= 0) {
 		for (int i = 0; i < 100; i++) {
 			if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
 				break;
