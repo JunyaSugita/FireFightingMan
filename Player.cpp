@@ -100,7 +100,7 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY) {
 void Player::PlayerJump(int pad) {
 	if (pad & PAD_INPUT_5 && player.isJump == 0) {
 		player.isJump = 1;
-		player.jumpPow = 30;
+		player.jumpPow = 35;
 	}
 
 	if (player.isJump == true && player.jumpPow > 0) {
