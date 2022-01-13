@@ -74,7 +74,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 	goal->GetGoal(player, rescued);
 
 	//敵の出現
-	ene->Update(player->bullet->bullet);
+	ene->Update(player->bullet->bullet,map);
 
 	//スクロール
 	player->GetScroll();

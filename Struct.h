@@ -41,10 +41,11 @@ typedef struct {
 typedef struct {
 	Transform transform;
 	int r;
-	int Xr;
-	int Yr;
+	int Xs;
+	int Ys;
 	int isAlive;
 	int hp;
 	int time;
+	int coolTime;
 	int way;
 }ENEMY;

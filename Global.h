@@ -14,5 +14,6 @@ const int WIN_HEIGHT = 960;
 enum MapInfo {
 	NONE,	//0
 	BLOCK,	//1
-	FLAME	//2
+	FLAME,	//2
+	FLAMEENEMY,	//3
 };
