@@ -10,6 +10,9 @@ public:
 
 public:
 	void SaveOldPlayer();
+	void GetPlayerBottom(int BLOCK_SIZE);
+	void ResetIsJump(int map[][50]);
+
 	void PlayerMove(int LInputX, int RInputX, int RInputY);
 	void PlayerJump(int pad);
 	void PlayerShot(int InputX, int InputY);
@@ -17,6 +20,7 @@ public:
 	void GetOldPlayer(int BLOCK_SIZE);
 	void GetScroll();
 	void BlockCollision(int map[][50]);
+	void DownPlayer(int map[][50],int BLOCK_SIZE);
 
 	void DrawPlayer();
 public:
@@ -43,8 +47,12 @@ public:
 	//1フレーム前の右下の座標
 	int oldRightBottomX, oldRightBottomY;
 
+	//ジャンプ管理用の座標
+	int jumpLeftBottomX, jumpLeftBottomY;
+	int jumpRightBottomX, jumpRightBottomY;
+
 	//重力
-	const int G = 8;
+	const int G = 15;
 
 	//スクロール
 	int scroll;

@@ -60,6 +60,22 @@ void Player::SaveOldPlayer() {
 	oldPlayer.y = player.transform.y;
 }
 
+void Player::GetPlayerBottom(int BLOCK_SIZE) {
+	//左下の座標の取得
+	leftBottomX = (player.transform.x - player.r) / BLOCK_SIZE;
+	leftBottomY = (player.transform.y + player.r - 1 + 1) / BLOCK_SIZE;
+	//右下の座標の取得
+	rightBottomX = (player.transform.x + player.r - 1) / BLOCK_SIZE;
+	rightBottomY = (player.transform.y + player.r - 1 + 1) / BLOCK_SIZE;
+}
+
+void Player::ResetIsJump(int map[][50]) {
+	player.isJump = true;
+	if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
+		player.isJump = false;
+	}
+}
+
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY) {
 	if (LInputX > 0 || LInputX < 0) {
 		player.transform.x += LInputX / 200;
@@ -68,8 +84,8 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY) {
 
 	inertia = 0;
 	if ((RInputX <= 0 && RInputY < 0) || (RInputX <= 0 && RInputY > 0) || RInputX < 0) {
-		player.transform.x += (RInputX * -1) / 150;
-		inertia = (RInputY * -1) / 60;
+		player.transform.x += (RInputX * -1) / 180;
+		inertia = (RInputY * -1) / 40;
 	}
 
 	if (inertia > inertiaSpeed) {
@@ -84,10 +100,10 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY) {
 void Player::PlayerJump(int pad) {
 	if (pad & PAD_INPUT_5 && player.isJump == 0) {
 		player.isJump = 1;
-		player.jumpPow = 20;
+		player.jumpPow = 30;
 	}
 
-	if (player.isJump == 1 && player.jumpPow > 0) {
+	if (player.isJump == true && player.jumpPow > 0) {
 		player.jumpPow--;
 	}
 }
@@ -111,6 +127,12 @@ void Player::GetPlayer(int BLOCK_SIZE) {
 	//右下の座標の取得
 	rightBottomX = (player.transform.x + player.r - 1) / BLOCK_SIZE;
 	rightBottomY = (player.transform.y + player.r - 1) / BLOCK_SIZE;
+
+	//ジャンプ用の座標を取得
+	jumpLeftBottomX = (player.transform.x - player.r) / BLOCK_SIZE;
+	jumpLeftBottomY = (player.transform.y  - 1) / BLOCK_SIZE;
+	jumpRightBottomX = (player.transform.x + player.r - 1) / BLOCK_SIZE;
+	jumpRightBottomY = (player.transform.y - 1) / BLOCK_SIZE;
 }
 
 void Player::GetOldPlayer(int BLOCK_SIZE) {
@@ -135,43 +157,11 @@ void Player::GetScroll() {
 }
 
 void Player::BlockCollision(int map[][50]) {
-	if (map[leftTopY][leftTopX] == BLOCK) {
-		if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {}
-
-		else if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
-			player.transform.y = oldPlayer.y;
-		}
-
-		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {
-			player.transform.x = oldPlayer.x;
-		}
-
-		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
-			player.transform.x = oldPlayer.x;
-			player.transform.y = oldPlayer.y;
-		}
-	}
-	if (map[rightTopY][rightTopX] == BLOCK) {
-		if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] != BLOCK) {}
-
-		else if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
-			player.transform.y = oldPlayer.y;
-
-		}
-
-		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] != BLOCK) {
-			player.transform.x = oldPlayer.x;
-		}
-
-		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
-			player.transform.x = oldPlayer.x;
-			player.transform.y = oldPlayer.y;
-		}
+	if ((map[rightTopY][rightTopX] == BLOCK || map[leftTopY][leftTopX] == BLOCK) && map[leftTopY][leftTopX] != BLOCK && map[rightTopY][rightTopX] != BLOCK) {
+		player.jumpPow = 0;
 	}
 	if (map[leftBottomY][leftBottomX] == BLOCK) {
-		if (player.jumpPow <= 0) {
-			player.isJump = 0;
-		}
+		player.isJump = false;
 		if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] != BLOCK) {}
 
 		else if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] == BLOCK) {
@@ -188,9 +178,7 @@ void Player::BlockCollision(int map[][50]) {
 		}
 	}
 	if (map[rightBottomY][rightBottomX] == BLOCK) {
-		if (player.jumpPow <= 0) {
-			player.isJump = 0;
-		}
+		player.isJump = false;
 		if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] != BLOCK) {}
 
 		else if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] == BLOCK) {
@@ -206,8 +194,60 @@ void Player::BlockCollision(int map[][50]) {
 			player.transform.y = oldPlayer.y;
 		}
 	}
+	if (map[leftTopY][leftTopX] == BLOCK) {
+		player.isJump = true;
+		if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {}
+
+		else if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
+			player.transform.y = oldPlayer.y;
+		}
+
+		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {
+			player.transform.x = oldPlayer.x;
+		}
+
+		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
+			player.transform.x = oldPlayer.x;
+			player.transform.y = oldPlayer.y;
+		}
+	}
+	if (map[rightTopY][rightTopX] == BLOCK) {
+		player.isJump = true;
+		if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] != BLOCK) {}
+
+		else if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
+			player.transform.y = oldPlayer.y;
+
+		}
+
+		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] != BLOCK) {
+			player.transform.x = oldPlayer.x;
+		}
+
+		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
+			player.transform.x = oldPlayer.x;
+			player.transform.y = oldPlayer.y;
+		}
+	}
+
+	if (map[jumpLeftBottomY][jumpLeftBottomX] == BLOCK || map[jumpRightBottomY][jumpRightBottomX] == BLOCK) {
+		player.isJump = true;
+	}
 }
 
+void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
+	if (player.isJump == false) {
+		for (int i = 0; i < 100; i++) {
+			if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
+				break;
+			}
+			else {
+				player.transform.y++;
+				GetPlayerBottom(BLOCK_SIZE);
+			}
+		}
+	}
+}
 
 void Player::DrawPlayer() {
 	DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
