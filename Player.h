@@ -57,6 +57,9 @@ public:
 	//スクロール
 	int scroll;
 
+	//シーン管理
+	int scene;
+
 	//弾
 	Bullet* bullet;
 	//マップ

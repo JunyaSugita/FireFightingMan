@@ -1,9 +1,9 @@
 #include "Map.h"
 
 Map::Map() {
-	//�}�b�v�̗�̐�
+	//マップの列の数
 	mapCountX = sizeof(map[0]) / sizeof(map[0][0]);
-	//�}�b�v�̗�̐�
+	//マップの列の数
 	mapCountY = sizeof(map) / sizeof(map[0]);
 }
 
