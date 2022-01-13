@@ -14,4 +14,5 @@ public:
 	~Goal();
 	void GetGoal(Player* player, Rescued* rescued);
 	void Draw(Rescued* rescued, int scroll);
+	void Reset(Rescued* rescued);
 };
