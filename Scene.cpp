@@ -66,7 +66,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//プレイヤーの移動
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry);
 			player->PlayerJump(pad);
-			rescued->Move(player);
+			rescued->Move(player->player.transform);
 
 			//弾の発射
 			player->PlayerShot(padInput.Rx, padInput.Ry);
@@ -93,7 +93,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->DownPlayer(map->map, map->BLOCK_SIZE);
 
 			//敵の出現
-			ene->Update(player->bullet->bullet);
+			ene->Update(player->bullet->bullet,map);
 
 			//スクロール
 			player->GetScroll();
@@ -106,7 +106,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 	//プレイヤーの移動
 	player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry);
 	player->PlayerJump(pad);
-	rescued->Move(player);
+	rescued->Move(player->player.transform);
 
 	//弾の発射
 	player->PlayerShot(padInput.Rx, padInput.Ry);
