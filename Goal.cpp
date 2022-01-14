@@ -43,7 +43,6 @@ void Goal::Draw(Rescued* rescued, int scroll) {
 
 //リセット用
 void Goal::Reset(Rescued* rescued) {
-	delete rescued;
-	rescued = new Rescued;
+	rescued->Reset();
 	isGoal = false;
 }

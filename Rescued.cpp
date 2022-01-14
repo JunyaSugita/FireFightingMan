@@ -41,3 +41,10 @@ void Rescued::Move(Player* player) {
 void Rescued::Draw(int scroll) {
 	DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);
 }
+
+//ÉäÉZÉbÉgä÷êî
+void Rescued::Reset() {
+	transform.x = 2300;
+	transform.y = 300;
+	isRescued = false;
+}
