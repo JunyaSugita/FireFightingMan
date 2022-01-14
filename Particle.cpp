@@ -31,12 +31,9 @@ Particle::~Particle() {
 	delete player;
 }
 
-//ˆÚ“®
-void Particle::Move(int x, int y, int scroll, int fireR) {
+void Particle::Emit(int x, int y, int fireR) {
 
-	Draw(scroll);
-
-	for (int j = 0; j < 10; j++) {
+	for (int j = 0; j <10; j++) {
 		for (int i = 0; i < PARTICLE_CONST; i++) {
 			if (particle[i].isEmit == 0) {
 				particle[i].isEmit = 1;
@@ -47,6 +44,11 @@ void Particle::Move(int x, int y, int scroll, int fireR) {
 			}
 		}
 	}
+
+}
+
+//ˆÚ“®
+void Particle::Move() {
 
 	for (int i = 0; i < PARTICLE_CONST; i++) {
 		if (particle[i].isEmit == 1) {
