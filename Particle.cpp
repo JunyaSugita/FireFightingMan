@@ -36,7 +36,7 @@ void Particle::Move(int x, int y, int scroll, int fireR) {
 
 	Draw(scroll);
 
-	for (int j = 0; j < 5; j++) {
+	for (int j = 0; j < 10; j++) {
 		for (int i = 0; i < PARTICLE_CONST; i++) {
 			if (particle[i].isEmit == 0) {
 				particle[i].isEmit = 1;
@@ -81,8 +81,7 @@ void Particle::Draw(int scroll) {
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, particle[i].alpha);
 			SetDrawBlendMode(DX_BLENDMODE_ADD, 196);
 			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r, GetColor(255, 0, 0), true);
-			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r - 2, GetColor(0, 32, 32), true);
-			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r, GetColor(255, 0, 0), false);
+			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r - 2, GetColor(0, 32, 12), true);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		}
 	}
