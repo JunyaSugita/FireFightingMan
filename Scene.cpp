@@ -51,17 +51,12 @@ void Scene::Update(char* keys, char* oldkeys) {
 				player->scene = 1;
 				//マップ選択
 				map->SelectMap1();
+				fire->SetFire(map->map);
 			}
 			break;
 
 			//ゲーム
 		case 1:
-
-			//火の設置
-			if (keys[KEY_INPUT_F] == 1) {
-				fire->SetFire(map->map);
-			}
-
 			//プレイヤー位置の保存
 			player->SaveOldPlayer();
 
