@@ -7,6 +7,7 @@
 #include "Goal.h"
 #include "Enemy.h"
 #include "Particle.h"
+#include "StageSelect.h"
 
 
 class Scene {
@@ -20,9 +21,11 @@ public:
 	DINPUT_JOYSTATE padInput;
 	Enemy* ene;
 	Particle* particle;
+	StageSelect* stageSelect;
 	int pad;
 	int x[10];
 	int y[10];
+	int isPush;
 
 public:
 	Scene();
