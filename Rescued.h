@@ -17,4 +17,5 @@ public:
 	void RescuedCollision(Player* player);
 	void Move(Player* player);
 	void Draw(int scroll);
+	void Reset();
 };

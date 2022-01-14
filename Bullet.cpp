@@ -99,9 +99,15 @@ void Bullet::BlockCollision(int map[][50]) {
 
 
 void Bullet::DrawBullet(int scroll) {
-	for (int i = 0; i < BULLET_CONST; i++) {
-		if (bullet[i].isBullet == true) {
-			DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(150, 200, 255), true);
+	SetDrawBlendMode(DX_BLENDMODE_ADD, 100);
+	for (int j = 0; j < 3; j++) {
+		for (int i = 0; i < BULLET_CONST; i++) {
+			if (bullet[i].isBullet == true) {
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(0, 0, 144), true);
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 1, GetColor(8, 32, 0), true);
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 3, GetColor(4, 16, 0), true);
+			}
 		}
 	}
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0);
 }

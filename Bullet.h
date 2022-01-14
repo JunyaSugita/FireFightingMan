@@ -31,6 +31,10 @@ public:
 	int rightBottomX[500];
 	int rightBottomY[500];
 
+	//水透明度
+	int alpha[500];
+	int alphaTime[500];
+
 	//マップ
 	Map* map;
 };
