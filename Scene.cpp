@@ -109,8 +109,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetScroll();
 
 			for (int i = 0; i < 10; i++) {
-				particle->Move(fire->fire[i].transform.x,fire->fire[i].transform.y,player->scroll,fire->fire[i].Xr);
+				particle->Emit(fire->fire[i].transform.x,fire->fire[i].transform.y,fire->fire[i].Xr);
 			}
+
+			particle->Move();
 
 			break;
 	}
@@ -131,6 +133,7 @@ void Scene::Draw() {
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer();
 			ene->Draw(player->scroll);
+			particle->Draw(player->scroll);
 
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
