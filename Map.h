@@ -8,8 +8,9 @@ public:
 
 public:
 	int Map1(int y, int x);
+	int Map2(int y, int x);
 
-	void SelectMap1();
+	void MapSelect(int select);
 
 	void DrawMap(int map[][50], int scroll);
 public:

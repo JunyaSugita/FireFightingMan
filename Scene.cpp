@@ -10,11 +10,13 @@ Scene::Scene() {
 	goal = new Goal;
 	ene = new Enemy;
 	particle = new Particle;
+	stageSelect = new StageSelect;
 
 	for (int i = 0; i < 10; i++) {
 		x[i] = 100 * i;
 		y[i] = 896;
 	}
+	isPush = 0;
 }
 
 //コンストラクタ
@@ -48,13 +50,27 @@ void Scene::Update(char* keys, char* oldkeys) {
 		//タイトル
 		case 0:
 			if (pad & PAD_INPUT_2) {
-				player->scene = 1;
-				//マップ選択
-				map->SelectMap1();
-				fire->SetFire(map->map);
+				player->scene = 2;
+				isPush = 1;
 			}
 			break;
 
+		//ステージセレクト
+		case 2:
+			stageSelect->Select(padInput.Y);
+			if (pad & PAD_INPUT_2) {
+				if (isPush == 0) {
+					//マップ選択
+					map->MapSelect(stageSelect->select);
+					fire->SetFire(map->map);
+					player->scene = 1;
+				}
+			}
+			else {
+				isPush = 0;
+			}
+
+			break;
 			//ゲーム
 		case 1:
 			//プレイヤー位置の保存
@@ -120,9 +136,13 @@ void Scene::Draw() {
 			DrawFormatString(640, 450, GetColor(255, 255, 255), "B to Start");
 			break;
 
+		case 2:
+			stageSelect->DrawStageSelect();
+			break;
 		case 1:
 			// 描画処理
 			goal->Draw(rescued, player->scroll);
+			fire->DrawFire(player->scroll);
 			map->DrawMap(map->map, player->scroll);
 			rescued->Draw(player->scroll);
 			player->bullet->DrawBullet(player->scroll);
