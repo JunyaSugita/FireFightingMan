@@ -2,8 +2,8 @@
 #include "Global.h"
 
 typedef struct {
-	int x;
-	int y;
+	double x;
+	double y;
 } Transform;
 
 //プレイヤーの定義
@@ -41,8 +41,8 @@ typedef struct {
 typedef struct {
 	Transform transform;
 	int r;
-	int Xs;
-	int Ys;
+	double Xs;
+	double Ys;
 	int isAlive;
 	int hp;
 	int time;
