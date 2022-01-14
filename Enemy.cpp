@@ -15,7 +15,7 @@ Enemy::Enemy() {
 		enemy[i].coolTime = 300;
 		enemy[i].hp = 80;
 		enemy[i].way = 0;
-		enemy[i].Xs = 1;
+		enemy[i].Xs = 0.5;
 		enemy[i].Ys = 0;
 	}
 
