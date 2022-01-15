@@ -19,6 +19,8 @@ Player::Player() {
 	inertia = 0;
 	inertiaSpeed = 0;
 
+	isButton = 0;
+
 	//左上の座標
 	leftTopX = 0;
 	leftTopY = 0;
@@ -76,16 +78,18 @@ void Player::ResetIsJump(int map[][50]) {
 	}
 }
 
-void Player::PlayerMove(int LInputX, int RInputX, int RInputY) {
+void Player::PlayerMove(int LInputX, int RInputX, int RInputY,int isRescued) {
 	if (LInputX > 0 || LInputX < 0) {
 		player.transform.x += LInputX / 200;
 	}
 	player.transform.y += G - player.jumpPow;
 
 	inertia = 0;
-	if ((RInputX <= 0 && RInputY < 0) || (RInputX <= 0 && RInputY > 0) || RInputX < 0) {
-		player.transform.x += (RInputX * -1) / 180;
-		inertia = (RInputY * -1) / 40;
+	if (isRescued == false) {
+		if ((RInputX <= 0 && RInputY < 0) || (RInputX <= 0 && RInputY > 0) || RInputX < 0) {
+			player.transform.x += (RInputX * -1) / 180;
+			inertia = (RInputY * -1) / 40;
+		}
 	}
 
 	if (inertia > inertiaSpeed) {
@@ -97,10 +101,21 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY) {
 	player.transform.y += inertiaSpeed;
 }
 
-void Player::PlayerJump(int pad) {
-	if (pad & PAD_INPUT_5 && player.isJump == 0) {
-		player.isJump = 1;
-		player.jumpPow = 35;
+void Player::PlayerJump(int pad, int isRescued) {
+	if (pad & PAD_INPUT_5) {
+		if (isButton == 0 && player.isJump == 0) {
+			player.isJump = 1;
+			isButton = 1;
+			if (isRescued == false) {
+				player.jumpPow = 30;
+			}
+			else {
+				player.jumpPow = 25;
+			}
+		}
+	}
+	else {
+		isButton = 0;
 	}
 
 	if (player.isJump == true && player.jumpPow > 0) {
@@ -108,9 +123,11 @@ void Player::PlayerJump(int pad) {
 	}
 }
 
-void Player::PlayerShot(int InputX, int InputY) {
-	if ((InputX <= 0 && InputY < 0) || (InputX <= 0 && InputY > 0) || InputX < 0) {
-		bullet->BulletShot(player.transform, InputX, InputY);
+void Player::PlayerShot(int InputX, int InputY ,int isRescued) {
+	if (isRescued == false) {
+		if ((InputX <= 0 && InputY < 0) || (InputX <= 0 && InputY > 0) || InputX < 0) {
+			bullet->BulletShot(player.transform, InputX, InputY);
+		}
 	}
 }
 
@@ -157,7 +174,7 @@ void Player::GetScroll() {
 }
 
 void Player::BlockCollision(int map[][50]) {
-	if ((map[rightTopY][rightTopX] == BLOCK || map[leftTopY][leftTopX] == BLOCK) && map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] != BLOCK) {
+	if ((map[rightTopY][rightTopX] == BLOCK && map[leftTopY][leftTopX] == BLOCK) && map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] != BLOCK) {
 		player.jumpPow = 0;
 	}
 	if (map[leftBottomY][leftBottomX] == BLOCK) {
@@ -241,7 +258,7 @@ void Player::BlockCollision(int map[][50]) {
 }
 
 void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
-	if (player.isJump == false && player.jumpPow <= 0) {
+	if (player.isJump == false && player.jumpPow <= G) {
 		for (int i = 0; i < 100; i++) {
 			if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
 				break;
