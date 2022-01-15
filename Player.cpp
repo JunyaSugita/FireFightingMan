@@ -16,6 +16,8 @@ Player::Player() {
 		0
 	};
 
+	hp = 3;
+
 	inertia = 0;
 	inertiaSpeed = 0;
 
@@ -274,4 +276,14 @@ void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
 void Player::DrawPlayer() {
 	DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
 		player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
+}
+
+void Player::DrawHp() {
+	for (int i = 0; i < 3; i++) {
+		DrawCircle(player.transform.x - scroll, player.transform.y - 10 + (i * 10), 4, GetColor(55, 55, 55), false);
+	}
+
+	for (int i = 0; i < hp; i++) {
+		DrawCircle(player.transform.x - scroll, player.transform.y - 10 + (i * 10), 4, GetColor(55, 55, 55), true);
+	}
 }

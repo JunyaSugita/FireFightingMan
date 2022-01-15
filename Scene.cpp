@@ -108,6 +108,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			goal->GetGoal(player, rescued);
 
 			//プレイヤーが地面で浮かないように
+			player->GetPlayer(map->BLOCK_SIZE);
 			player->GetPlayerBottom(map->BLOCK_SIZE);
 			player->DownPlayer(map->map, map->BLOCK_SIZE);
 			rescued->Move(player);
@@ -152,11 +153,7 @@ void Scene::Draw() {
 
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-			DrawBox(0, 0, 500, 100, GetColor(255, 255, 255), true);
-			DrawFormatString(0, 0, GetColor(50, 50, 50), "X:%d Y:%d Z:%d",
-				padInput.X, padInput.Y, padInput.Z);
-			DrawFormatString(0, 16, GetColor(50, 50, 50), "Rx:%d Ry:%d Rz:%d",
-				padInput.Rx, padInput.Ry, padInput.Rz);
+			player->DrawHp();
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			break;
 	}
