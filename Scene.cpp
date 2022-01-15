@@ -119,7 +119,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//スクロール
 			player->GetScroll();
 
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 100; i++) {
 				particle->Emit(fire->fire[i].transform.x,fire->fire[i].transform.y,fire->fire[i].Xr);
 			}
 
