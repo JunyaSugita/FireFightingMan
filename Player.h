@@ -23,9 +23,13 @@ public:
 	void DownPlayer(int map[][50], int BLOCK_SIZE);
 
 	void DrawPlayer();
+	void DrawHp();
 public:
 	PLAYER player;
 	OldPlayer oldPlayer;
+
+	//‘Ì—Í
+	int hp;
 
 	//ƒvƒŒƒCƒ„[‚Ìã‰ºˆÚ“®Šµ«
 	int inertia, inertiaSpeed;
