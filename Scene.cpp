@@ -81,12 +81,12 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->ResetIsJump(map->map);
 
 			//プレイヤーの移動
-			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry);
-			player->PlayerJump(pad);
+			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
+			player->PlayerJump(pad, rescued->isRescued);
 			
 
 			//弾の発射
-			player->PlayerShot(padInput.Rx, padInput.Ry);
+			player->PlayerShot(padInput.Rx, padInput.Ry,rescued->isRescued);
 
 			//弾の挙動
 			player->bullet->BulletMove(player->G);
