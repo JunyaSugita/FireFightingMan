@@ -50,11 +50,11 @@ void Fire::FireFighting(BULLET bullet[]) {
 					fire[i].transform.y + fire[i].Yr > bullet[j].transform.y - this->bullet->bullet[j].r &&
 					fire[i].transform.y - fire[i].Yr < bullet[j].transform.y + this->bullet->bullet[j].r) {
 
-					fire[i].Xr -= 2;
-					fire[i].Yr -= 4;
+					fire[i].Xr -= 1;
+					fire[i].Yr -= 2;
 					bullet[j].isBullet = false;
 
-					if (fire[i].Xr <= 0 || fire[i].Yr <= 0) {
+					if (fire[i].Xr <= 4 || fire[i].Yr <= 8) {
 						fire[i].isFire = false;
 					}
 				}
