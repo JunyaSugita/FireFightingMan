@@ -12,7 +12,7 @@ public:
 public:
 	Goal();
 	~Goal();
-	void GetGoal(Player* player, Rescued* rescued);
+	void GetGoal(Player* player, Rescued* rescued,int& hp);
 	void Draw(Rescued* rescued, int scroll);
-	void Reset(Rescued* rescued);
+	void Reset(Rescued* rescued, int &hp);
 };
