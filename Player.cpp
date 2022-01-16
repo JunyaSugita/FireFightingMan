@@ -17,6 +17,8 @@ Player::Player() {
 	};
 
 	hp = 3;
+	isDamage = 0;
+	isDamageTimer = 0;
 
 	inertia = 0;
 	inertiaSpeed = 0;
@@ -80,7 +82,7 @@ void Player::ResetIsJump(int map[][50]) {
 	}
 }
 
-void Player::PlayerMove(int LInputX, int RInputX, int RInputY,int isRescued) {
+void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	if (LInputX > 0 || LInputX < 0) {
 		player.transform.x += LInputX / 200;
 	}
@@ -125,10 +127,33 @@ void Player::PlayerJump(int pad, int isRescued) {
 	}
 }
 
-void Player::PlayerShot(int InputX, int InputY ,int isRescued) {
+void Player::PlayerShot(int InputX, int InputY, int isRescued) {
 	if (isRescued == false) {
 		if ((InputX <= 0 && InputY < 0) || (InputX <= 0 && InputY > 0) || InputX < 0) {
 			bullet->BulletShot(player.transform, InputX, InputY);
+		}
+	}
+}
+
+void Player::PlayerDamage(int fireX, int fireY, int fireR ,int isFire) {
+	if (isDamage == 0 && isFire == true) {
+		if (fireX - fireR < player.transform.x + player.r &&
+			player.transform.x - player.r < fireX + fireR &&
+			fireY - fireR < player.transform.y + player.r &&
+			player.transform.y - player.r < fireY + fireR) {
+
+			hp--;
+			isDamage = 1;
+			isDamageTimer = 100;
+		}
+	}
+}
+
+void Player::DamageCount() {
+	if (isDamage == 1) {
+		isDamageTimer--;
+		if (isDamageTimer <= 0) {
+			isDamage = 0;
 		}
 	}
 }
@@ -170,7 +195,7 @@ void Player::GetOldPlayer(int BLOCK_SIZE) {
 }
 
 void Player::GetScroll() {
-	if (player.transform.x >= WIN_WIDTH / 2 && player.transform.x <= WIN_WIDTH + (WIN_WIDTH / 2)) {
+	if (player.transform.x >= WIN_WIDTH / 2 && player.transform.x <= WIN_WIDTH + (48 * 10)) {
 		scroll = player.transform.x - WIN_WIDTH / 2;
 	}
 }
@@ -274,8 +299,10 @@ void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
 }
 
 void Player::DrawPlayer() {
-	DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
-		player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
+	if (isDamageTimer % 5 != 1 && isDamageTimer % 5 != 2) {
+		DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
+			player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
+	}
 }
 
 void Player::DrawHp() {

@@ -104,7 +104,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//当たり判定
 			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
-			rescued->RescuedCollision(player);
+			rescued->RescuedCollision(player,player->hp);
 			goal->GetGoal(player, rescued);
 
 			//プレイヤーが地面で浮かないように
@@ -121,9 +121,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetScroll();
 
 			for (int i = 0; i < 100; i++) {
+				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr ,fire->fire[i].isFire);
 				particle->Emit(fire->fire[i].transform.x,fire->fire[i].transform.y,fire->fire[i].Xr);
 			}
-
+			player->DamageCount();
 			particle->Move();
 
 			break;

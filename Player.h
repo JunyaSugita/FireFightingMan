@@ -16,6 +16,8 @@ public:
 	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
 	void PlayerJump(int pad, int isRescued);
 	void PlayerShot(int InputX, int InputY, int isRescued);
+	void PlayerDamage(int fireX,int fireY,int fireR,int isFire);
+	void DamageCount();
 	void GetPlayer(int BLOCK_SIZE);
 	void GetOldPlayer(int BLOCK_SIZE);
 	void GetScroll();
@@ -30,6 +32,8 @@ public:
 
 	//‘Ì—Í
 	int hp;
+	int isDamage;
+	int isDamageTimer;
 
 	//ƒvƒŒƒCƒ„[‚Ìã‰ºˆÚ“®Šµ«
 	int inertia, inertiaSpeed;
