@@ -19,11 +19,12 @@ Rescued::~Rescued() {
 ///-----ƒNƒ‰ƒXŠÖ”-----///
 
 //“–‚½‚è”»’è
-void Rescued::RescuedCollision(Player* player) {
+void Rescued::RescuedCollision(Player* player,int &hp) {
 	if (isRescued == false) {
 		if (transform.x + r > player->player.transform.x - player->player.r && player->player.transform.x + player->player.r > transform.x - r) {
 			if (transform.y + r > player->player.transform.y - player->player.r && player->player.transform.y + player->player.r > transform.y - r) {
 				isRescued = true;
+				hp = 1;
 			}
 		}
 	}
