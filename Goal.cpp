@@ -30,6 +30,13 @@ void Goal::GetGoal(Player* player, Rescued* rescued,int& hp) {
 	}
 }
 
+void Goal::Gameover(int& scene, Rescued* rescued, int hp) {
+	if (hp == 0) {
+		scene = 0;
+		Reset(rescued, hp);
+	}
+}
+
 void Goal::Draw(Rescued* rescued, int scroll) {
 	if (rescued->isRescued == true) {
 		if (isGoal == false) {
