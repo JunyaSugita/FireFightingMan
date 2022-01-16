@@ -55,7 +55,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			}
 			break;
 
-		//ステージセレクト
+			//ステージセレクト
 		case 2:
 			stageSelect->Select(padInput.Y);
 			if (pad & PAD_INPUT_2) {
@@ -83,10 +83,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//プレイヤーの移動
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
 			player->PlayerJump(pad, rescued->isRescued);
-			
+
 
 			//弾の発射
-			player->PlayerShot(padInput.Rx, padInput.Ry,rescued->isRescued);
+			player->PlayerShot(padInput.Rx, padInput.Ry, rescued->isRescued);
 
 			//弾の挙動
 			player->bullet->BulletMove(player->G);
@@ -104,8 +104,8 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//当たり判定
 			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
-			rescued->RescuedCollision(player,player->hp);
-			goal->GetGoal(player, rescued);
+			rescued->RescuedCollision(player, player->hp);
+			goal->GetGoal(player, rescued, player->hp);
 
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
@@ -115,14 +115,14 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 
 			//敵の出現
-			ene->Update(player->bullet->bullet,map);
+			ene->Update(player->bullet->bullet, map);
 
 			//スクロール
 			player->GetScroll();
 
 			for (int i = 0; i < 100; i++) {
-				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr ,fire->fire[i].isFire);
-				particle->Emit(fire->fire[i].transform.x,fire->fire[i].transform.y,fire->fire[i].Xr);
+				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
+				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr);
 			}
 			player->DamageCount();
 			particle->Move();

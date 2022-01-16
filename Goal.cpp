@@ -16,14 +16,14 @@ Goal::~Goal() {
 
 
 ///-----クラス関数-----///
-void Goal::GetGoal(Player* player, Rescued* rescued) {
+void Goal::GetGoal(Player* player, Rescued* rescued,int& hp) {
 	if (rescued->isRescued == true) {
 		if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
 			if (player->player.transform.y + player->player.r > 912 - 96 && 912 > player->player.transform.y - player->player.r) {
 				if (isGoal == false) {
 					isGoal = true;
 					player->scene = 0;
-					Reset(rescued);
+					Reset(rescued,hp);
 				}
 			}
 		}
@@ -42,7 +42,8 @@ void Goal::Draw(Rescued* rescued, int scroll) {
 }
 
 //リセット用
-void Goal::Reset(Rescued* rescued) {
+void Goal::Reset(Rescued* rescued,int &hp) {
 	rescued->Reset();
 	isGoal = false;
+	hp = 3;
 }
