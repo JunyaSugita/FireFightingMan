@@ -9,7 +9,7 @@
 #include "Particle.h"
 #include "StageSelect.h"
 #include "Gameover.h"
-
+#include "Tutorial.h"
 
 class Scene {
 public:
@@ -24,6 +24,8 @@ public:
 	Particle* particle;
 	StageSelect* stageSelect;
 	Gameover* gameover;
+	Tutorial* tutorial;
+
 	int pad;
 	int x[10];
 	int y[10];
