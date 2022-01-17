@@ -29,7 +29,7 @@ void StageSelect::Select(int LInputY) {
 }
 
 void StageSelect::DrawStageSelect() {
-	DrawFormatString(640, 450, GetColor(255, 255, 255), "ちゅーとりある");
-	DrawFormatString(640, 470, GetColor(255, 255, 255), "すてーじいち");
+	DrawFormatString(640, 450, GetColor(255, 255, 255), "チュートリアル");
+	DrawFormatString(640, 470, GetColor(255, 255, 255), "ステージ1");
 	DrawFormatString(600, 450 + (select * 20), GetColor(255, 255, 255), "-->");
 }
