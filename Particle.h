@@ -17,5 +17,7 @@ public:
 	~Particle();
 	void Move();
 	void Emit(int x, int y, int fireR);
+	void DeleteParticle();
+
 	void Draw(int scroll);
 };

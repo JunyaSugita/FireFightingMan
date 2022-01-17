@@ -11,6 +11,7 @@ Scene::Scene() {
 	ene = new Enemy;
 	particle = new Particle;
 	stageSelect = new StageSelect;
+	gameover = new Gameover;
 
 	for (int i = 0; i < 10; i++) {
 		x[i] = 100 * i;
@@ -29,6 +30,7 @@ Scene::~Scene() {
 	delete goal;
 	delete ene;
 	delete particle;
+	delete gameover;
 }
 
 
@@ -48,7 +50,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 	switch (player->scene) {
 		//タイトル
-		case 0:
+		case MAIN_TITLE:
 			if (pad & PAD_INPUT_2) {
 				player->scene = 2;
 				isPush = 1;
@@ -56,7 +58,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			break;
 
 			//ステージセレクト
-		case 2:
+		case STAGE_SELECT:
 			stageSelect->Select(padInput.Y);
 			if (pad & PAD_INPUT_2) {
 				if (isPush == 0) {
@@ -72,7 +74,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			break;
 			//ゲーム
-		case 1:
+		case MAIN_GAME:
 			//プレイヤー位置の保存
 			player->SaveOldPlayer();
 
@@ -106,13 +108,12 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->bullet->BlockCollision(map->map);
 			rescued->RescuedCollision(player, player->hp);
 			goal->GetGoal(player, rescued, player->hp,fire);
-			goal->Gameover(player->scene, rescued, player->hp, player,fire);
+			gameover->GotoGameover(player->scene,player->hp);
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
 			player->GetPlayerBottom(map->BLOCK_SIZE);
 			player->DownPlayer(map->map, map->BLOCK_SIZE);
 			rescued->Move(player);
-
 
 			//敵の出現
 			ene->Update(player->bullet->bullet, map);
@@ -128,20 +129,27 @@ void Scene::Update(char* keys, char* oldkeys) {
 			particle->Move();
 
 			break;
+
+		case GAMEOVER:
+			gameover->GotoTitle(pad,rescued,player,fire,goal,particle);
+			break;
 	}
 }
 
 void Scene::Draw() {
 
 	switch (player->scene) {
-		case 0:
+		case MAIN_TITLE:
 			DrawFormatString(640, 450, GetColor(255, 255, 255), "B to Start");
 			break;
 
-		case 2:
+		case STAGE_SELECT:
 			stageSelect->DrawStageSelect();
 			break;
-		case 1:
+
+		case GAMEOVER:
+			gameover->DrawGameover();
+		case MAIN_GAME:
 			// 描画処理
 			goal->Draw(rescued, player->scroll);
 			/*fire->DrawFire(player->scroll);*/

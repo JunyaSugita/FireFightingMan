@@ -76,6 +76,12 @@ void Particle::Move() {
 
 }
 
+void Particle::DeleteParticle() {
+	for (int i = 0; i < PARTICLE_CONST; i++) {
+		particle[i].isEmit = 0;
+	}
+}
+
 //•`‰æ
 void Particle::Draw(int scroll) {
 	for (int i = 0; i < PARTICLE_CONST; i++) {

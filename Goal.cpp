@@ -33,18 +33,6 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
 	}
 }
 
-void Goal::Gameover(int& scene, Rescued* rescued, int& hp, Player* player, Fire* fire) {
-	if (hp == 0) {
-		scene = 0;
-		Reset(rescued, hp);
-		player->player.transform.x = 100;
-		player->player.transform.y = 800;
-		player->scroll = 0;
-		player->isDamageTimer = 0;
-		fire->DeleteFire();
-	}
-}
-
 void Goal::Draw(Rescued* rescued, int scroll) {
 	if (rescued->isRescued == true) {
 		if (isGoal == false) {
