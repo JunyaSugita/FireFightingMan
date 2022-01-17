@@ -63,6 +63,12 @@ void Fire::FireFighting(BULLET bullet[]) {
 	}
 }
 
+void Fire::DeleteFire() {
+	for (int i = 0; i < FIRE_CONST; i++) {
+		fire[i].isFire = false;
+	}
+}
+
 void Fire::DrawFire(int scroll) {
 	for (int i = 0; i < FIRE_CONST; i++) {
 		if (fire[i].isFire == 1) {

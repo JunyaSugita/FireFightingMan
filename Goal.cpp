@@ -4,6 +4,7 @@
 Goal::Goal() {
 	player = new Player;
 	rescued = new Rescued;
+	fire = new Fire;
 	isGoal = false;
 	x = 144;
 }
@@ -12,11 +13,12 @@ Goal::Goal() {
 Goal::~Goal() {
 	delete player;
 	delete rescued;
+	delete fire;
 }
 
 
 ///-----ƒNƒ‰ƒXŠÖ”-----///
-void Goal::GetGoal(Player* player, Rescued* rescued, int& hp) {
+void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
 	if (rescued->isRescued == true) {
 		if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
 			if (player->player.transform.y + player->player.r > 912 - 96 && 912 > player->player.transform.y - player->player.r) {
@@ -24,13 +26,14 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp) {
 					isGoal = true;
 					player->scene = 0;
 					Reset(rescued, hp);
+					fire->DeleteFire();
 				}
 			}
 		}
 	}
 }
 
-void Goal::Gameover(int& scene, Rescued* rescued, int& hp, Player* player) {
+void Goal::Gameover(int& scene, Rescued* rescued, int& hp, Player* player, Fire* fire) {
 	if (hp == 0) {
 		scene = 0;
 		Reset(rescued, hp);
@@ -38,6 +41,7 @@ void Goal::Gameover(int& scene, Rescued* rescued, int& hp, Player* player) {
 		player->player.transform.y = 800;
 		player->scroll = 0;
 		player->isDamageTimer = 0;
+		fire->DeleteFire();
 	}
 }
 

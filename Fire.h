@@ -11,6 +11,7 @@ public:
 public:
 	void SetFire(int map[][50]);
 	void FireFighting(BULLET bullet[]);
+	void DeleteFire();
 
 	void DrawFire(int scroll);
 public:
