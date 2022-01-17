@@ -23,6 +23,7 @@ public:
 	void GetScroll();
 	void BlockCollision(int map[][50]);
 	void DownPlayer(int map[][50], int BLOCK_SIZE);
+	void CheckStick(int InputY);
 
 	void DrawPlayer();
 	void DrawHp();

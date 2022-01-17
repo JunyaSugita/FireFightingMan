@@ -139,6 +139,7 @@
     <ClCompile Include="Rescued.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="StageSelect.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="StageSelect.h" />
     <ClInclude Include="Struct.h" />
+    <ClInclude Include="Tutorial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

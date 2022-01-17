@@ -301,6 +301,12 @@ void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
 	}
 }
 
+void Player::CheckStick(int InputY) {
+	if (InputY > 250) {
+		player.isJump = true;
+	}
+}
+
 
 void Player::DrawPlayer() {
 	if (isDamageTimer % 5 != 1 && isDamageTimer % 5 != 2) {

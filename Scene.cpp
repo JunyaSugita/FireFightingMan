@@ -12,6 +12,7 @@ Scene::Scene() {
 	particle = new Particle;
 	stageSelect = new StageSelect;
 	gameover = new Gameover;
+	tutorial = new Tutorial;
 
 	for (int i = 0; i < 10; i++) {
 		x[i] = 100 * i;
@@ -31,6 +32,7 @@ Scene::~Scene() {
 	delete ene;
 	delete particle;
 	delete gameover;
+	delete tutorial;
 }
 
 
@@ -75,6 +77,9 @@ void Scene::Update(char* keys, char* oldkeys) {
 			break;
 			//ゲーム
 		case MAIN_GAME:
+			//チュートリアルの表示
+			tutorial->CountTimer();
+
 			//プレイヤー位置の保存
 			player->SaveOldPlayer();
 
@@ -84,6 +89,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			//プレイヤーの移動
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
+			player->CheckStick(padInput.Ry);
 			player->PlayerJump(pad, rescued->isRescued);
 
 
@@ -112,6 +118,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
 			player->GetPlayerBottom(map->BLOCK_SIZE);
+			player->CheckStick(padInput.Ry);
 			player->DownPlayer(map->map, map->BLOCK_SIZE);
 			rescued->Move(player);
 
@@ -159,6 +166,7 @@ void Scene::Draw() {
 			player->DrawPlayer();
 			ene->Draw(player->scroll);
 			particle->Draw(player->scroll);
+			tutorial->DrawTutorial(stageSelect->select, player->scroll);
 
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
