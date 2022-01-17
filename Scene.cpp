@@ -106,7 +106,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->bullet->BlockCollision(map->map);
 			rescued->RescuedCollision(player, player->hp);
 			goal->GetGoal(player, rescued, player->hp);
-			goal->Gameover(player->scene, rescued, player->hp);
+			goal->Gameover(player->scene, rescued, player->hp, player);
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
 			player->GetPlayerBottom(map->BLOCK_SIZE);

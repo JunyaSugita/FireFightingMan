@@ -16,24 +16,28 @@ Goal::~Goal() {
 
 
 ///-----クラス関数-----///
-void Goal::GetGoal(Player* player, Rescued* rescued,int& hp) {
+void Goal::GetGoal(Player* player, Rescued* rescued, int& hp) {
 	if (rescued->isRescued == true) {
 		if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
 			if (player->player.transform.y + player->player.r > 912 - 96 && 912 > player->player.transform.y - player->player.r) {
 				if (isGoal == false) {
 					isGoal = true;
 					player->scene = 0;
-					Reset(rescued,hp);
+					Reset(rescued, hp);
 				}
 			}
 		}
 	}
 }
 
-void Goal::Gameover(int& scene, Rescued* rescued, int hp) {
+void Goal::Gameover(int& scene, Rescued* rescued, int& hp, Player* player) {
 	if (hp == 0) {
 		scene = 0;
 		Reset(rescued, hp);
+		player->player.transform.x = 100;
+		player->player.transform.y = 800;
+		player->scroll = 0;
+		player->isDamageTimer = 0;
 	}
 }
 
@@ -49,7 +53,7 @@ void Goal::Draw(Rescued* rescued, int scroll) {
 }
 
 //リセット用
-void Goal::Reset(Rescued* rescued,int &hp) {
+void Goal::Reset(Rescued* rescued, int& hp) {
 	rescued->Reset();
 	isGoal = false;
 	hp = 3;
