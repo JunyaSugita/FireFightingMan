@@ -17,3 +17,11 @@ enum MapInfo {
 	FLAME,	//2
 	FLAMEENEMY,	//3
 };
+
+enum SceneInfo {
+	MAIN_TITLE,			//0
+	MAIN_GAME,			//1
+	STAGE_SELECT,	//2
+	GAMEOVER,		//3
+	CLEAR			//4
+};
