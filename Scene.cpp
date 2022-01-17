@@ -144,7 +144,7 @@ void Scene::Draw() {
 		case 1:
 			// 描画処理
 			goal->Draw(rescued, player->scroll);
-			fire->DrawFire(player->scroll);
+			/*fire->DrawFire(player->scroll);*/
 			map->DrawMap(map->map, player->scroll);
 			rescued->Draw(player->scroll);
 			player->bullet->DrawBullet(player->scroll);

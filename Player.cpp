@@ -80,6 +80,9 @@ void Player::ResetIsJump(int map[][50]) {
 	if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
 		player.isJump = false;
 	}
+	if (player.transform.x == oldPlayer.x && player.transform.y == player.transform.y && map[leftBottomY + 1][leftBottomX] == BLOCK && map[rightBottomY + 1][rightBottomX] == BLOCK) {
+		player.isJump = false;
+	}
 }
 
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
