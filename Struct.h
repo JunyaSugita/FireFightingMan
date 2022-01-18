@@ -26,7 +26,7 @@ typedef struct {
 	int r;
 	float speedX;
 	float speedY;
-	int isBullet;
+	int isShot;
 }BULLET;
 
 //‰Î‚Ì’è‹`
