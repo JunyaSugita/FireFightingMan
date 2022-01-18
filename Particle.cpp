@@ -89,7 +89,7 @@ void Particle::Draw(int scroll) {
 		if (particle[i].isEmit == 1) {
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, particle[i].alpha);
 			SetDrawBlendMode(DX_BLENDMODE_ADD, 196);
-			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r, GetColor(176, 8, 0), true);
+			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r, GetColor(96, 8, 2), true);
 			DrawCircle(particle[i].transform.x - scroll, particle[i].transform.y, particle[i].r - 2, GetColor(0, 32, 12), true);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		}
