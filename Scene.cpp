@@ -140,8 +140,8 @@ void Scene::Update(char* keys, char* oldkeys) {
 			break;
 
 		case GAMEOVER:
-			gameover->GotoTitle(pad, rescued, player, fire, goal, particle, bullet);
-			bullet->DeleteBullet();
+			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
+			
 			break;
 	}
 }
