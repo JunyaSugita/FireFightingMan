@@ -99,7 +99,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->PlayerShot(padInput.Rx, padInput.Ry, rescued->isRescued);
 
 			//弾の挙動
-			player->bullet->BulletMove(player->G);
+			player->bullet->BulletMove(player->G,padInput.X,padInput.Y);
 
 			//消化
 			fire->FireFighting(player->bullet->bullet);
