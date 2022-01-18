@@ -104,13 +104,13 @@ void Bullet::DeleteBullet() {
 }
 
 void Bullet::DrawBullet(int scroll) {
-	SetDrawBlendMode(DX_BLENDMODE_ADD, 100);
+	SetDrawBlendMode(DX_BLENDMODE_ADD, 72);
 	for (int j = 0; j < 3; j++) {
 		for (int i = 0; i < BULLET_CONST; i++) {
 			if (bullet[i].isBullet == true) {
-				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(0, 0, 144), true);
-				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 1, GetColor(8, 32, 0), true);
-				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 3, GetColor(4, 16, 0), true);
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(48, 64, 64), true);
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 1, GetColor(24, 32, 32), true);
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 3, GetColor(12, 16, 16), true);
 			}
 		}
 	}
