@@ -24,5 +24,5 @@ void Gameover::GotoTitle(int pad, Rescued* rescued, Player* player, Fire* fire, 
 }
 
 void Gameover::DrawGameover() {
-	DrawFormatString(200, 200, GetColor(255, 255, 255), "ゲームオーバー Bでタイトルへ");
+	DrawFormatString(200, 200, GetColor(200, 0, 0), "ゲームオーバー Bでタイトルへ");
 }

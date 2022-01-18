@@ -113,8 +113,8 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
 			rescued->RescuedCollision(player, player->hp);
-			goal->GetGoal(player, rescued, player->hp,fire);
-			gameover->GotoGameover(player->scene,player->hp);
+			goal->GetGoal(player, rescued, player->hp, fire);
+			gameover->GotoGameover(player->scene, player->hp);
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
 			player->GetPlayerBottom(map->BLOCK_SIZE);
@@ -138,7 +138,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			break;
 
 		case GAMEOVER:
-			gameover->GotoTitle(pad,rescued,player,fire,goal,particle);
+			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
 			break;
 	}
 }
@@ -155,7 +155,6 @@ void Scene::Draw() {
 			break;
 
 		case GAMEOVER:
-			gameover->DrawGameover();
 		case MAIN_GAME:
 			// 描画処理
 			goal->Draw(rescued, player->scroll);
@@ -167,6 +166,9 @@ void Scene::Draw() {
 			ene->Draw(player->scroll);
 			particle->Draw(player->scroll);
 			tutorial->DrawTutorial(stageSelect->select, player->scroll);
+			if (player->scene == GAMEOVER) {
+				gameover->DrawGameover();
+			}
 
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
