@@ -15,8 +15,8 @@ public:
 
 	void DrawFire(int scroll);
 public:
-	const int FIRE_CONST = 500;
-	FIRE fire[500];
+	static const int FIRE_CONST = 500;
+	FIRE fire[FIRE_CONST];
 
 	Map* map;
 	Bullet* bullet;

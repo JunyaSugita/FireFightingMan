@@ -12,16 +12,21 @@ const int WIN_HEIGHT = 960;
 
 //ƒ}ƒbƒv
 enum MapInfo {
-	NONE,	//0
-	BLOCK,	//1
-	FLAME,	//2
-	FLAMEENEMY,	//3
+	NONE,			//0
+	BLOCK,			//1
+	FLAME,			//2
+	FLAMEENEMY,		//3
 };
 
 enum SceneInfo {
 	MAIN_TITLE,			//0
 	MAIN_GAME,			//1
-	STAGE_SELECT,	//2
-	GAMEOVER,		//3
-	CLEAR			//4
+	STAGE_SELECT,		//2
+	GAMEOVER,			//3
+	CLEAR				//4
+};
+
+enum SelectInfo {
+	TUTORIAL,	//0
+	STAGE1,		//1
 };

@@ -13,6 +13,7 @@ Scene::Scene() {
 	stageSelect = new StageSelect;
 	gameover = new Gameover;
 	tutorial = new Tutorial;
+	damParticle = new DamParticle;
 
 	for (int i = 0; i < 10; i++) {
 		x[i] = 100 * i;
@@ -57,6 +58,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 				player->scene = 2;
 				isPush = 1;
 			}
+			damParticle->Reset();
 			break;
 
 			//ステージセレクト
@@ -112,7 +114,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//当たり判定
 			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
-			rescued->RescuedCollision(player, player->hp);
+			rescued->RescuedCollision(player, player->hp, stageSelect->select);
 			goal->GetGoal(player, rescued, player->hp, fire);
 			gameover->GotoGameover(player->scene, player->hp);
 			//プレイヤーが地面で浮かないように
@@ -130,7 +132,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			for (int i = 0; i < 100; i++) {
 				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
-				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr,fire->fire[i].isFire);
+				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
 			}
 			player->DamageCount();
 			particle->Move();
@@ -138,7 +140,8 @@ void Scene::Update(char* keys, char* oldkeys) {
 			break;
 
 		case GAMEOVER:
-			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
+			gameover->GotoTitle(pad, rescued, player, fire, goal, particle, bullet);
+			bullet->DeleteBullet();
 			break;
 	}
 }
@@ -168,6 +171,7 @@ void Scene::Draw() {
 			tutorial->DrawTutorial(stageSelect->select, player->scroll);
 			if (player->scene == GAMEOVER) {
 				gameover->DrawGameover();
+				damParticle->Draw(player->player.transform.x, player->player.transform.y,player->scroll);
 			}
 
 			//デバッグ

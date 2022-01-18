@@ -10,6 +10,7 @@
 #include "StageSelect.h"
 #include "Gameover.h"
 #include "Tutorial.h"
+#include "Damparticle.h"
 
 class Scene {
 public:
@@ -25,6 +26,7 @@ public:
 	StageSelect* stageSelect;
 	Gameover* gameover;
 	Tutorial* tutorial;
+	DamParticle* damParticle;
 
 	int pad;
 	int x[10];

@@ -78,7 +78,7 @@ void Map::MapSelect(int select) {
 	}
 }
 
-void Map::DrawMap(int map[][50], int scroll) {
+void Map::DrawMap(int map[][Map_MAX_X], int scroll) {
 	for (int y = 0; y < mapCountY; y++) {
 		for (int x = 0; x < mapCountX; x++) {
 			if (map[y][x] == BLOCK) {

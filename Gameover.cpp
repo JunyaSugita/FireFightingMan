@@ -10,7 +10,7 @@ void Gameover::GotoGameover(int& scene, int& hp) {
 	}
 }
 
-void Gameover::GotoTitle(int pad, Rescued* rescued, Player* player, Fire* fire, Goal* goal,Particle* particle) {
+void Gameover::GotoTitle(int pad, Rescued* rescued, Player* player, Fire* fire, Goal* goal,Particle* particle,Bullet* bullet) {
 	if (pad & PAD_INPUT_2) {
 		player->scene = MAIN_TITLE;
 		goal->Reset(rescued, player->hp);
@@ -20,6 +20,7 @@ void Gameover::GotoTitle(int pad, Rescued* rescued, Player* player, Fire* fire, 
 		player->isDamageTimer = 0;
 		fire->DeleteFire();
 		particle->DeleteParticle();
+		bullet->DeleteBullet();
 	}
 }
 
