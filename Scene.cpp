@@ -130,7 +130,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			for (int i = 0; i < 100; i++) {
 				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
-				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr);
+				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr,fire->fire[i].isFire);
 			}
 			player->DamageCount();
 			particle->Move();

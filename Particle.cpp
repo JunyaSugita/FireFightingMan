@@ -31,20 +31,20 @@ Particle::~Particle() {
 	delete player;
 }
 
-void Particle::Emit(int x, int y, int fireR) {
-
-	for (int j = 0; j <10; j++) {
-		for (int i = 0; i < PARTICLE_CONST; i++) {
-			if (particle[i].isEmit == 0) {
-				particle[i].isEmit = 1;
-				particle[i].transform.x = x + rand() % 31 - 15;
-				particle[i].transform.y = y + rand() % 21 - 10;
-				particle[i].r = fireR / 5 * 3;
-				break;
+void Particle::Emit(int x, int y, int fireR,int isFire) {
+	if (isFire == true) {
+		for (int j = 0; j < 10; j++) {
+			for (int i = 0; i < PARTICLE_CONST; i++) {
+				if (particle[i].isEmit == 0) {
+					particle[i].isEmit = 1;
+					particle[i].transform.x = x + rand() % 31 - 15;
+					particle[i].transform.y = y + rand() % 21 - 10;
+					particle[i].r = fireR / 5 * 3;
+					break;
+				}
 			}
 		}
 	}
-
 }
 
 //ˆÚ“®
@@ -79,6 +79,7 @@ void Particle::Move() {
 void Particle::DeleteParticle() {
 	for (int i = 0; i < PARTICLE_CONST; i++) {
 		particle[i].isEmit = 0;
+		particle[i].r = 0;
 	}
 }
 
