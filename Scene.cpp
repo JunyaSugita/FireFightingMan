@@ -13,6 +13,7 @@ Scene::Scene() {
 	stageSelect = new StageSelect;
 	gameover = new Gameover;
 	tutorial = new Tutorial;
+	damParticle = new DamParticle;
 
 	for (int i = 0; i < 10; i++) {
 		x[i] = 100 * i;
@@ -57,6 +58,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 				player->scene = 2;
 				isPush = 1;
 			}
+			damParticle->Reset();
 			break;
 
 			//ステージセレクト
@@ -169,6 +171,7 @@ void Scene::Draw() {
 			tutorial->DrawTutorial(stageSelect->select, player->scroll);
 			if (player->scene == GAMEOVER) {
 				gameover->DrawGameover();
+				damParticle->Draw(player->player.transform.x, player->player.transform.y,player->scroll);
 			}
 
 			//デバッグ
