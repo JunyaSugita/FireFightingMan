@@ -79,7 +79,7 @@ void Bullet::GetBullet(int BLOCK_SIZE) {
 }
 
 void Bullet::BlockCollision(int map[][50]) {
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < BULLET_CONST; i++) {
 		if (bullet[i].isBullet == true) {
 			if (map[leftTopY[i]][leftTopX[i]] == BLOCK) {
 				bullet[i].isBullet = false;
@@ -97,6 +97,11 @@ void Bullet::BlockCollision(int map[][50]) {
 	}
 }
 
+void Bullet::DeleteBullet() {
+	for (int i = 0; i < BULLET_CONST; i++) {
+		bullet[i].isBullet = false;
+	}
+}
 
 void Bullet::DrawBullet(int scroll) {
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 100);
@@ -109,5 +114,5 @@ void Bullet::DrawBullet(int scroll) {
 			}
 		}
 	}
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

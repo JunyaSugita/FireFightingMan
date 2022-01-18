@@ -12,6 +12,7 @@ public:
 	void BulletMove(const int G);
 	void GetBullet(int BLOCK_SIZE);
 	void BlockCollision(int map[][50]);
+	void DeleteBullet();
 
 	void DrawBullet(int scroll);
 public:
