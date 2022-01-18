@@ -5,8 +5,8 @@
 
 class Particle {
 public:
-	const int PARTICLE_CONST = 30000;
-	EMIT particle[30000];
+	static const int PARTICLE_CONST = 30000; 
+	EMIT particle[PARTICLE_CONST];
 	Fire* fire;
 	Player* player;
 	int centerX;

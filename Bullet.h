@@ -6,7 +6,7 @@ class Bullet {
 public:
 	Bullet();
 	~Bullet();
-
+	
 public:
 	void BulletShot(Transform transform, int x, int y);
 	void BulletMove(const int G);
@@ -15,25 +15,26 @@ public:
 
 	void DrawBullet(int scroll);
 public:
-	const int BULLET_CONST = 500;
-	BULLET bullet[500];
+	static const int BULLET_CONST = 500;
+
+	BULLET bullet[BULLET_CONST];
 
 	//左上の座標
-	int leftTopX[500];
-	int leftTopY[500];
+	int leftTopX[ BULLET_CONST];
+	int leftTopY[BULLET_CONST];
 	//左下の座標
-	int leftBottomX[500];
-	int	leftBottomY[500];
+	int leftBottomX[BULLET_CONST];
+	int	leftBottomY[BULLET_CONST];
 	//右下の座標
-	int rightTopX[500];
-	int rightTopY[500];
+	int rightTopX[BULLET_CONST];
+	int rightTopY[BULLET_CONST];
 	//右下の座標
-	int rightBottomX[500];
-	int rightBottomY[500];
+	int rightBottomX[BULLET_CONST];
+	int rightBottomY[BULLET_CONST];
 
 	//水透明度
-	int alpha[500];
-	int alphaTime[500];
+	int alpha[BULLET_CONST];
+	int alphaTime[BULLET_CONST];
 
 	//マップ
 	Map* map;
