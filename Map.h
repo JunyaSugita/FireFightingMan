@@ -3,20 +3,24 @@
 
 class Map {
 public:
+	static const int Map_MAX_X = 50;
+
+	int map[20][Map_MAX_X];
+	int mapCountX;
+	int mapCountY;
+
+	static const int BLOCK_SIZE = 48;
+
+public:
 	Map();
 	~Map();
-
+	
 public:
 	int Map1(int y, int x);
 	int Map2(int y, int x);
 
 	void MapSelect(int select);
 
-	void DrawMap(int map[][50], int scroll);
-public:
-	int map[20][50];
-	int mapCountX;
-	int mapCountY;
+	void DrawMap(int map[][Map_MAX_X], int scroll);
 
-	const int BLOCK_SIZE = 48;
 };
