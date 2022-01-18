@@ -9,14 +9,14 @@ public:
 	
 public:
 	void BulletShot(Transform transform, int x, int y);
-	void BulletMove(const int G);
+	void BulletMove(const int G,int x,int y);
 	void GetBullet(int BLOCK_SIZE);
 	void BlockCollision(int map[][50]);
 	void DeleteBullet();
 
 	void DrawBullet(int scroll);
 public:
-	static const int BULLET_CONST = 500;
+	static const int BULLET_CONST = 5000;
 
 	BULLET bullet[BULLET_CONST];
 
