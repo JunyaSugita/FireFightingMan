@@ -76,13 +76,10 @@ void Player::GetPlayerBottom(int BLOCK_SIZE) {
 }
 
 void Player::ResetIsJump(int map[][50]) {
-	player.isJump = true;
-	if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
-		player.isJump = false;
-	}
-	if (player.transform.x == oldPlayer.x && player.transform.y == player.transform.y && map[leftBottomY + 1][leftBottomX] == BLOCK && map[rightBottomY + 1][rightBottomX] == BLOCK) {
-		player.isJump = false;
-	}
+	//player.isJump = true;
+	//if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
+	//	player.isJump = false;
+	//}
 }
 
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
@@ -110,14 +107,14 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 
 void Player::PlayerJump(int pad, int isRescued) {
 	if (pad & PAD_INPUT_5) {
-		if (isButton == 0 && player.isJump == 0) {
+		if (isButton == 0 && player.isJump == false) {
 			player.isJump = 1;
 			isButton = 1;
 			if (isRescued == false) {
-				player.jumpPow = 30;
+				player.jumpPow = 35;
 			}
 			else {
-				player.jumpPow = 25;
+				player.jumpPow = 30;
 			}
 		}
 	}
@@ -125,7 +122,7 @@ void Player::PlayerJump(int pad, int isRescued) {
 		isButton = 0;
 	}
 
-	if (player.isJump == true && player.jumpPow > 0) {
+	if (player.jumpPow > 0) {
 		player.jumpPow--;
 	}
 }
@@ -144,7 +141,7 @@ void Player::PlayerDamage(int fireX, int fireY, int fireR ,int isFire) {
 			player.transform.x - player.r < fireX + fireR &&
 			fireY - fireR < player.transform.y + player.r &&
 			player.transform.y - player.r < fireY + fireR) {
-
+	
 			hp--;
 			isDamage = 1;
 			isDamageTimer = 100;
@@ -176,10 +173,10 @@ void Player::GetPlayer(int BLOCK_SIZE) {
 	rightBottomY = (player.transform.y + player.r - 1) / BLOCK_SIZE;
 
 	//ジャンプ用の座標を取得
-	jumpLeftBottomX = (player.transform.x - player.r) / BLOCK_SIZE;
-	jumpLeftBottomY = (player.transform.y + player.r - 1 - G) / BLOCK_SIZE;
-	jumpRightBottomX = (player.transform.x + player.r - 1) / BLOCK_SIZE;
-	jumpRightBottomY = (player.transform.y + player.r - 1 - G) / BLOCK_SIZE;
+	//jumpLeftBottomX = (player.transform.x - player.r) / BLOCK_SIZE;
+	//jumpLeftBottomY = (player.transform.y + player.r - 1 - G) / BLOCK_SIZE;
+	//jumpRightBottomX = (player.transform.x + player.r - 1) / BLOCK_SIZE;
+	//jumpRightBottomY = (player.transform.y + player.r - 1 - G) / BLOCK_SIZE;
 }
 
 void Player::GetOldPlayer(int BLOCK_SIZE) {
@@ -204,13 +201,42 @@ void Player::GetScroll() {
 }
 
 void Player::BlockCollision(int map[][50]) {
-	if ((map[rightTopY][rightTopX] == BLOCK && map[leftTopY][leftTopX] == BLOCK) && map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] != BLOCK) {
-		player.jumpPow -= 5;
+	if (map[leftTopY][leftTopX] == BLOCK) {
+		if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {}
+
+		else if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
+			player.transform.y = oldPlayer.y;
+
+		}
+
+		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {
+			player.transform.x = oldPlayer.x;
+		}
+
+		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
+			player.transform.x = oldPlayer.x;
+			player.transform.y = oldPlayer.y;
+		}
+	}
+	if (map[rightTopY][rightTopX] == BLOCK) {
+		if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] != BLOCK) {}
+
+		else if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
+			player.transform.y = oldPlayer.y;
+
+		}
+
+		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] != BLOCK) {
+			player.transform.x = oldPlayer.x;
+		}
+
+		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
+			player.transform.x = oldPlayer.x;
+			player.transform.y = oldPlayer.y;
+		}
 	}
 	if (map[leftBottomY][leftBottomX] == BLOCK) {
-		if (player.jumpPow <= 0) {
-			player.isJump = false;
-		}
+		player.isJump = false;
 		if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] != BLOCK) {}
 
 		else if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] == BLOCK) {
@@ -227,9 +253,7 @@ void Player::BlockCollision(int map[][50]) {
 		}
 	}
 	if (map[rightBottomY][rightBottomX] == BLOCK) {
-		if (player.jumpPow <= 0) {
-			player.isJump = false;
-		}
+		player.isJump = false;
 		if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] != BLOCK) {}
 
 		else if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] == BLOCK) {
@@ -245,51 +269,11 @@ void Player::BlockCollision(int map[][50]) {
 			player.transform.y = oldPlayer.y;
 		}
 	}
-	if (map[leftTopY][leftTopX] == BLOCK) {
-
-		if (map[oldLeftTopY][leftTopX] == NONE && map[leftTopY][oldLeftTopX] == NONE) {}
-
-		else if (map[oldLeftTopY][leftTopX] == NONE && map[leftTopY][oldLeftTopX] == BLOCK) {
-			player.transform.y = oldPlayer.y;
-
-		}
-
-		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] == NONE) {
-			player.transform.x = oldPlayer.x;
-		}
-
-		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
-			player.transform.x = oldPlayer.x;
-			player.transform.y = oldPlayer.y;
-		}
-	}
-	if (map[rightTopY][rightTopX] == BLOCK) {
-
-		if (map[oldRightTopY][rightTopX] == NONE && map[rightTopY][oldRightTopX] == NONE) {}
-
-		else if (map[oldRightTopY][rightTopX] == NONE && map[rightTopY][oldRightTopX] == BLOCK) {
-			player.transform.y = oldPlayer.y;
-
-		}
-
-		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] == NONE) {
-			player.transform.x = oldPlayer.x;
-		}
-
-		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
-			player.transform.x = oldPlayer.x;
-			player.transform.y = oldPlayer.y;
-		}
-	}
-
-	if (map[jumpLeftBottomY][jumpLeftBottomX] == BLOCK || map[jumpRightBottomY][jumpRightBottomX] == BLOCK) {
-		player.isJump = true;
-	}
 }
 
 void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
-	if (player.isJump == false && player.jumpPow <= G) {
-		for (int i = 0; i < 100; i++) {
+	if (player.isJump == false) {
+		for (int i = 0; i < G; i++) {
 			if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
 				break;
 			}
@@ -302,9 +286,9 @@ void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
 }
 
 void Player::CheckStick(int InputY) {
-	if (InputY > 250) {
-		player.isJump = true;
-	}
+	//if (InputY > 250) {
+	//	player.isJump = true;
+	//}
 }
 
 

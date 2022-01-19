@@ -64,7 +64,7 @@ public:
 	int jumpRightBottomX, jumpRightBottomY;
 
 	//重力
-	const int G = 15;
+	const int G = 10;
 
 	//スクロール
 	int scroll;

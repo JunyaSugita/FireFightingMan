@@ -34,6 +34,7 @@ Scene::~Scene() {
 	delete particle;
 	delete gameover;
 	delete tutorial;
+	delete damParticle;
 }
 
 
