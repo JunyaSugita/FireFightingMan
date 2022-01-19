@@ -11,7 +11,6 @@ public:
 public:
 	void SaveOldPlayer();
 	void GetPlayerBottom(int BLOCK_SIZE);
-	void ResetIsJump(int map[][50]);
 
 	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
 	void PlayerJump(int pad, int isRescued);
@@ -23,7 +22,7 @@ public:
 	void GetScroll();
 	void BlockCollision(int map[][50]);
 	void DownPlayer(int map[][50], int BLOCK_SIZE);
-	void CheckStick(int InputY);
+	void CheckStick(int InputY, int isRescued);
 
 	void DrawPlayer();
 	void DrawHp();
@@ -64,7 +63,7 @@ public:
 	int jumpRightBottomX, jumpRightBottomY;
 
 	//重力
-	const int G = 15;
+	const int G = 10;
 
 	//スクロール
 	int scroll;
