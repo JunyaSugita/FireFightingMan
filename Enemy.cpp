@@ -62,12 +62,12 @@ void Enemy::Update(BULLET bullet[], Map* map) {
 void Enemy::BulletColision(BULLET bullet[]) {
 	for (int i = 0; i < ENEMY_CONST; i++) {
 		for (int j = 0; j < 500; j++) {
-			if (enemy[i].isAlive == 1 && bullet[j].isBullet == 1) {
+			if (enemy[i].isAlive == 1 && bullet[j].isShot == 1) {
 				if ((enemy[i].r + bullet[j].r) * (enemy[i].r + bullet[j].r) >=
 					(bullet[j].transform.x - enemy[i].transform.x) * (bullet[j].transform.x - enemy[i].transform.x) +
 					(bullet[j].transform.y - enemy[i].transform.y) * (bullet[j].transform.y - enemy[i].transform.y)) {
 
-					bullet[j].isBullet = 0;
+					bullet[j].isShot = 0;
 					enemy[i].isAlive = 2;
 					enemy[i].coolTime = 3000;
 				}

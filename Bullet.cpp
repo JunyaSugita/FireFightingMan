@@ -13,16 +13,16 @@ Bullet::Bullet() {
 			0,
 			false
 		};
-		//¶ã‚ÌÀ•W
+		//å·¦ä¸Šã®åº§æ¨™
 		leftTopX[i] = 0;
 		leftTopY[i] = 0;
-		//¶‰º‚ÌÀ•W
+		//å·¦ä¸‹ã®åº§æ¨™
 		leftBottomX[i] = 0;
 		leftBottomY[i] = 0;
-		//‰E‰º‚ÌÀ•W
+		//å³ä¸‹ã®åº§æ¨™
 		rightTopX[i] = 0;
 		rightTopY[i] = 0;
-		//‰E‰º‚ÌÀ•W
+		//å³ä¸‹ã®åº§æ¨™
 		rightBottomX[i] = 0;
 		rightBottomY[i] = 0;
 	}
@@ -39,8 +39,8 @@ Bullet::~Bullet() {
 void Bullet::BulletShot(Transform transform, int x, int y) {
 	for (int j = 0; j <15; j++) {
 		for (int i = 0; i < BULLET_CONST; i++) {
-			if (bullet[i].isBullet == false) {
-				bullet[i].isBullet = true;
+			if (bullet[i].isShot == false) {
+				bullet[i].isShot = true;
 				bullet[i].transform.x = transform.x;
 				bullet[i].transform.y = transform.y - 10;
 				bullet[i].speedX = x / 50 + rand() % 3 - 1;
@@ -54,9 +54,7 @@ void Bullet::BulletShot(Transform transform, int x, int y) {
 void Bullet::BulletMove(const int G,int x, int y) {
 	for (int i = 0; i < BULLET_CONST; i++) {
 		if (bullet[i].isBullet == true) {
-
 			bullet[i].speedX = rand() % 3 - 1;
-
 			bullet[i].transform.x += bullet[i].speedX;
 			bullet[i].transform.y += bullet[i].speedY;
 			bullet[i].speedY++;
@@ -66,16 +64,16 @@ void Bullet::BulletMove(const int G,int x, int y) {
 
 void Bullet::GetBullet(int BLOCK_SIZE) {
 	for (int i = 0; i < BULLET_CONST; i++) {
-		//¶ã‚ÌÀ•W‚Ìæ“¾
+		//å·¦ä¸Šã®åº§æ¨™ã®å–å¾—
 		leftTopX[i] = (bullet[i].transform.x - bullet[i].r) / BLOCK_SIZE;
 		leftTopY[i] = (bullet[i].transform.y - bullet[i].r) / BLOCK_SIZE;
-		//‰Eã‚ÌÀ•W‚Ìæ“¾
+		//å³ä¸Šã®åº§æ¨™ã®å–å¾—
 		rightTopX[i] = (bullet[i].transform.x + bullet[i].r - 1) / BLOCK_SIZE;
 		rightTopY[i] = (bullet[i].transform.y - bullet[i].r) / BLOCK_SIZE;
-		//¶‰º‚ÌÀ•W‚Ìæ“¾
+		//å·¦ä¸‹ã®åº§æ¨™ã®å–å¾—
 		leftBottomX[i] = (bullet[i].transform.x - bullet[i].r) / BLOCK_SIZE;
 		leftBottomY[i] = (bullet[i].transform.y + bullet[i].r - 1) / BLOCK_SIZE;
-		//‰E‰º‚ÌÀ•W‚Ìæ“¾
+		//å³ä¸‹ã®åº§æ¨™ã®å–å¾—
 		rightBottomX[i] = (bullet[i].transform.x + bullet[i].r - 1) / BLOCK_SIZE;
 		rightBottomY[i] = (bullet[i].transform.y + bullet[i].r - 1) / BLOCK_SIZE;
 	}
@@ -83,18 +81,18 @@ void Bullet::GetBullet(int BLOCK_SIZE) {
 
 void Bullet::BlockCollision(int map[][50]) {
 	for (int i = 0; i < BULLET_CONST; i++) {
-		if (bullet[i].isBullet == true) {
+		if (bullet[i].isShot == true) {
 			if (map[leftTopY[i]][leftTopX[i]] == BLOCK) {
-				bullet[i].isBullet = false;
+				bullet[i].isShot = false;
 			}
 			if (map[leftBottomY[i]][leftBottomX[i]] == BLOCK) {
-				bullet[i].isBullet = false;
+				bullet[i].isShot = false;
 			}
 			if (map[rightTopY[i]][rightTopX[i]] == BLOCK) {
-				bullet[i].isBullet = false;
+				bullet[i].isShot = false;
 			}
 			if (map[rightBottomY[i]][rightBottomX[i]] == BLOCK) {
-				bullet[i].isBullet = false;
+				bullet[i].isShot = false;
 			}
 		}
 	}
@@ -102,7 +100,7 @@ void Bullet::BlockCollision(int map[][50]) {
 
 void Bullet::DeleteBullet() {
 	for (int i = 0; i < BULLET_CONST; i++) {
-		bullet[i].isBullet = false;
+		bullet[i].isShot = false;
 	}
 }
 
@@ -110,7 +108,7 @@ void Bullet::DrawBullet(int scroll) {
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 72);
 	for (int j = 0; j < 15; j++) {
 		for (int i = 0; i < BULLET_CONST; i++) {
-			if (bullet[i].isBullet == true) {
+      if (bullet[i].isShot == true) {
 				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(0, 1, 1), true);
 				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 6, GetColor(6, 12, 12), true);
 			}
