@@ -3,16 +3,18 @@
 
 class DamParticle {
 public:
-	const int TRI_CONST = 30;
-	int triX[30];
-	int triY[30];
+	const int TRI_CONST = 40;
+	int triX[40];
+	int triY[40];
 	int triR;
 	int cirR[2];
-	int speedX[30];
-	int speedY[30];
+	int speedX[40];
+	int speedY[40];
 	int isDam;
 	int alpha;
 	int damTime;
+	int triAlpha;
+	int isShow;
 
 public:
 	DamParticle();
