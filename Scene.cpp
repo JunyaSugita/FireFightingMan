@@ -15,11 +15,11 @@ Scene::Scene() {
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
 
-	for (int i = 0; i < 10; i++) {
-		x[i] = 100 * i;
-		y[i] = 896;
-	}
+	x = 640;
+	y = -480;
 	isPush = 0;
+	time = 0;
+	isChange = 0;
 }
 
 //コンストラクタ
@@ -54,26 +54,69 @@ void Scene::Update(char* keys, char* oldkeys) {
 	switch (player->scene) {
 		//タイトル
 		case MAIN_TITLE:
-			if (pad & PAD_INPUT_2) {
-				player->scene = 2;
-				isPush = 1;
+			if (time > 14) {
+				if (pad & PAD_INPUT_2) {
+					isPush = 1;
+					isChange = 1;
+				}
+			}
+			else {
+				time++;
 			}
 			damParticle->Reset();
+			stageSelect->Reset();
+
+			if (isChange == 1) {
+				if (y + 480 < WIN_HEIGHT) {
+					y += 64;
+				}
+				time++;
+				if (time == 65) {
+					player->scene = 2;
+					time = 0;
+					isChange = 0;
+				}
+			}
 			break;
 
 			//ステージセレクト
 		case STAGE_SELECT:
+			if (isChange == 0) {
+				if (time < 21) {
+					time++;
+				}
+			}
+
+			if (time >= 21) {
+				y -= 64;
+			}
 			stageSelect->Select(padInput.Y);
-			if (pad & PAD_INPUT_2) {
-				if (isPush == 0) {
-					//マップ選択
+			
+			if (stageSelect->isStop == 1) {
+				if (pad & PAD_INPUT_2) {
+					if (isPush == 0) {
+						isChange = 1;
+						stageSelect->time = 0;
+						stageSelect->Move();
+					}
+				}
+				else {
+					isPush = 0;
+				}
+			}
+			
+			if (isChange == 1) {
+				time++;
+				//マップ選択
+				if (time > 95) {
 					map->MapSelect(stageSelect->select);
 					fire->SetFire(map->map);
 					player->scene = 1;
+					time = 0;
+					isChange = 0;
+					y = -480;
+					stageSelect->isStop = 0;
 				}
-			}
-			else {
-				isPush = 0;
 			}
 
 			break;
@@ -148,13 +191,24 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 void Scene::Draw() {
 
+
 	switch (player->scene) {
 		case MAIN_TITLE:
 			DrawFormatString(640, 450, GetColor(255, 255, 255), "B to Start");
+			DrawBox(x - 640, y - 480, x + 640, y + 480, GetColor(200, 200, 200), true);
+			for (int i = 0; i < 14; i++) {
+				DrawLine(0, y - 420 + (i * 60), 1280, y - 420 + (i * 60), GetColor(128, 128, 128), 8);
+			}
+			DrawLine(0, y + 464, 1280, y + 464, GetColor(72, 72, 72), 32);
 			break;
 
 		case STAGE_SELECT:
 			stageSelect->DrawStageSelect();
+			DrawBox(x - 640, y - 480, x + 640, y + 480, GetColor(200, 200, 200), true);
+			for (int i = 0; i < 14; i++) {
+				DrawLine(0, y - 420 + (i * 60), 1280, y - 420 + (i * 60), GetColor(128, 128, 128), 8);
+			}
+			DrawLine(0, y + 464, 1280, y + 464, GetColor(72, 72, 72), 32);
 			break;
 
 		case GAMEOVER:
