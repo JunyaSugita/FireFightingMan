@@ -8,7 +8,7 @@ Bullet::Bullet() {
 				0,
 				0
 			},
-			10,
+			18,
 			0,
 			0,
 			false
@@ -53,8 +53,8 @@ void Bullet::BulletShot(Transform transform, int x, int y) {
 
 void Bullet::BulletMove(const int G,int x, int y) {
 	for (int i = 0; i < BULLET_CONST; i++) {
-		if (bullet[i].isShot == true) {
-			bullet[i].speedX = rand() % 5 - 2;
+		if (bullet[i].isBullet == true) {
+			bullet[i].speedX = rand() % 3 - 1;
 			bullet[i].transform.x += bullet[i].speedX;
 			bullet[i].transform.y += bullet[i].speedY;
 			bullet[i].speedY++;
@@ -108,9 +108,9 @@ void Bullet::DrawBullet(int scroll) {
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 72);
 	for (int j = 0; j < 15; j++) {
 		for (int i = 0; i < BULLET_CONST; i++) {
-			if (bullet[i].isShot == true) {
-				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(12, 16, 16), true);
-				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 8, GetColor(1, 3, 4), true);
+      if (bullet[i].isShot == true) {
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(0, 1, 1), true);
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 6, GetColor(6, 12, 12), true);
 			}
 		}
 	}
