@@ -88,7 +88,7 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 			inertia = (RInputY * -1) / 70;
 		}
 	}
-	
+
 
 	if (inertia > inertiaSpeed) {
 		inertiaSpeed++;
@@ -285,8 +285,8 @@ void Player::BlockCollision(int map[][50]) {
 		}
 	}
 
-	
-	
+
+
 }
 
 void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
@@ -303,7 +303,7 @@ void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
 	}
 }
 
-void Player::CheckStick(int InputY,int isRescued) {
+void Player::CheckStick(int InputY, int isRescued) {
 	if (InputY > 0 && isRescued == false) {
 		player.isJump = true;
 	}
@@ -312,14 +312,8 @@ void Player::CheckStick(int InputY,int isRescued) {
 
 void Player::DrawPlayer() {
 	if (isDamageTimer % 5 != 1 && isDamageTimer % 5 != 2) {
-		if (player.isJump == false) {
-			DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
-				player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
-		}
-		else if (player.isJump == true) {
-			DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
-				player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 0, 0), true);
-		}
+		DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
+			player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
 	}
 }
 

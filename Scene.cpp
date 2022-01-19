@@ -88,11 +88,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			//プレイヤーのジャンプの可否
 			player->GetPlayerBottom(map->BLOCK_SIZE);
-			player->ResetIsJump(map->map);
 
 			//プレイヤーの移動
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
-			player->CheckStick(padInput.Ry);
+			player->CheckStick(padInput.Ry,rescued->isRescued);
 			player->PlayerJump(pad, rescued->isRescued);
 
 
@@ -110,8 +109,6 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetPlayer(map->BLOCK_SIZE);
 			player->bullet->GetBullet(map->BLOCK_SIZE);
 
-			player->ResetIsJump(map->map);
-
 			//当たり判定
 			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
@@ -121,7 +118,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
 			player->GetPlayerBottom(map->BLOCK_SIZE);
-			player->CheckStick(padInput.Ry);
+			player->CheckStick(padInput.Ry, rescued->isRescued);
 			player->DownPlayer(map->map, map->BLOCK_SIZE);
 			rescued->Move(player);
 
