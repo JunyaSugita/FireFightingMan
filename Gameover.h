@@ -14,7 +14,7 @@ public:
 
 public:
 	void GotoGameover(int& scene, int& hp);
-	void GotoTitle(int pad, Rescued* rescued, Player* player, Fire* fire, Goal* goal, Particle* particle, Bullet* bullet);
+	void GotoTitle(int pad, Rescued* rescued, Player* player, Fire* fire, Goal* goal, Particle* particle);
 
 	void DrawGameover();
 };

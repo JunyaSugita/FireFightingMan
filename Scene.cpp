@@ -158,7 +158,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
 			rescued->RescuedCollision(player, player->hp, stageSelect->select);
-			goal->GetGoal(player, rescued, player->hp, fire);
+			goal->GetGoal(player, rescued, player->hp, fire);			
 			gameover->GotoGameover(player->scene, player->hp);
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
@@ -183,8 +183,8 @@ void Scene::Update(char* keys, char* oldkeys) {
 			break;
 
 		case GAMEOVER:
-			gameover->GotoTitle(pad, rescued, player, fire, goal, particle, bullet);
-			bullet->DeleteBullet();
+			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
+			
 			break;
 	}
 }

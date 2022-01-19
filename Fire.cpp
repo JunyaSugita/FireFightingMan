@@ -44,7 +44,7 @@ void Fire::SetFire(int mapChip[][50]) {
 void Fire::FireFighting(BULLET bullet[]) {
 	for (int i = 0; i < FIRE_CONST; i++) {
 		for (int j = 0; j < this->bullet->BULLET_CONST; j++) {
-			if (fire[i].isFire == true && bullet[j].isBullet == true) {
+			if (fire[i].isFire == true && bullet[j].isShot == true) {
 				if (fire[i].transform.x + fire[i].Xr > bullet[j].transform.x - this->bullet->bullet[j].r &&
 					fire[i].transform.x - fire[i].Xr < bullet[j].transform.x + this->bullet->bullet[j].r &&
 					fire[i].transform.y + fire[i].Yr > bullet[j].transform.y - this->bullet->bullet[j].r &&
@@ -52,7 +52,7 @@ void Fire::FireFighting(BULLET bullet[]) {
 
 					fire[i].Xr -= 1;
 					fire[i].Yr -= 2;
-					bullet[j].isBullet = false;
+					bullet[j].isShot = false;
 
 					if (fire[i].Xr <= 4 || fire[i].Yr <= 8) {
 						fire[i].isFire = false;
