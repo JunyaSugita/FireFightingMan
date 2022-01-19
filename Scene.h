@@ -29,9 +29,11 @@ public:
 	DamParticle* damParticle;
 
 	int pad;
-	int x[10];
-	int y[10];
+	int x;
+	int y;
 	int isPush;
+	int time;
+	int isChange;
 
 public:
 	Scene();
