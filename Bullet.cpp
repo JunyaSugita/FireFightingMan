@@ -53,7 +53,7 @@ void Bullet::BulletShot(Transform transform, int x, int y) {
 
 void Bullet::BulletMove(const int G,int x, int y) {
 	for (int i = 0; i < BULLET_CONST; i++) {
-		if (bullet[i].isBullet == true) {
+		if (bullet[i].isShot == true) {
 			bullet[i].speedX = rand() % 3 - 1;
 			bullet[i].transform.x += bullet[i].speedX;
 			bullet[i].transform.y += bullet[i].speedY;
