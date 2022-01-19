@@ -75,13 +75,6 @@ void Player::GetPlayerBottom(int BLOCK_SIZE) {
 	rightBottomY = (player.transform.y + player.r - 1 + 1) / BLOCK_SIZE;
 }
 
-void Player::ResetIsJump(int map[][50]) {
-	//player.isJump = true;
-	//if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
-	//	player.isJump = false;
-	//}
-}
-
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	if (LInputX > 0 || LInputX < 0) {
 		player.transform.x += LInputX / 200;
@@ -89,17 +82,21 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	player.transform.y += G - player.jumpPow;
 
 	inertia = 0;
-	if (isRescued == false) {
+	if (isRescued == false && player.jumpPow <= G) {
 		if ((RInputX <= 0 && RInputY < 0) || (RInputX <= 0 && RInputY > 0) || RInputX < 0) {
 			player.transform.x += (RInputX * -1) / 180;
-			inertia = (RInputY * -1) / 40;
+			inertia = (RInputY * -1) / 70;
 		}
 	}
+	
 
 	if (inertia > inertiaSpeed) {
 		inertiaSpeed++;
 	}
 	else if (inertia < inertiaSpeed) {
+		if (inertiaSpeed >= -G) {
+			inertiaSpeed = -G;
+		}
 		inertiaSpeed--;
 	}
 	player.transform.y += inertiaSpeed;
@@ -108,13 +105,13 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 void Player::PlayerJump(int pad, int isRescued) {
 	if (pad & PAD_INPUT_5) {
 		if (isButton == 0 && player.isJump == false) {
-			player.isJump = 1;
+			player.isJump = true;
 			isButton = 1;
 			if (isRescued == false) {
-				player.jumpPow = 35;
+				player.jumpPow = 25;
 			}
 			else {
-				player.jumpPow = 30;
+				player.jumpPow = 22;
 			}
 		}
 	}
@@ -128,20 +125,20 @@ void Player::PlayerJump(int pad, int isRescued) {
 }
 
 void Player::PlayerShot(int InputX, int InputY, int isRescued) {
-	if (isRescued == false) {
+	if (isRescued == false && player.jumpPow <= G) {
 		if ((InputX <= 0 && InputY < 0) || (InputX <= 0 && InputY > 0) || InputX < 0) {
 			bullet->BulletShot(player.transform, InputX, InputY);
 		}
 	}
 }
 
-void Player::PlayerDamage(int fireX, int fireY, int fireR ,int isFire) {
+void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire) {
 	if (isDamage == 0 && isFire == true) {
 		if (fireX - fireR < player.transform.x + player.r &&
 			player.transform.x - player.r < fireX + fireR &&
 			fireY - fireR < player.transform.y + player.r &&
 			player.transform.y - player.r < fireY + fireR) {
-	
+
 			hp--;
 			isDamage = 1;
 			isDamageTimer = 100;
@@ -173,10 +170,10 @@ void Player::GetPlayer(int BLOCK_SIZE) {
 	rightBottomY = (player.transform.y + player.r - 1) / BLOCK_SIZE;
 
 	//ジャンプ用の座標を取得
-	//jumpLeftBottomX = (player.transform.x - player.r) / BLOCK_SIZE;
-	//jumpLeftBottomY = (player.transform.y + player.r - 1 - G) / BLOCK_SIZE;
-	//jumpRightBottomX = (player.transform.x + player.r - 1) / BLOCK_SIZE;
-	//jumpRightBottomY = (player.transform.y + player.r - 1 - G) / BLOCK_SIZE;
+	jumpLeftBottomX = (player.transform.x - player.r) / BLOCK_SIZE;
+	jumpLeftBottomY = (player.transform.y + player.r - 1 - 1) / BLOCK_SIZE;
+	jumpRightBottomX = (player.transform.x + player.r - 1) / BLOCK_SIZE;
+	jumpRightBottomY = (player.transform.y + player.r - 1 - 1) / BLOCK_SIZE;
 }
 
 void Player::GetOldPlayer(int BLOCK_SIZE) {
@@ -201,6 +198,25 @@ void Player::GetScroll() {
 }
 
 void Player::BlockCollision(int map[][50]) {
+
+	if (player.jumpPow <= G) {
+		if (map[leftBottomY][leftBottomX] == BLOCK && map[rightBottomY][rightBottomX] != BLOCK && map[leftTopY][leftTopX] != BLOCK) {
+			player.isJump = false;
+		}
+		if (map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] == BLOCK && map[rightTopY][rightTopX] != BLOCK) {
+			player.isJump = false;
+		}
+		if (map[leftBottomY][leftBottomX] == BLOCK && map[jumpLeftBottomY][jumpLeftBottomX] != BLOCK) {
+			player.isJump = false;
+		}
+		if (map[rightBottomY][rightBottomX] == BLOCK && map[jumpRightBottomY][jumpRightBottomX] != BLOCK) {
+			player.isJump = false;
+		}
+		if (map[leftBottomY][leftBottomX] == BLOCK && map[rightBottomY][rightBottomX] == BLOCK) {
+			player.isJump = false;
+		}
+	}
+
 	if (map[leftTopY][leftTopX] == BLOCK) {
 		if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {}
 
@@ -236,7 +252,7 @@ void Player::BlockCollision(int map[][50]) {
 		}
 	}
 	if (map[leftBottomY][leftBottomX] == BLOCK) {
-		player.isJump = false;
+
 		if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] != BLOCK) {}
 
 		else if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] == BLOCK) {
@@ -253,7 +269,6 @@ void Player::BlockCollision(int map[][50]) {
 		}
 	}
 	if (map[rightBottomY][rightBottomX] == BLOCK) {
-		player.isJump = false;
 		if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] != BLOCK) {}
 
 		else if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] == BLOCK) {
@@ -269,6 +284,9 @@ void Player::BlockCollision(int map[][50]) {
 			player.transform.y = oldPlayer.y;
 		}
 	}
+
+	
+	
 }
 
 void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
@@ -285,17 +303,23 @@ void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
 	}
 }
 
-void Player::CheckStick(int InputY) {
-	//if (InputY > 250) {
-	//	player.isJump = true;
-	//}
+void Player::CheckStick(int InputY,int isRescued) {
+	if (InputY > 0 && isRescued == false) {
+		player.isJump = true;
+	}
 }
 
 
 void Player::DrawPlayer() {
 	if (isDamageTimer % 5 != 1 && isDamageTimer % 5 != 2) {
-		DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
-			player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
+		if (player.isJump == false) {
+			DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
+				player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
+		}
+		else if (player.isJump == true) {
+			DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
+				player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 0, 0), true);
+		}
 	}
 }
 
