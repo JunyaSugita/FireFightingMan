@@ -92,7 +92,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 				y -= 64;
 			}
 			stageSelect->Select(padInput.Y);
-			
+
 			if (stageSelect->isStop == 1) {
 				if (pad & PAD_INPUT_2) {
 					if (isPush == 0) {
@@ -107,7 +107,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 					isPush = 0;
 				}
 			}
-			
+
 			if (isChange == 1) {
 				time++;
 				//マップ選択
@@ -135,16 +135,16 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetPlayerBottom(map->BLOCK_SIZE);
 
 			//プレイヤーの移動
+			player->PlayerJump(pad, rescued->isRescued, map->map);
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
-			player->CheckStick(padInput.Ry,rescued->isRescued);
-			player->PlayerJump(pad, rescued->isRescued);
+			player->CheckStick(padInput.Ry, rescued->isRescued);
 
 
 			//弾の発射
 			player->PlayerShot(padInput.Rx, padInput.Ry, rescued->isRescued);
 
 			//弾の挙動
-			player->bullet->BulletMove(player->G,padInput.X,padInput.Y);
+			player->bullet->BulletMove(player->G, padInput.X, padInput.Y);
 
 			//消化
 			fire->FireFighting(player->bullet->bullet);
@@ -158,7 +158,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
 			rescued->RescuedCollision(player, player->hp, stageSelect->select);
-			goal->GetGoal(player, rescued, player->hp, fire);			
+			goal->GetGoal(player, rescued, player->hp, fire);
 			gameover->GotoGameover(player->scene, player->hp);
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
@@ -184,7 +184,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 		case GAMEOVER:
 			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
-			
+
 			break;
 	}
 }
@@ -225,7 +225,7 @@ void Scene::Draw() {
 			tutorial->DrawTutorial(stageSelect->select, player->scroll);
 			if (player->scene == GAMEOVER) {
 				gameover->DrawGameover();
-				damParticle->Draw(player->player.transform.x, player->player.transform.y,player->scroll);
+				damParticle->Draw(player->player.transform.x, player->player.transform.y, player->scroll);
 			}
 
 			//デバッグ

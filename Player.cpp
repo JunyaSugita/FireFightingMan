@@ -102,7 +102,10 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	player.transform.y += inertiaSpeed;
 }
 
-void Player::PlayerJump(int pad, int isRescued) {
+void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
+	if (map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] != BLOCK) {
+		player.isJump == true;
+	}
 	if (pad & PAD_INPUT_5) {
 		if (isButton == 0 && player.isJump == false) {
 			player.isJump = true;
@@ -284,9 +287,6 @@ void Player::BlockCollision(int map[][50]) {
 			player.transform.y = oldPlayer.y;
 		}
 	}
-
-
-
 }
 
 void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {

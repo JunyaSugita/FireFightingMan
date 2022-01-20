@@ -54,7 +54,7 @@ void Fire::FireFighting(BULLET bullet[]) {
 					fire[i].Yr -= 2;
 					bullet[j].isShot = false;
 
-					if (fire[i].Xr <= 4 || fire[i].Yr <= 8) {
+					if (fire[i].Xr <= 5 || fire[i].Yr <= 10) {
 						fire[i].isFire = false;
 					}
 				}

@@ -13,7 +13,7 @@ public:
 	void GetPlayerBottom(int BLOCK_SIZE);
 
 	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
-	void PlayerJump(int pad, int isRescued);
+	void PlayerJump(int pad, int isRescued, int map[][50]);
 	void PlayerShot(int InputX, int InputY, int isRescued);
 	void PlayerDamage(int fireX,int fireY,int fireR,int isFire);
 	void DamageCount();
