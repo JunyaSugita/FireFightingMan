@@ -96,9 +96,11 @@ void Scene::Update(char* keys, char* oldkeys) {
 			if (stageSelect->isStop == 1) {
 				if (pad & PAD_INPUT_2) {
 					if (isPush == 0) {
-						isChange = 1;
-						stageSelect->time = 0;
-						stageSelect->Move();
+						if (isChange == 0) {
+							isChange = 1;
+							stageSelect->time = 0;
+							stageSelect->Move();
+						}
 					}
 				}
 				else {
