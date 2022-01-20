@@ -7,7 +7,7 @@ public:
 	~StageSelect();
 
 public:
-	void Select(int LInputY);
+	void Select(int LInputY,int pad);
 	void DrawStageSelect();
 	void Reset();
 	void Move();

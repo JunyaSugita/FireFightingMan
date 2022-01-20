@@ -91,7 +91,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			if (time >= 21) {
 				y -= 64;
 			}
-			stageSelect->Select(padInput.Y);
+			stageSelect->Select(padInput.Y,pad);
 			
 			if (stageSelect->isStop == 1) {
 				if (pad & PAD_INPUT_2) {
