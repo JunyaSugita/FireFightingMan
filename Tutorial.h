@@ -9,7 +9,7 @@ public:
 public:
 	void CountTimer();
 
-	void DrawTutorial(int select, int scroll);
+	void DrawTutorial(int select, int scrollint,int isRescued);
 
 public:
 	int timer;
@@ -20,5 +20,6 @@ public:
 	int tutorial4[4];
 	int tutorial5;
 	int tutorial6;
+	int help[2];
 };
 
