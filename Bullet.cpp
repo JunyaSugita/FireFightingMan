@@ -37,7 +37,7 @@ Bullet::~Bullet() {
 }
 
 void Bullet::BulletShot(Transform transform, int x, int y) {
-	for (int j = 0; j <15; j++) {
+	for (int j = 0; j < 15; j++) {
 		for (int i = 0; i < BULLET_CONST; i++) {
 			if (bullet[i].isShot == false) {
 				bullet[i].isShot = true;
@@ -51,11 +51,10 @@ void Bullet::BulletShot(Transform transform, int x, int y) {
 	}
 }
 
-void Bullet::BulletMove(const int G,int x, int y) {
+void Bullet::BulletMove(const int G, int x, int y) {
 	for (int i = 0; i < BULLET_CONST; i++) {
 		if (bullet[i].isShot == true) {
-			bullet[i].speedX = rand() % 3 - 1;
-			bullet[i].transform.x += bullet[i].speedX;
+			bullet[i].transform.x += bullet[i].speedX + rand() % 3 - 1;
 			bullet[i].transform.y += bullet[i].speedY;
 			bullet[i].speedY++;
 		}
@@ -65,17 +64,17 @@ void Bullet::BulletMove(const int G,int x, int y) {
 void Bullet::GetBullet(int BLOCK_SIZE) {
 	for (int i = 0; i < BULLET_CONST; i++) {
 		//左上の座標の取得
-		leftTopX[i] = (bullet[i].transform.x - bullet[i].r) / BLOCK_SIZE;
-		leftTopY[i] = (bullet[i].transform.y - bullet[i].r) / BLOCK_SIZE;
+		leftTopX[i] = (bullet[i].transform.x - (bullet[i].r - 12)) / BLOCK_SIZE;
+		leftTopY[i] = (bullet[i].transform.y - (bullet[i].r - 12)) / BLOCK_SIZE;
 		//右上の座標の取得
-		rightTopX[i] = (bullet[i].transform.x + bullet[i].r - 1) / BLOCK_SIZE;
-		rightTopY[i] = (bullet[i].transform.y - bullet[i].r) / BLOCK_SIZE;
+		rightTopX[i] = (bullet[i].transform.x + (bullet[i].r - 12) - 1) / BLOCK_SIZE;
+		rightTopY[i] = (bullet[i].transform.y - (bullet[i].r - 12)) / BLOCK_SIZE;
 		//左下の座標の取得
-		leftBottomX[i] = (bullet[i].transform.x - bullet[i].r) / BLOCK_SIZE;
-		leftBottomY[i] = (bullet[i].transform.y + bullet[i].r - 1) / BLOCK_SIZE;
+		leftBottomX[i] = (bullet[i].transform.x - (bullet[i].r - 12)) / BLOCK_SIZE;
+		leftBottomY[i] = (bullet[i].transform.y + (bullet[i].r - 12) - 1) / BLOCK_SIZE;
 		//右下の座標の取得
-		rightBottomX[i] = (bullet[i].transform.x + bullet[i].r - 1) / BLOCK_SIZE;
-		rightBottomY[i] = (bullet[i].transform.y + bullet[i].r - 1) / BLOCK_SIZE;
+		rightBottomX[i] = (bullet[i].transform.x + (bullet[i].r - 12) - 1) / BLOCK_SIZE;
+		rightBottomY[i] = (bullet[i].transform.y + (bullet[i].r - 12) - 1) / BLOCK_SIZE;
 	}
 }
 
@@ -108,7 +107,7 @@ void Bullet::DrawBullet(int scroll) {
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 72);
 	for (int j = 0; j < 15; j++) {
 		for (int i = 0; i < BULLET_CONST; i++) {
-      if (bullet[i].isShot == true) {
+			if (bullet[i].isShot == true) {
 				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(0, 1, 1), true);
 				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 6, GetColor(6, 12, 12), true);
 			}

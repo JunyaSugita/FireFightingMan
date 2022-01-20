@@ -20,6 +20,7 @@ public:
 	int tutorial4[4];
 	int tutorial5;
 	int tutorial6;
+	int tutorial7;
 	int help[2];
 };
 
