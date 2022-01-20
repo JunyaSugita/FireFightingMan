@@ -15,15 +15,15 @@ StageSelect::StageSelect() {
 
 StageSelect::~StageSelect(){}
 
-void StageSelect::Select(int LInputY) {
+void StageSelect::Select(int LInputY,int pad) {
 
 	Move();
 
-	if (LInputY < 0 && isSelect == 0) {
+	if (LInputY < 0 && isSelect == 0 || pad & PAD_INPUT_UP) {
 		select--;
 		isSelect = 1;
 	}
-	else if (LInputY > 0 && isSelect == 0) {
+	else if (LInputY > 0 && isSelect == 0 || pad & PAD_INPUT_DOWN) {
 		select++;
 		isSelect = 1;
 	}
