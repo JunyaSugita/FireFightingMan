@@ -40,4 +40,5 @@ public:
 	~Scene();
 	void Update(char* keys, char* oldkeys);
 	void Draw();
+	void reset();
 };

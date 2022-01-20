@@ -183,10 +183,38 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 		case GAMEOVER:
 			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
+			reset();
 
 			break;
 	}
 }
+
+void Scene::reset() {
+	delete player;
+	delete bullet;
+	delete rescued;
+	delete map;
+	delete fire;
+	delete goal;
+	delete ene;
+	delete particle;
+	delete gameover;
+	delete tutorial;
+	delete damParticle;
+	player = new Player;
+	bullet = new Bullet;
+	rescued = new Rescued;
+	map = new Map;
+	fire = new Fire;
+	goal = new Goal;
+	ene = new Enemy;
+	particle = new Particle;
+	stageSelect = new StageSelect;
+	gameover = new Gameover;
+	tutorial = new Tutorial;
+	damParticle = new DamParticle;
+}
+
 
 void Scene::Draw() {
 
