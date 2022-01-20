@@ -10,6 +10,7 @@ Tutorial::Tutorial() {
 	LoadDivGraph("resource/help.png", 2, 2, 1, 128, 64, help);
 	tutorial5 = LoadGraph("resource/tutorial5.png");
 	tutorial6 = LoadGraph("resource/tutorial6.png");
+	tutorial7 = LoadGraph("resource/tutorial7.png");
 }
 
 Tutorial::~Tutorial() {}
@@ -23,12 +24,13 @@ void Tutorial::CountTimer() {
 
 void Tutorial::DrawTutorial(int serect, int scroll,int isRescued) {
 	if (serect == 0) {
-		DrawGraph(100 - scroll, 500, tutorial1[timer / 50], true);
-		DrawGraph(500 - scroll, 500, tutorial2[timer / 50], true);
+		DrawGraph(100 - scroll, 450, tutorial1[timer / 50], true);
+		DrawGraph(500 - scroll, 450, tutorial2[timer / 50], true);
 		DrawGraph(1280 - scroll, 800, tutorial3[timer / 50], true);
-		DrawGraph(2150 - scroll, 400, tutorial4[timer / 50], true);
-		DrawGraph(800 - scroll, 500, tutorial5, true);
+		DrawGraph(2150 - scroll, 500, tutorial4[timer / 50], true);
+		DrawGraph(800 - scroll, 450, tutorial5, true);
 		DrawGraph(1950 - scroll, 500, tutorial6, true);
+		DrawRotaGraph2(-100 - scroll, -110,0,0,2.5,0, tutorial7, true);
 		DrawRotaGraph2(2100 - scroll, 120,0,0,1.8,0, help[isRescued], true);
 	}
 }
