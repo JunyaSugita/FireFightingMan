@@ -9,8 +9,6 @@ public:
 	EMIT particle[PARTICLE_CONST];
 	Fire* fire;
 	Player* player;
-	int centerX;
-	int centerY;
 
 public:
 	Particle();

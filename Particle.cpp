@@ -18,8 +18,6 @@ Particle::Particle() {
 			0,
 			0
 		};
-		centerX = 800;
-		centerY = 890;
 	}
 	fire = new Fire;
 	player = new Player;

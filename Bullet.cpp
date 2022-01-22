@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include"stdlib.h"
 #include "time.h"
 
 Bullet::Bullet() {
@@ -8,7 +9,7 @@ Bullet::Bullet() {
 				0,
 				0
 			},
-			18,
+			16,
 			0,
 			0,
 			false
@@ -105,11 +106,11 @@ void Bullet::DeleteBullet() {
 
 void Bullet::DrawBullet(int scroll) {
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 72);
-	for (int j = 0; j < 15; j++) {
+	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < BULLET_CONST; i++) {
 			if (bullet[i].isShot == true) {
-				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(0, 1, 1), true);
-				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 6, GetColor(6, 12, 12), true);
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r, GetColor(8, 10, 10), true);
+				DrawCircle(bullet[i].transform.x - scroll, bullet[i].transform.y, bullet[i].r - 6, GetColor(20, 24, 24), true);
 			}
 		}
 	}
