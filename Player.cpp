@@ -25,6 +25,8 @@ Player::Player() {
 
 	isButton = 0;
 
+	water = WATER_CONST;
+
 	//左上の座標
 	leftTopX = 0;
 	leftTopY = 0;
@@ -82,8 +84,8 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	player.transform.y += G - player.jumpPow;
 
 	inertia = 0;
-	if (isRescued == false && player.jumpPow <= G) {
-		if ((RInputX <= 0 && RInputY < 0) || (RInputX <= 0 && RInputY > 0) || RInputX < 0) {
+	if (isRescued == false && player.jumpPow <= G && water > 0) {
+		if (RInputX <= 0 && RInputY >= 0 && (RInputX != 0 || RInputY != 0)) {
 			player.transform.x += (RInputX * -1) / 180;
 			inertia = (RInputY * -1) / 70;
 		}
@@ -128,9 +130,10 @@ void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
 }
 
 void Player::PlayerShot(int InputX, int InputY, int isRescued) {
-	if (isRescued == false && player.jumpPow <= G) {
-		if ((InputX <= 0 && InputY < 0) || (InputX <= 0 && InputY > 0) || InputX < 0) {
+	if (isRescued == false && player.jumpPow <= G && water > 0) {
+		if (InputX <= 0 && InputY >= 0 && (InputX != 0 || InputY != 0)) {
 			bullet->BulletShot(player.transform, InputX, InputY);
+			water--;
 		}
 	}
 }
@@ -325,4 +328,8 @@ void Player::DrawHp() {
 	for (int i = 0; i < hp; i++) {
 		DrawCircle(player.transform.x - scroll, player.transform.y - 10 + (i * 10), 4, GetColor(55, 55, 55), true);
 	}
+}
+
+void Player::DrawWater() {
+	DrawBox(800, 20, 800 + (water / 5), 40, GetColor(0, 200, 200), true);
 }
