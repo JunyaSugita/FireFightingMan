@@ -307,7 +307,7 @@ void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
 }
 
 void Player::CheckStick(int InputY, int isRescued) {
-	if (InputY > 0 && isRescued == false) {
+	if (InputY > 0 && isRescued == false && water > 0) {
 		player.isJump = true;
 	}
 }
