@@ -222,6 +222,7 @@ void Scene::Draw() {
 			ene->Draw(player->scroll);
 			particle->Draw(player->scroll);
 			tutorial->DrawTutorial(stageSelect->select, player->scroll,rescued->isRescued);
+			player->DrawWater();
 			if (player->scene == GAMEOVER) {
 				gameover->DrawGameover();
 				damParticle->Draw(player->player.transform.x, player->player.transform.y, player->scroll);

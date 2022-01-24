@@ -7,25 +7,6 @@ class Player {
 public:
 	Player();
 	~Player();
-
-public:
-	void SaveOldPlayer();
-	void GetPlayerBottom(int BLOCK_SIZE);
-
-	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
-	void PlayerJump(int pad, int isRescued, int map[][50]);
-	void PlayerShot(int InputX, int InputY, int isRescued);
-	void PlayerDamage(int fireX,int fireY,int fireR,int isFire);
-	void DamageCount();
-	void GetPlayer(int BLOCK_SIZE);
-	void GetOldPlayer(int BLOCK_SIZE);
-	void GetScroll();
-	void BlockCollision(int map[][50]);
-	void DownPlayer(int map[][50], int BLOCK_SIZE);
-	void CheckStick(int InputY, int isRescued);
-
-	void DrawPlayer();
-	void DrawHp();
 public:
 	PLAYER player;
 	OldPlayer oldPlayer;
@@ -34,6 +15,10 @@ public:
 	int hp;
 	int isDamage;
 	int isDamageTimer;
+
+	//水タンク
+	static const int WATER_CONST = 500;
+	int water;
 
 	//プレイヤーの上下移動慣性
 	int inertia, inertiaSpeed;
@@ -75,4 +60,23 @@ public:
 	Bullet* bullet;
 	//マップ
 	Map* map;
+public:
+	void SaveOldPlayer();
+	void GetPlayerBottom(int BLOCK_SIZE);
+
+	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
+	void PlayerJump(int pad, int isRescued, int map[][50]);
+	void PlayerShot(int InputX, int InputY, int isRescued);
+	void PlayerDamage(int fireX,int fireY,int fireR,int isFire);
+	void DamageCount();
+	void GetPlayer(int BLOCK_SIZE);
+	void GetOldPlayer(int BLOCK_SIZE);
+	void GetScroll();
+	void BlockCollision(int map[][50]);
+	void DownPlayer(int map[][50], int BLOCK_SIZE);
+	void CheckStick(int InputY, int isRescued);
+
+	void DrawPlayer();
+	void DrawHp();
+	void DrawWater();
 };
