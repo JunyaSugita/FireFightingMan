@@ -213,6 +213,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 						isPush = true;
 						pause->isPause = false;
 						restart();
+						player->scene = MAIN_GAME;
 					}
 					//タイトルへ
 					else if (pause->isReset == 0) {
@@ -259,6 +260,8 @@ void Scene::reset() {
 }
 
 void Scene::restart() {
+	player->Spawn(map->map);
+	rescued->Spawn(map->map);
 	delete bullet;
 	delete rescued;
 	delete fire;
@@ -278,6 +281,10 @@ void Scene::restart() {
 	gameover = new Gameover;
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
+	fire->SetFire(map->map);
+	player->scroll = 0;
+	player->water = player -> WATER_CONST;
+	player->hp = 3;
 }
 
 
