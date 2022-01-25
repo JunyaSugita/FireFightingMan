@@ -8,6 +8,7 @@ Rescued::Rescued() {
 	};
 	r = 20;
 	isRescued = false;
+	graph_r = LoadGraph("resource/syoubousi_kyujo.png");
 	player = new Player;
 }
 
@@ -43,7 +44,8 @@ void Rescued::Move(Player* player) {
 
 //ï`âÊä÷êî
 void Rescued::Draw(int scroll) {
-	DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);
+	//DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);7
+	DrawRotaGraph(15+transform.x -2 - scroll, transform.y +5, 1.3, 0.0, graph_r, 1, 0, 0);
 }
 
 //ÉäÉZÉbÉgä÷êî

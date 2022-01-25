@@ -246,7 +246,7 @@ void Scene::Draw() {
 			map->DrawMap(map->map, player->scroll);
 			rescued->Draw(player->scroll);
 			player->bullet->DrawBullet(player->scroll);
-			player->DrawPlayer();
+			player->DrawPlayer(rescued->isRescued);
 			ene->Draw(player->scroll);
 			particle->Draw(player->scroll);
 			tutorial->DrawTutorial(stageSelect->select, player->scroll,rescued->isRescued);

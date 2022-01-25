@@ -56,6 +56,9 @@ public:
 	//シーン管理
 	int scene;
 
+	//グラフ
+	int graph_h;
+
 	//弾
 	Bullet* bullet;
 	//マップ
@@ -76,7 +79,7 @@ public:
 	void DownPlayer(int map[][50], int BLOCK_SIZE);
 	void CheckStick(int InputY, int isRescued);
 
-	void DrawPlayer();
+	void DrawPlayer(int isRescued);
 	void DrawHp();
 	void DrawWater();
 };
