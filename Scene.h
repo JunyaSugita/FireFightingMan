@@ -11,6 +11,7 @@
 #include "Gameover.h"
 #include "Tutorial.h"
 #include "Damparticle.h"
+#include "Pause.h"
 
 class Scene {
 public:
@@ -27,6 +28,7 @@ public:
 	Gameover* gameover;
 	Tutorial* tutorial;
 	DamParticle* damParticle;
+	Pause* pause;
 
 	int pad;
 	int x;

@@ -23,7 +23,8 @@ enum SceneInfo {
 	MAIN_GAME,			//1
 	STAGE_SELECT,		//2
 	GAMEOVER,			//3
-	CLEAR				//4
+	CLEAR,				//4
+	PAUSE				//5
 };
 
 enum SelectInfo {
