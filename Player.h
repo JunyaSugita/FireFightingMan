@@ -67,7 +67,7 @@ public:
 	void SaveOldPlayer();
 	void GetPlayerBottom(int BLOCK_SIZE);
 
-	void Dash(int pad);
+	void Dash(int pad,int isRescued);
 	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
 	void PlayerJump(int pad, int isRescued, int map[][50]);
 	void PlayerShot(int InputX, int InputY, int isRescued);
