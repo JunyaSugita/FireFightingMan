@@ -1,6 +1,6 @@
 #include "Rescued.h"
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Rescued::Rescued() {
 	transform = {
 		2300,
@@ -8,6 +8,7 @@ Rescued::Rescued() {
 	};
 	r = 20;
 	isRescued = false;
+	graph_r = LoadGraph("resource/syoubousi_kyujo.png");
 	player = new Player;
 	cx = 0;
 	for (int i = 0; i < 2; i++) {
@@ -19,14 +20,14 @@ Rescued::Rescued() {
 	catchGraph = LoadGraph("resource/catch.png");
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Rescued::~Rescued() {
 	delete player;
 }
 
-///-----ƒNƒ‰ƒXŠÖ”-----///
+///-----ã‚¯ãƒ©ã‚¹é–¢æ•°-----///
 
-//“–‚½‚è”»’è
+//å½“ãŸã‚Šåˆ¤å®š
 void Rescued::RescuedCollision(Player* player,int &hp,int scene) {
 	if (isRescued == false) {
 		if (transform.x + r > player->player.transform.x - player->player.r && player->player.transform.x + player->player.r > transform.x - r) {
@@ -45,7 +46,7 @@ void Rescued::RescuedCollision(Player* player,int &hp,int scene) {
 	}
 }
 
-//ˆÚ“®ŠÖ”
+//ç§»å‹•é–¢æ•°
 void Rescued::Move(Player* player) {
 	if (isRescued == true) {
 		transform.x = player->player.transform.x;
@@ -53,9 +54,10 @@ void Rescued::Move(Player* player) {
 	}
 }
 
-//•`‰æŠÖ”
+//æç”»é–¢æ•°
 void Rescued::Draw(int scroll) {
-	DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);
+	//DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);7
+	DrawRotaGraph(15+transform.x -2 - scroll, transform.y +5, 1.3, 0.0, graph_r, 1, 0, 0);
 	if (isRescued == true) {
 		SetDrawBlendMode(DX_BLENDMODE_ADD, 200);
 		if (cr > 0) {
@@ -71,7 +73,7 @@ void Rescued::Draw(int scroll) {
 	}
 }
 
-//ƒŠƒZƒbƒgŠÖ”
+//ãƒªã‚»ãƒƒãƒˆé–¢æ•°
 void Rescued::Reset() {
 	transform.x = 2300;
 	transform.y = 300;

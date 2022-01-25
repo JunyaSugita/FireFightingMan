@@ -56,6 +56,9 @@ Player::Player() {
 
 	scroll = 0;
 
+	//グラフ
+	graph_h = LoadGraph("resource/syoubousi_1.png");
+
 	bullet = new Bullet;
 	map = new Map;
 }
@@ -325,10 +328,17 @@ void Player::CheckStick(int InputY, int isRescued) {
 }
 
 
-void Player::DrawPlayer() {
+void Player::DrawPlayer(int isRescued) {
 	if (isDamageTimer % 5 != 1 && isDamageTimer % 5 != 2) {
-		DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
-			player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
+		//DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
+			//player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
+		if ( isRescued == false) {
+			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y-3, 1.5, 0.0, graph_h, 1, 0, 0);
+		}
+		if (isRescued == true) {
+			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y-3, 1.5, 0.0, graph_h, 1, 1, 0);
+		}
+		
 	}
 }
 
