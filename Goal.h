@@ -10,6 +10,11 @@ public:
 	Fire* fire;
 	int isGoal;
 	int x;
+	int isShow;
+	int efectX[10];
+	int isMove[10];
+	int randNum[10];
+	int time;
 
 public:
 	Goal();
@@ -17,4 +22,5 @@ public:
 	void GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire);
 	void Draw(Rescued* rescued, int scroll);
 	void Reset(Rescued* rescued, int& hp);
+	void Efect();
 };
