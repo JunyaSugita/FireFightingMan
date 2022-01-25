@@ -68,6 +68,18 @@ Player::~Player() {
 	delete map;
 }
 
+void Player::Spawn(int mapChip[][50]) {
+	for (int y = 0; y < map->mapCountY; y++) {
+		for (int x = 0; x < map->mapCountX; x++) {
+			if (mapChip[y][x] == PLAYER_SPAWN) {
+				player.transform.x = x * map->BLOCK_SIZE + 28;
+				player.transform.y = y * map->BLOCK_SIZE + 28;
+				break;
+			}
+		}
+	}
+}
+
 void Player::SaveOldPlayer() {
 	oldPlayer.x = player.transform.x;
 	oldPlayer.y = player.transform.y;
@@ -82,7 +94,7 @@ void Player::GetPlayerBottom(int BLOCK_SIZE) {
 	rightBottomY = (player.transform.y + player.r - 1 + 1) / BLOCK_SIZE;
 }
 
-void Player::Dash(int pad,int isRescued) {
+void Player::Dash(int pad, int isRescued) {
 	if (isRescued == false) {
 		if (player.isJump == false) {
 			speed = 0.8f;
@@ -332,13 +344,13 @@ void Player::DrawPlayer(int isRescued) {
 	if (isDamageTimer % 5 != 1 && isDamageTimer % 5 != 2) {
 		//DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
 			//player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
-		if ( isRescued == false) {
-			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y-3, 1.5, 0.0, graph_h, 1, 0, 0);
+		if (isRescued == false) {
+			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y - 3, 1.5, 0.0, graph_h, 1, 0, 0);
 		}
 		if (isRescued == true) {
-			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y-3, 1.5, 0.0, graph_h, 1, 1, 0);
+			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y - 3, 1.5, 0.0, graph_h, 1, 1, 0);
 		}
-		
+
 	}
 }
 

@@ -114,6 +114,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 				//マップ選択
 				if (time > 95) {
 					map->MapSelect(stageSelect->select);
+					player->Spawn(map->map);
 					fire->SetFire(map->map);
 					player->scene = 1;
 					time = 0;

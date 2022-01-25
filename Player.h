@@ -67,6 +67,8 @@ public:
 	//ƒ}ƒbƒv
 	Map* map;
 public:
+	void Spawn(int mapChip[][50]);
+
 	void SaveOldPlayer();
 	void GetPlayerBottom(int BLOCK_SIZE);
 
