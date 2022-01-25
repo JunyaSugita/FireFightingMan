@@ -165,7 +165,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->CheckStick(padInput.Ry, rescued->isRescued);
 			player->DownPlayer(map->map, map->BLOCK_SIZE);
 			rescued->Move(player);
-			rescued->CatchRescued();
+			rescued->CatchRescued();    
 
 			//敵の出現
 			ene->Update(player->bullet->bullet, map);
@@ -235,4 +235,5 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			break;
 	}
+	goal->Efect();
 }
