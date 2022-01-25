@@ -135,11 +135,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetPlayerBottom(map->BLOCK_SIZE);
 
 			//プレイヤーの移動
-			player->Dash(pad);
+			player->Dash(pad, rescued->isRescued);
 			player->PlayerJump(pad, rescued->isRescued, map->map);
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
 			player->CheckStick(padInput.Ry, rescued->isRescued);
-
 
 			//弾の発射
 			player->PlayerShot(padInput.Rx, padInput.Ry, rescued->isRescued);
