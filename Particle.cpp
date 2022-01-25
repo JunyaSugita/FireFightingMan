@@ -56,7 +56,9 @@ void Particle::Move() {
 			particle[i].transform.x += particle[i].speedX;
 			particle[i].timer++;
 			if (particle[i].timer == 1) {
-				particle[i].alpha -= 32;
+				if (particle[i].alpha > 0) {
+					particle[i].alpha -= 32;
+				}
 				particle[i].r--;
 				particle[i].timer = 0;
 			}

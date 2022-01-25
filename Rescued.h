@@ -10,6 +10,12 @@ public:
 	int isRescued;
 	int graph_r;
 	Player* player;
+	int cx;
+	int cy[2];
+	int cr;
+	int time;
+	int alpha;
+	int catchGraph;
 
 	//
 public:
@@ -19,4 +25,5 @@ public:
 	void Move(Player* player);
 	void Draw(int scroll);
 	void Reset();
+	void CatchRescued();
 };
