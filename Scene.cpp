@@ -14,6 +14,7 @@ Scene::Scene() {
 	gameover = new Gameover;
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
+	pause = new Pause;
 
 	x = 640;
 	y = -480;
@@ -181,11 +182,15 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->DamageCount();
 			particle->Move();
 
+			pause->ChangePause(pad, player->scene);
 			break;
 
 		case GAMEOVER:
 			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
 
+			break;
+
+		case PAUSE:
 			break;
 	}
 }
@@ -241,6 +246,7 @@ void Scene::Draw() {
 
 		case GAMEOVER:
 		case MAIN_GAME:
+		case PAUSE:
 			// 描画処理
 			goal->Draw(rescued, player->scroll);
 			/*fire->DrawFire(player->scroll);*/
