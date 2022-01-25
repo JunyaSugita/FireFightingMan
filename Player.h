@@ -20,6 +20,9 @@ public:
 	static const int WATER_CONST = 500;
 	int water;
 
+	//プレイヤーのスピード管理
+	float speed;
+	
 	//プレイヤーの上下移動慣性
 	int inertia, inertiaSpeed;
 
@@ -64,6 +67,7 @@ public:
 	void SaveOldPlayer();
 	void GetPlayerBottom(int BLOCK_SIZE);
 
+	void Dash(int pad);
 	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
 	void PlayerJump(int pad, int isRescued, int map[][50]);
 	void PlayerShot(int InputX, int InputY, int isRescued);

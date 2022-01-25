@@ -20,6 +20,8 @@ Player::Player() {
 	isDamage = 0;
 	isDamageTimer = 0;
 
+	speed = 1.0f;
+
 	inertia = 0;
 	inertiaSpeed = 0;
 
@@ -77,9 +79,16 @@ void Player::GetPlayerBottom(int BLOCK_SIZE) {
 	rightBottomY = (player.transform.y + player.r - 1 + 1) / BLOCK_SIZE;
 }
 
+void Player::Dash(int pad) {
+	speed = 1.0f;
+	if (pad & PAD_INPUT_1 || pad & PAD_INPUT_2 || pad & PAD_INPUT_3 || pad & PAD_INPUT_4) {
+		speed = 2.0f;
+	}
+}
+
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	if (LInputX > 0 || LInputX < 0) {
-		player.transform.x += LInputX / 200;
+		player.transform.x += (LInputX / 200) * speed;
 	}
 	player.transform.y += G - player.jumpPow;
 
@@ -90,7 +99,6 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 			inertia = (RInputY * -1) / 70;
 		}
 	}
-
 
 	if (inertia > inertiaSpeed) {
 		inertiaSpeed++;

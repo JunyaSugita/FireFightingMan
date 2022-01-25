@@ -59,6 +59,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 				if (pad & PAD_INPUT_2) {
 					isPush = 1;
 					isChange = 1;
+					reset();
 				}
 			}
 			else {
@@ -134,6 +135,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetPlayerBottom(map->BLOCK_SIZE);
 
 			//プレイヤーの移動
+			player->Dash(pad);
 			player->PlayerJump(pad, rescued->isRescued, map->map);
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
 			player->CheckStick(padInput.Ry, rescued->isRescued);
@@ -184,7 +186,6 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 		case GAMEOVER:
 			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
-			reset();
 
 			break;
 	}
