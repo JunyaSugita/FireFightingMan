@@ -43,4 +43,5 @@ public:
 	void Update(char* keys, char* oldkeys);
 	void Draw();
 	void reset();
+	void restart();
 };

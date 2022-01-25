@@ -185,6 +185,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			particle->Move();
 
 			pause->ChangePause(pad, player->scene);
+			pause->Move();
 			break;
 
 		case GAMEOVER:
@@ -193,6 +194,40 @@ void Scene::Update(char* keys, char* oldkeys) {
 			break;
 
 		case PAUSE:
+			pause->ChangeScene(pad, player->scene);
+			pause->Move();
+
+			//選択
+			if (padInput.Y < 0 && pause->isReset == 0 || pad & PAD_INPUT_UP) {
+				pause->isReset = 1;
+			}
+			else if (padInput.Y > 0 && pause->isReset == 1 || pad & PAD_INPUT_DOWN) {
+				pause->isReset = 0;
+			}
+
+			//リセットorタイトル
+			if (pad & PAD_INPUT_2) {
+				//リセット
+				if (isPush == false) {
+					if (pause->isReset == 1) {
+						isPush = true;
+						pause->isPause = false;
+						restart();
+					}
+					//タイトルへ
+					else if (pause->isReset == 0) {
+						isPush = true;
+						reset();
+						pause->isPause = false;
+						pause->xr = 0;
+						pause->yr = 0;
+					}
+				} 
+			}
+			else {
+				isPush = false;
+			}
+
 			break;
 	}
 }
@@ -213,6 +248,28 @@ void Scene::reset() {
 	bullet = new Bullet;
 	rescued = new Rescued;
 	map = new Map;
+	fire = new Fire;
+	goal = new Goal;
+	ene = new Enemy;
+	particle = new Particle;
+	stageSelect = new StageSelect;
+	gameover = new Gameover;
+	tutorial = new Tutorial;
+	damParticle = new DamParticle;
+}
+
+void Scene::restart() {
+	delete bullet;
+	delete rescued;
+	delete fire;
+	delete goal;
+	delete ene;
+	delete particle;
+	delete gameover;
+	delete tutorial;
+	delete damParticle;
+	bullet = new Bullet;
+	rescued = new Rescued;
 	fire = new Fire;
 	goal = new Goal;
 	ene = new Enemy;
@@ -248,6 +305,7 @@ void Scene::Draw() {
 
 		case GAMEOVER:
 		case MAIN_GAME:
+			pause->Draw();
 		case PAUSE:
 			// 描画処理
 			goal->Draw(rescued, player->scroll);
@@ -264,7 +322,7 @@ void Scene::Draw() {
 				gameover->DrawGameover();
 				damParticle->Draw(player->player.transform.x, player->player.transform.y, player->scroll);
 			}
-
+			pause->Draw();
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 			player->DrawHp();
