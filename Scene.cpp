@@ -93,7 +93,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			if (time >= 21) {
 				y -= 64;
 			}
-			stageSelect->Select(padInput.Y,pad);
+			stageSelect->Select(padInput.Y, pad);
 			if (stageSelect->isStop == 1) {
 				if (pad & PAD_INPUT_2) {
 					if (isPush == 0) {
@@ -115,6 +115,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 				if (time > 95) {
 					map->MapSelect(stageSelect->select);
 					player->Spawn(map->map);
+					rescued->Spawn(map->map);
 					fire->SetFire(map->map);
 					player->scene = 1;
 					time = 0;
@@ -168,7 +169,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->CheckStick(padInput.Ry, rescued->isRescued);
 			player->DownPlayer(map->map, map->BLOCK_SIZE);
 			rescued->Move(player);
-			rescued->CatchRescued();    
+			rescued->CatchRescued();
 
 			//敵の出現
 			ene->Update(player->bullet->bullet, map);
@@ -257,7 +258,7 @@ void Scene::Draw() {
 			player->DrawPlayer(rescued->isRescued);
 			ene->Draw(player->scroll);
 			particle->Draw(player->scroll);
-			tutorial->DrawTutorial(stageSelect->select, player->scroll,rescued->isRescued);
+			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
 			player->DrawWater();
 			if (player->scene == GAMEOVER) {
 				gameover->DrawGameover();

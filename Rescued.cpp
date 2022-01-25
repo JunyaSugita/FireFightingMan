@@ -18,6 +18,7 @@ Rescued::Rescued() {
 	time = 0;
 	alpha = 255;
 	catchGraph = LoadGraph("resource/catch.png");
+	map = new Map;
 }
 
 //デストラクタ
@@ -26,6 +27,19 @@ Rescued::~Rescued() {
 }
 
 ///-----クラス関数-----///
+
+//救助者のスポーン
+void Rescued::Spawn(int mapChip[][50]) {
+	for (int y = 0; y < map->mapCountY; y++) {
+		for (int x = 0; x < map->mapCountX; x++) {
+			if (mapChip[y][x] == WOMAN_SPAWN) {
+				transform.x = x * map->BLOCK_SIZE;
+				transform.y = y * map->BLOCK_SIZE + 20;
+				break;
+			}
+		}
+	}
+}
 
 //当たり判定
 void Rescued::RescuedCollision(Player* player,int &hp,int scene) {

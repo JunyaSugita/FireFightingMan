@@ -1,6 +1,7 @@
 #pragma once
 #include "struct.h"
 #include "Player.h"
+#include "map.h"
 
 class Rescued {
 	//
@@ -16,11 +17,14 @@ public:
 	int time;
 	int alpha;
 	int catchGraph;
+	Map* map;
 
 	//
 public:
 	Rescued();
 	~Rescued();
+
+	void Spawn(int mapChip[][50]);
 	void RescuedCollision(Player* player, int& hp, int scene);
 	void Move(Player* player);
 	void Draw(int scroll);
