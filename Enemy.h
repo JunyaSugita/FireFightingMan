@@ -6,8 +6,13 @@
 
 class Enemy {
 public:
-	const int ENEMY_CONST = 10;
-	ENEMY enemy[10];
+	static const int ENEMY_CONST = 10;
+	ENEMY enemy[ENEMY_CONST];
+	int enemyLX[ENEMY_CONST];
+	int enemyRX[ENEMY_CONST];
+	int enemyX[ENEMY_CONST];
+	int enemyDY[ENEMY_CONST];
+	int enemyY[ENEMY_CONST];
 
 	Map* map;
 
@@ -16,10 +21,8 @@ public:
 	~Enemy();
 
 	void Make(int mapChip[][50]);
-	void Update(BULLET bullet[], Map* map);
+	void Update(BULLET bullet[], int mapChip[][50]);
 	void BulletColision(BULLET bullet[]);
 
-	void Move();
-	void Draw(int scll);
-
+	void Move(int mapChip[][50]);
 };

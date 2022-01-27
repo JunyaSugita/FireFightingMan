@@ -3,22 +3,18 @@
 #include "Struct.h"
 #include "Map.h"
 
-
-
 Enemy::Enemy() {
 	for (int i = 0; i < ENEMY_CONST; i++) {
-		enemy[i].isAlive = 0;
+		enemy[i].hp = 0;
 		enemy[i].transform.x = 0;
 		enemy[i].transform.y = 0;
-		enemy[i].r = 32;
-		enemy[i].time = 0;
-		enemy[i].coolTime = 300;
-		enemy[i].hp = 80;
-		enemy[i].way = 0;
-		enemy[i].Xs = 0.5;
-		enemy[i].Ys = 0;
+		enemy[i].arrow = 0;
+		enemyLX[i] = 0;
+		enemyRX[i] = 0;
+		enemyX[i] = 0;
+		enemyDY[i] = 0;
+		enemyY[i] = 0;
 	}
-
 	map = new Map;
 }
 Enemy::~Enemy() {
@@ -29,14 +25,11 @@ void Enemy::Make(int mapChip[][50]) {
 	for (int y = 0; y < map->mapCountY; y++) {
 		for (int x = 0; x < map->mapCountX; x++) {
 			if (mapChip[y][x] == FLAMEENEMY) {
-				for (int i = 0; i < ENEMY_CONST; i++)
-				{
-					if (enemy[i].isAlive == 0 && enemy[i].coolTime <= 0) {
+				for (int i = 0; i < ENEMY_CONST; i++) {
+					if (enemy[i].hp == 0) {
 						enemy[i].transform.x = x * map->BLOCK_SIZE + (map->BLOCK_SIZE / 2);
-						enemy[i].transform.y = (y + 1) * map->BLOCK_SIZE;
-
-						enemy[i].time = GetRand(49);
-						enemy[i].isAlive = 1;
+						enemy[i].transform.y = y * map->BLOCK_SIZE + (map->BLOCK_SIZE / 2);
+						enemy[i].hp = 64;
 						break;
 					}
 				}
@@ -46,85 +39,61 @@ void Enemy::Make(int mapChip[][50]) {
 
 }
 
-void Enemy::Update(BULLET bullet[], Map* map) {
-	for (int i = 0; i < ENEMY_CONST; i++)
-	{
-		if (map == nullptr) {
-			return;
-		}
-		BulletColision(bullet);
-		Move();
-		Make(map->map);
-
-	}
-
+void Enemy::Update(BULLET bullet[],int mapChip[][50]) {
+	BulletColision(bullet);
+	Move(mapChip);
 }
 void Enemy::BulletColision(BULLET bullet[]) {
 	for (int i = 0; i < ENEMY_CONST; i++) {
-		for (int j = 0; j < 500; j++) {
-			if (enemy[i].isAlive == 1 && bullet[j].isShot == 1) {
-				if ((enemy[i].r + bullet[j].r) * (enemy[i].r + bullet[j].r) >=
+		for (int j = 0; j < 5000; j++) {
+			if (enemy[i].hp > 0 && bullet[j].isShot == 1) {
+				if (((enemy[i].hp / 4) + bullet[j].r) * ((enemy[i].hp / 4) + bullet[j].r) >=
 					(bullet[j].transform.x - enemy[i].transform.x) * (bullet[j].transform.x - enemy[i].transform.x) +
 					(bullet[j].transform.y - enemy[i].transform.y) * (bullet[j].transform.y - enemy[i].transform.y)) {
 
 					bullet[j].isShot = 0;
-					enemy[i].isAlive = 2;
-					enemy[i].coolTime = 3000;
+					enemy[i].hp--;
 				}
 			}
 		}
 	}
 }
 
-void Enemy::Move() {
+void Enemy::Move(int map[][50]) {
 	for (int i = 0; i < ENEMY_CONST; i++) {
-		enemy[i].coolTime--;
-		if (enemy[i].coolTime <= 0) {
-			enemy[i].coolTime = 0;
-		}
-		if (enemy[i].isAlive == 1) {
+		enemyRX[i] = (enemy[i].transform.x + enemy[i].hp - 1) / this->map->BLOCK_SIZE;
+		enemyLX[i] = (enemy[i].transform.x - enemy[i].hp) / this->map->BLOCK_SIZE;
 
-
-			enemy[i].time++;
-
-			if (enemy[i].way == 0) {
-				if (0 < enemy[i].time && enemy[i].time < 50) {
-					//taiki
-					enemy[i].transform.x += 0;
+		enemyX[i] = enemy[i].transform.x / this->map->BLOCK_SIZE;
+		enemyDY[i] = (enemy[i].transform.y + (enemy[i].hp / 4) - 1) / this->map->BLOCK_SIZE;
+		enemyY[i] = enemy[i].transform.y / this->map->BLOCK_SIZE;
+		if (enemy[i].hp > 0) {
+			//xŽ²ˆÚ“®
+			if (enemy[i].arrow == 0) {
+				enemy[i].transform.x--;
+				if (map[enemyY[i]][enemyLX[i] + 1] == BLOCK) {
+					enemy[i].arrow = 1;
 				}
-				if (50 < enemy[i].time && enemy[i].time < 200) {
-					enemy[i].transform.x += enemy[i].Xs;
-				}
-				if (200 < enemy[i].time) {
-					enemy[i].time = GetRand(49);
-					enemy[i].way = 1;
-					enemy[i].coolTime = (GetRand(40) + 100);
+				else if (map[enemyDY[i]][enemyLX[i] + 1] != BLOCK) {
+					enemy[i].transform.x++;
+					enemy[i].arrow = 1;
 				}
 			}
-
-			if (enemy[i].way == 1) {
-				if (0 < enemy[i].time && enemy[i].time < 50) {
-					//taiki
-					enemy[i].transform.x += 0;
+			else if (enemy[i].arrow == 1) {
+				enemy[i].transform.x++;
+				if (map[enemyY[i]][enemyRX[i] - 1] == BLOCK) {
+					enemy[i].arrow = 0;
 				}
-				if (50 < enemy[i].time && enemy[i].time < 200) {
-					enemy[i].transform.x -= enemy[i].Xs;
-				}
-				if (200 < enemy[i].time) {
-					enemy[i].time = GetRand(49);
-					enemy[i].way = 0;
-					enemy[i].coolTime = (GetRand(40) + 100);
+				else if (map[enemyDY[i]][enemyRX[i] - 1] != BLOCK) {
+					enemy[i].transform.x--;
+					enemy[i].arrow = 0;
 				}
 			}
-
-		}
-	}
-}
-
-void Enemy::Draw(int scll) {
-	for (int i = 0; i < ENEMY_CONST; i++) {
-		if (enemy[i].isAlive == 1) {
-			DrawCircle(enemy[i].transform.x - scll, enemy[i].transform.y, enemy[i].r, GetColor(255, 123, 0), true);
+			//yŽ²ˆÚ“®
+			enemy[i].transform.y += 1;
+			if (map[enemyDY[i]][enemyX[i]] == BLOCK) {
+				enemy[i].transform.y--;
+			}
 		}
 	}
 }
