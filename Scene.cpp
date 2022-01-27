@@ -260,8 +260,6 @@ void Scene::reset() {
 }
 
 void Scene::restart() {
-	player->Spawn(map->map);
-	rescued->Spawn(map->map);
 	delete bullet;
 	delete rescued;
 	delete fire;
@@ -282,6 +280,8 @@ void Scene::restart() {
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
 	fire->SetFire(map->map);
+	player->Spawn(map->map);
+	rescued->Spawn(map->map);
 	player->scroll = 0;
 	player->water = player -> WATER_CONST;
 	player->hp = 3;
