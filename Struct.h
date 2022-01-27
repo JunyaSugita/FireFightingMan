@@ -40,14 +40,8 @@ typedef struct {
 //敵の定義
 typedef struct {
 	Transform transform;
-	int r;
-	double Xs;
-	double Ys;
-	int isAlive;
 	int hp;
-	int time;
-	int coolTime;
-	int way;
+	int arrow;
 }ENEMY;
 
 //パーティクル

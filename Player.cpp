@@ -166,7 +166,7 @@ void Player::PlayerShot(int InputX, int InputY, int isRescued) {
 }
 
 void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire) {
-	if (isDamage == 0 && isFire == true) {
+	if (isDamage == 0 && isFire >= 1) {
 		if (fireX - fireR < player.transform.x + player.r &&
 			player.transform.x - player.r < fireX + fireR &&
 			fireY - fireR < player.transform.y + player.r &&
