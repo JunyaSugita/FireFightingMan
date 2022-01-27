@@ -76,13 +76,13 @@ void Rescued::Draw(int scroll) {
 		SetDrawBlendMode(DX_BLENDMODE_ADD, 200);
 		if (cr > 0) {
 			for (int i = 0; i < 15; i++) {
-				DrawCircle(cx - scroll, cy[0], cr + (i * 1), GetColor(192, 192, 32), false);
+				DrawCircle(cx - scroll, cy[0], cr + (i * 1), GetColor(255, 255, 96), false);
 			}
 		}
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-		DrawGraph(cx -scroll - 128, cy[1], catchGraph, true);
+		DrawRotaGraph2(cx -scroll - 128, cy[1] - 32,0,0,1.2,0, catchGraph, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 }
