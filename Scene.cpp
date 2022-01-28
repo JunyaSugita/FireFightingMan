@@ -349,6 +349,7 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 			smoke->Draw();
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			break;
 	}
 	goal->Efect();
