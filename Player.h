@@ -61,6 +61,7 @@ public:
 
 	//ƒOƒ‰ƒt
 	int graph_h;
+	int graph_h2;
 
 	//’e
 	Bullet* bullet;
