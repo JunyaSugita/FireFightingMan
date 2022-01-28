@@ -71,7 +71,7 @@ void Rescued::Move(Player* player) {
 //描画関数
 void Rescued::Draw(int scroll) {
 	//DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);7
-	DrawRotaGraph(15+transform.x -2 - scroll, transform.y +5, 1.3, 0.0, graph_r, 1, 0, 0);
+	DrawRotaGraph(15+transform.x -2 - scroll, transform.y +5, 0.8, 0.0, graph_r, 1, 0, 0);
 	if (isRescued == true) {
 		SetDrawBlendMode(DX_BLENDMODE_ADD, 200);
 		if (cr > 0) {
