@@ -58,6 +58,7 @@ Player::Player() {
 
 	//グラフ
 	graph_h = LoadGraph("resource/syoubousi_1.png");
+	graph_h2 = LoadGraph("resource/syoubousi_2.png");
 
 	bullet = new Bullet;
 	map = new Map;
@@ -348,7 +349,7 @@ void Player::DrawPlayer(int isRescued) {
 			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y - 3, 1.5, 0.0, graph_h, 1, 0, 0);
 		}
 		if (isRescued == true) {
-			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y - 3, 1.5, 0.0, graph_h, 1, 1, 0);
+			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y - 3, 1.5, 0.0, graph_h2, 1, 1, 0);
 		}
 
 	}

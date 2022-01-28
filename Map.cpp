@@ -5,6 +5,8 @@ Map::Map() {
 	mapCountX = sizeof(map[0]) / sizeof(map[0][0]);
 	//マップの列の数
 	mapCountY = sizeof(map) / sizeof(map[0]);
+	//mapの画像読み込み
+	LoadDivGraph("resource/map.png", 4, 2, 2, 48, 48, mapGraph);
 }
 
 Map::~Map() {}
@@ -82,7 +84,8 @@ void Map::DrawMap(int map[][Map_MAX_X], int scroll) {
 	for (int y = 0; y < mapCountY; y++) {
 		for (int x = 0; x < mapCountX; x++) {
 			if (map[y][x] == BLOCK) {
-				DrawBox(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, (x + 1) * BLOCK_SIZE - scroll, (y + 1) * BLOCK_SIZE, GetColor(255, 255, 255), true);
+				//DrawBox(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, (x + 1) * BLOCK_SIZE - scroll, (y + 1) * BLOCK_SIZE, GetColor(255, 255, 255), true);
+				DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[1], true);
 			}
 		}
 	}

@@ -8,7 +8,7 @@ public:
 	int map[20][Map_MAX_X];
 	int mapCountX;
 	int mapCountY;
-
+	int mapGraph[4];
 	static const int BLOCK_SIZE = 48;
 
 public:
