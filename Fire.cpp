@@ -15,6 +15,7 @@ Fire::Fire() {
 
 	map = new Map;
 	bullet = new Bullet;
+	
 }
 
 Fire::~Fire() {
@@ -41,7 +42,7 @@ void Fire::SetFire(int mapChip[][50]) {
 	}
 }
 
-void Fire::FireFighting(BULLET bullet[]) {
+void Fire::FireFighting(BULLET bullet[],Smoke* smoke) {
 	for (int i = 0; i < FIRE_CONST; i++) {
 		for (int j = 0; j < this->bullet->BULLET_CONST; j++) {
 			if (fire[i].isFire == true && bullet[j].isShot == true) {
@@ -53,9 +54,12 @@ void Fire::FireFighting(BULLET bullet[]) {
 					fire[i].Xr -= 1;
 					fire[i].Yr -= 2;
 					bullet[j].isShot = false;
-
+					
 					if (fire[i].Xr <= 5 || fire[i].Yr <= 10) {
 						fire[i].isFire = false;
+						if (smoke->smokeDensity > -2) {
+							smoke->smokeDensity-= 2;
+						}
 					}
 				}
 			}

@@ -23,7 +23,6 @@ public:
 	//…‚Ì¶‰E‚Ö‚ÌL‚ª‚è
 	int randNum[BULLET_CONST];
 
-
 	//¶ã‚ÌÀ•W
 	int leftTopX[ BULLET_CONST];
 	int leftTopY[BULLET_CONST];
