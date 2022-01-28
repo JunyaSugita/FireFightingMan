@@ -15,6 +15,7 @@ Scene::Scene() {
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
 	pause = new Pause;
+	smoke = new Smoke;
 
 	x = 640;
 	y = -480;
@@ -23,7 +24,7 @@ Scene::Scene() {
 	isChange = 0;
 }
 
-//コンストラクタ
+//デスストラクタ
 Scene::~Scene() {
 	delete player;
 	delete bullet;
@@ -36,6 +37,7 @@ Scene::~Scene() {
 	delete gameover;
 	delete tutorial;
 	delete damParticle;
+	delete smoke;
 }
 
 
@@ -151,7 +153,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->bullet->BulletMove(player->G, padInput.X, padInput.Y);
 
 			//消化
-			fire->FireFighting(player->bullet->bullet);
+			fire->FireFighting(player->bullet->bullet,smoke);
 
 			//マップチップ上の座標位置の取得
 			player->GetOldPlayer(map->BLOCK_SIZE);
@@ -188,6 +190,8 @@ void Scene::Update(char* keys, char* oldkeys) {
 			}
 			player->DamageCount();
 			particle->Move();
+
+			smoke->Move();
 
 			pause->ChangePause(pad, player->scene);
 			pause->Move();
@@ -250,6 +254,7 @@ void Scene::reset() {
 	delete gameover;
 	delete tutorial;
 	delete damParticle;
+	delete smoke;
 	player = new Player;
 	bullet = new Bullet;
 	rescued = new Rescued;
@@ -262,6 +267,7 @@ void Scene::reset() {
 	gameover = new Gameover;
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
+	smoke = new Smoke;
 }
 
 void Scene::restart() {
@@ -274,6 +280,7 @@ void Scene::restart() {
 	delete gameover;
 	delete tutorial;
 	delete damParticle;
+	delete smoke;
 	bullet = new Bullet;
 	rescued = new Rescued;
 	fire = new Fire;
@@ -284,6 +291,7 @@ void Scene::restart() {
 	gameover = new Gameover;
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
+	smoke = new Smoke;
 	fire->SetFire(map->map);
 	player->Spawn(map->map);
 	rescued->Spawn(map->map);
@@ -319,6 +327,7 @@ void Scene::Draw() {
 		case MAIN_GAME:
 			pause->Draw();
 		case PAUSE:
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			// 描画処理
 			goal->Draw(rescued, player->scroll);
 			/*fire->DrawFire(player->scroll);*/
@@ -338,6 +347,8 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 			player->DrawHp();
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+			smoke->Draw();
 			break;
 	}
 	goal->Efect();

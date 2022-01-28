@@ -2,6 +2,7 @@
 #include "Struct.h"
 #include "map.h"
 #include "bullet.h"
+#include "Smoke.h"
 
 class Fire {
 public:
@@ -10,7 +11,7 @@ public:
 
 public:
 	void SetFire(int map[][50]);
-	void FireFighting(BULLET bullet[]);
+	void FireFighting(BULLET bullet[], Smoke* smoke);
 	void DeleteFire();
 
 	void DrawFire(int scroll);
@@ -20,4 +21,5 @@ public:
 
 	Map* map;
 	Bullet* bullet;
+	Smoke* smoke;
 };

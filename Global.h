@@ -10,6 +10,8 @@ const int WIN_WIDTH = 1280;
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 960;
 
+const float PI = 3.141592f;
+
 //マップ
 enum MapInfo {
 	NONE,			//0
