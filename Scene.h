@@ -12,6 +12,7 @@
 #include "Tutorial.h"
 #include "Damparticle.h"
 #include "Pause.h"
+#include "Smoke.h"
 
 class Scene {
 public:
@@ -29,6 +30,7 @@ public:
 	Tutorial* tutorial;
 	DamParticle* damParticle;
 	Pause* pause;
+	Smoke* smoke;
 
 	int pad;
 	int x;
