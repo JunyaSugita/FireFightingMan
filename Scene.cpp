@@ -117,6 +117,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 					player->Spawn(map->map);
 					rescued->Spawn(map->map);
 					fire->SetFire(map->map);
+					ene->Make(map->map);
 					player->scene = 1;
 					time = 0;
 					isChange = 0;
@@ -172,7 +173,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			rescued->CatchRescued();
 
 			//敵の出現
-			ene->Update(player->bullet->bullet, map);
+			ene->Update(player->bullet->bullet, map->map);
 
 			//スクロール
 			player->GetScroll();
@@ -180,6 +181,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 			for (int i = 0; i < 100; i++) {
 				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
 				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
+			}
+			for (int i = 0; i < 10; i++) {
+				player->PlayerDamage(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, ene->enemy[i].hp);
+				particle->Emit(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, 1);
 			}
 			player->DamageCount();
 			particle->Move();
@@ -223,7 +228,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 						pause->xr = 0;
 						pause->yr = 0;
 					}
-				} 
+				}
 			}
 			else {
 				isPush = false;
@@ -321,7 +326,6 @@ void Scene::Draw() {
 			rescued->Draw(player->scroll);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
-			ene->Draw(player->scroll);
 			particle->Draw(player->scroll);
 			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
 			player->DrawWater();
