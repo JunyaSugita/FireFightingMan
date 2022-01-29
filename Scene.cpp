@@ -133,7 +133,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 		case MAIN_GAME:
 			//チュートリアルの表示
 			tutorial->CountTimer();
-			tutorial->StepUpdate(stageSelect->select, pad, rescued->isRescued);
+			tutorial->StepUpdate(stageSelect->select, pad, rescued->isRescued, player->player.transform.x, fire->fire[5].isFire, fire->fire[6].isFire, fire->fire[7].isFire);
 
 			//プレイヤー位置の保存
 			player->SaveOldPlayer();

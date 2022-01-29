@@ -24,21 +24,23 @@ void Tutorial::CountTimer() {
 	}
 }
 
-void Tutorial::StepUpdate(int select, int pad, int isRescued) {
+void Tutorial::StepUpdate(int select, int pad, int isRescued, double& playerX, int isFire, int isFire2, int isFire3) {
 	if (select == 0) {
 		switch (step) {
 			case 0:
-				Step0(pad);
+				Step0(pad, playerX);
 				break;
 			case 1:
-				Step1(pad);
+				Step1(pad, playerX);
 				break;
 			case 2:
-				Step2();
+				Step2(playerX);
 				break;
 			case 3:
-				Step3(isRescued);
+				Step3(playerX, isFire, isFire2, isFire3);
 				break;
+			case 4:
+				Step4(isRescued);
 		}
 		NextStep();
 	}
@@ -49,27 +51,50 @@ void Tutorial::NextStep() {
 		stepTimer--;
 		if (stepTimer <= 0) {
 			step++;
+			stepTimer = STEP_TIME;
 			isNext = 0;
 		}
 	}
 }
 
-void Tutorial::Step0(int pad) {
+void Tutorial::Step0(int pad, double& playerX) {
 	if (pad & PAD_INPUT_1 || pad & PAD_INPUT_2 || pad & PAD_INPUT_3 || pad & PAD_INPUT_4) {
+		isNext = 1;
+	}
+	if (432 <= playerX + 20) {
+		playerX = 412;
+	}
+}
+
+void Tutorial::Step1(int pad, double& playerX) {
+	if (pad & PAD_INPUT_5) {
+		isNext = 1;
+	}
+	if (672 <= playerX + 20) {
+		playerX = 652;
+	}
+}
+
+void Tutorial::Step2(double playerX) {
+	if (playerX >= 700) {
 		isNext = 1;
 	}
 }
 
-void Tutorial::Step1(int pad) {
+void Tutorial::Step3(double& playerX, int isFire, int isFire2, int isFire3) {
+	if (isFire == 0 && isFire2 == 0 && isFire3 == 0) {
+		isNext = 1;
+	}
 
+	if (1440 <= playerX + 20) {
+		playerX = 1420;
+	}
 }
 
-void Tutorial::Step2() {
-
-}
-
-void Tutorial::Step3(int isRescued) {
-
+void Tutorial::Step4(int isRescued) {
+	if (isRescued == 1) {
+		isNext = 1;
+	}
 }
 
 void Tutorial::DrawTutorial(int serect, int scroll, int isRescued) {
@@ -82,5 +107,28 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued) {
 		DrawGraph(1950 - scroll, 500, tutorial6, true);
 		DrawRotaGraph2(-100 - scroll, -110,0,0,2.5,0, tutorial7, true);*/
 		DrawRotaGraph2(2100 - scroll, 120, 0, 0, 1.8, 0, help[isRescued], true);
+		switch (step) {
+			case 0:
+				DrawLine(432 - scroll, 0, 432 - scroll, 960, GetColor(200, 0, 0), true);
+				DrawFormatString(200, 400, GetColor(200, 0, 0), "ABXYでダッシュしよう");
+				break;
+			case 1:
+				DrawLine(672 - scroll, 0, 672 - scroll, 960, GetColor(200, 0, 0), true);
+				DrawFormatString(200, 400, GetColor(200, 0, 0), "Lでジャンプしよう");
+				break;
+			case 2:
+				DrawFormatString(200, 400, GetColor(200, 0, 0), "Rスティックで水を出そう");
+				break;
+			case 3:
+				DrawLine(1440 - scroll, 0, 1440 - scroll, 960, GetColor(200, 0, 0), true);
+				DrawFormatString(200, 400, GetColor(200, 0, 0), "火を3つ消そう");
+				break;
+			case 4:
+				DrawFormatString(200, 400, GetColor(200, 0, 0), "女を助けよう");
+				break;
+			case 5:
+				DrawFormatString(200, 400, GetColor(200, 0, 0), "女をお持ち帰りしよう！");
+				break;
+		}
 	}
 }
