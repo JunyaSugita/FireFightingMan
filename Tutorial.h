@@ -8,11 +8,21 @@ public:
 
 public:
 	void CountTimer();
+	void StepUpdate(int select, int pad, int isRescued);
+	void NextStep();
+	void Step0(int pad);
+	void Step1(int pad);
+	void Step2();
+	void Step3(int isRescued);
 
 	void DrawTutorial(int select, int scrollint,int isRescued);
 
 public:
 	int timer;
+	int step;
+	static const int STEP_TIME = 100;
+	int stepTimer;
+	int isNext;
 
 	int tutorial1[4];
 	int tutorial2[4];
