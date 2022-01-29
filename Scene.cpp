@@ -133,6 +133,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 		case MAIN_GAME:
 			//チュートリアルの表示
 			tutorial->CountTimer();
+			tutorial->StepUpdate(stageSelect->select, pad, rescued->isRescued, player->player.transform.x, fire->fire[5].isFire, fire->fire[6].isFire, fire->fire[7].isFire);
 
 			//プレイヤー位置の保存
 			player->SaveOldPlayer();
@@ -153,7 +154,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->bullet->BulletMove(player->G, padInput.X, padInput.Y);
 
 			//消化
-			fire->FireFighting(player->bullet->bullet,smoke);
+			fire->FireFighting(player->bullet->bullet, smoke);
 
 			//マップチップ上の座標位置の取得
 			player->GetOldPlayer(map->BLOCK_SIZE);
@@ -296,7 +297,7 @@ void Scene::restart() {
 	player->Spawn(map->map);
 	rescued->Spawn(map->map);
 	player->scroll = 0;
-	player->water = player -> WATER_CONST;
+	player->water = player->WATER_CONST;
 	player->hp = 3;
 }
 
@@ -346,6 +347,7 @@ void Scene::Draw() {
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 			player->DrawHp();
+			DrawFormatString(0, 0, GetColor(0, 0, 0), "%d",tutorial->step);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 			smoke->Draw();
