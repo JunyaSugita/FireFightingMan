@@ -18,6 +18,8 @@ public:
 public:
 	int Map1(int y, int x);
 	int Map2(int y, int x);
+	int Map3(int y, int x);
+	int Map4(int y, int x);
 
 	void MapSelect(int select);
 
