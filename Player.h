@@ -17,7 +17,7 @@ public:
 	int isDamageTimer;
 
 	//水タンク
-	static const int WATER_CONST = 250;
+	static const int WATER_CONST = 300;
 	int water;
 
 	//プレイヤーのスピード管理

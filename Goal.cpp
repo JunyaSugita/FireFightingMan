@@ -38,11 +38,16 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
 						isMove[i] = true;
 						randNum[i] = rand() % 51 - 25;
 					}
-					player->scene = 0;
-					Reset(rescued, hp);
-					fire->DeleteFire();
 				}
 			}
+		}
+	}
+	if (isGoal == true) {
+		time++;
+		if (time == 30) {
+			player->scene = 0;
+			Reset(rescued, hp);
+			fire->DeleteFire();
 		}
 	}
 }

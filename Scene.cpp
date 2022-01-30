@@ -332,11 +332,12 @@ void Scene::Draw() {
 			// 描画処理
 			goal->Draw(rescued, player->scroll);
 			/*fire->DrawFire(player->scroll);*/
+			smoke->Draw();
+			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
 			rescued->Draw(player->scroll);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
-			particle->Draw(player->scroll);
 			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
 			player->DrawWater();
 			if (player->scene == GAMEOVER) {
@@ -348,9 +349,6 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 			player->DrawHp();
 			DrawFormatString(0, 0, GetColor(0, 0, 0), "%d",tutorial->step);
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-			smoke->Draw();
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			break;
 	}

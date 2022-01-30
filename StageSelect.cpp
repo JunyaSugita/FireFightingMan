@@ -40,6 +40,13 @@ void StageSelect::Select(int LInputY,int pad) {
 }
 
 void StageSelect::DrawStageSelect() {
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	DrawBox(0, 0, WIN_WIDTH, WIN_HEIGHT / 2, GetColor(96, 172, 255), true);
+	DrawBox(0, WIN_HEIGHT / 2, WIN_WIDTH, WIN_HEIGHT, GetColor(128, 96, 96), true);
+	DrawBox(0, WIN_HEIGHT / 2, WIN_WIDTH, 510, GetColor(36, 128, 36), true);
+	DrawBox(0, 640, WIN_WIDTH, WIN_HEIGHT, GetColor(64, 48, 48), true);
+
 	DrawBox(x - width, y - height, x + width, y + height, GetColor(255, 32, 32), true);
 	DrawBox(x - 190, y - 80, x + 150, y +30, GetColor(230, 230, 232), true);
 	DrawBox(x + 190, y - height - 36, x + width - 20, y - height, GetColor(255, 0, 0), true);
@@ -62,6 +69,12 @@ void StageSelect::DrawStageSelect() {
 	DrawFormatString(x - 64, 430, GetColor(0, 0, 0), "チュートリアル");
 	DrawFormatString(x - 64, 450, GetColor(0, 0, 0), "ステージ1");
 	DrawFormatString((x - 40) - 64, 430 + (select * 20), GetColor(0, 0, 0), "-->");
+
+	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
+	for (int i = 0; i < 5; i++) {
+		DrawCircle(1000, 0, 300 - (i * 60), GetColor(24, 24, 24), true);
+	}
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 
