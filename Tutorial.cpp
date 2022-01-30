@@ -122,7 +122,7 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued) {
 		switch (step) {
 			case 0:
 				DrawLine(432 - scroll, 0, 432 - scroll, 960, GetColor(200, 0, 0), true);
-				DrawFormatString(200, 400, GetColor(200, 0, 0), "ABXYでダッシュしよう");
+				DrawFormatString(200, 400, GetColor(200, 0, 0), "B + Rスティックでダッシュしよう");
 				break;
 			case 1:
 				DrawLine(672 - scroll, 0, 672 - scroll, 960, GetColor(200, 0, 0), true);
