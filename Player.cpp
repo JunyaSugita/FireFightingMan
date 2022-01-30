@@ -62,6 +62,21 @@ Player::Player() {
 
 	bullet = new Bullet;
 	map = new Map;
+
+	//SE
+	damageSE = LoadSoundMem("sound/damage.mp3");
+	waterSE = LoadSoundMem("sound/water.mp3");
+	walkSE = LoadSoundMem("sound/walk.ogg");
+	startSE = LoadSoundMem("sound/start.mp3");
+	jumpSE = LoadSoundMem("sound/jump.wav");
+	dashSE = LoadSoundMem("sound/dash.ogg");
+
+	ChangeVolumeSoundMem(150, damageSE);
+	ChangeVolumeSoundMem(150, waterSE);
+	ChangeVolumeSoundMem(150, walkSE);
+	ChangeVolumeSoundMem(200, startSE);
+	ChangeVolumeSoundMem(180, jumpSE);
+	ChangeVolumeSoundMem(150, dashSE);
 }
 
 Player::~Player() {
@@ -75,6 +90,10 @@ void Player::Spawn(int mapChip[][50]) {
 			if (mapChip[y][x] == PLAYER_SPAWN) {
 				player.transform.x = x * map->BLOCK_SIZE + 28;
 				player.transform.y = y * map->BLOCK_SIZE + 28;
+
+				if (CheckSoundMem(startSE) == false) {
+					PlaySoundMem(startSE, DX_PLAYTYPE_BACK, true);
+				}
 				break;
 			}
 		}
@@ -109,6 +128,31 @@ void Player::Dash(int pad, int isRescued) {
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	if (LInputX > 0 || LInputX < 0) {
 		player.transform.x += (LInputX / 200) * speed;
+
+		if (speed == 0.8f) {
+			if (CheckSoundMem(walkSE) == false) {
+				PlaySoundMem(walkSE, DX_PLAYTYPE_BACK, true);
+			}
+			if (CheckSoundMem(dashSE) == true) {
+				StopSoundMem(dashSE);
+			}
+		}
+		else if (speed == 1.5f) {
+			if (CheckSoundMem(dashSE) == false) {
+				PlaySoundMem(dashSE, DX_PLAYTYPE_BACK, true);
+			}
+			if (CheckSoundMem(walkSE) == true) {
+				StopSoundMem(walkSE);
+			}
+		}
+	}
+	else {
+		if (CheckSoundMem(dashSE) == true) {
+			StopSoundMem(dashSE);
+		}
+		if (CheckSoundMem(walkSE) == true) {
+			StopSoundMem(walkSE);
+		}
 	}
 	player.transform.y += G - player.jumpPow;
 
@@ -117,6 +161,10 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 		if (RInputX <= 0 && RInputY >= 0 && (RInputX != 0 || RInputY != 0)) {
 			player.transform.x += (RInputX * -1) / 180;
 			inertia = (RInputY * -1) / 70;
+
+			if (CheckSoundMem(waterSE) == false) {
+				PlaySoundMem(waterSE, DX_PLAYTYPE_BACK, true);
+			}
 		}
 	}
 
@@ -145,6 +193,9 @@ void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
 			}
 			else {
 				player.jumpPow = 22;
+			}
+			if (CheckSoundMem(jumpSE) == false) {
+				PlaySoundMem(jumpSE, DX_PLAYTYPE_BACK, true);
 			}
 		}
 	}
@@ -176,6 +227,9 @@ void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire) {
 			hp--;
 			isDamage = 1;
 			isDamageTimer = 100;
+			if (CheckSoundMem(damageSE) == false) {
+				PlaySoundMem(damageSE, DX_PLAYTYPE_BACK, true);
+			}
 		}
 	}
 }

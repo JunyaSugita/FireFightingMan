@@ -4,6 +4,7 @@ Tutorial::Tutorial() {
 	timer = 0;
 	step = 0;
 	stepTimer = STEP_TIME;
+	isEx = 0;
 
 	LoadDivGraph("resource/tutorial1.png", 4, 4, 1, 149, 149, tutorial1);
 	LoadDivGraph("resource/tutorial2.png", 4, 4, 1, 149, 149, tutorial2);
@@ -13,6 +14,10 @@ Tutorial::Tutorial() {
 	tutorial5 = LoadGraph("resource/tutorial5.png");
 	tutorial6 = LoadGraph("resource/tutorial6.png");
 	tutorial7 = LoadGraph("resource/tutorial7.png");
+
+	textSE = LoadSoundMem("sound/text.mp3");
+
+	ChangeVolumeSoundMem(140, textSE);
 }
 
 Tutorial::~Tutorial() {}
@@ -43,6 +48,12 @@ void Tutorial::StepUpdate(int select, int pad, int isRescued, double& playerX, i
 				Step4(isRescued);
 		}
 		NextStep();
+		if (isEx == 0) {
+			if (CheckSoundMem(textSE) == false) {
+				PlaySoundMem(textSE, DX_PLAYTYPE_BACK, true);
+			}
+			isEx = 1;
+		}
 	}
 }
 
@@ -53,6 +64,7 @@ void Tutorial::NextStep() {
 			step++;
 			stepTimer = STEP_TIME;
 			isNext = 0;
+			isEx = 0;
 		}
 	}
 }

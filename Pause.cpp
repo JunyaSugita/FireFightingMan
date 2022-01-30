@@ -9,6 +9,10 @@ Pause::Pause() {
 	yr = 0;
 	isReset = true;
 	isPause = false;
+
+	pauseSE = LoadSoundMem("sound/pause.ogg");
+
+	ChangeVolumeSoundMem(130, pauseSE);
 }
 
 Pause::~Pause(){}
@@ -20,6 +24,7 @@ void Pause::ChangePause(int pad, int& scene) {
 				scene = PAUSE;
 				isPush = true;
 				isPause = true;
+				PlaySoundMem(pauseSE, DX_PLAYTYPE_BACK, true);
 			}
 		}
 		else {
@@ -33,6 +38,7 @@ void Pause::ChangeScene(int pad, int& scene) {
 			scene = MAIN_GAME;
 			isPush = true;
 			isPause = false;
+			PlaySoundMem(pauseSE, DX_PLAYTYPE_BACK, true);
 		}
 	}
 	else {

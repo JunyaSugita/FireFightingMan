@@ -18,6 +18,7 @@ public:
 	int alpha;
 	int catchGraph;
 	Map* map;
+	int rescueSE;
 
 	//
 public:

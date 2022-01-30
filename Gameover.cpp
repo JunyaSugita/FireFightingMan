@@ -1,12 +1,17 @@
 #include "Gameover.h"
 
-Gameover::Gameover(){}
+Gameover::Gameover(){
+	dieSE = LoadSoundMem("sound/die.mp3");
+}
 
 Gameover::~Gameover(){}
 
 void Gameover::GotoGameover(int& scene, int& hp) {
 	if (hp == 0) {
 		scene = GAMEOVER;
+		if (CheckSoundMem(dieSE) == false) {
+			PlaySoundMem(dieSE, DX_PLAYTYPE_BACK, true);
+		}
 	}
 }
 

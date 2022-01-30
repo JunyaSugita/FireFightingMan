@@ -38,6 +38,12 @@ public:
 	int isPush;
 	int time;
 	int isChange;
+	int mainBGM;
+	int titleBGM;
+	int selectBGM;
+	int yes;
+	int car;
+
 
 public:
 	Scene();

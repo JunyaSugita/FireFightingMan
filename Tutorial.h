@@ -33,5 +33,7 @@ public:
 	int tutorial6;
 	int tutorial7;
 	int help[2];
+	int textSE;
+	int isEx;
 };
 

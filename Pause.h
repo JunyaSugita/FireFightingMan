@@ -1,5 +1,6 @@
 #pragma once
 #include "Struct.h"
+#include "StageSelect.h"
 
 class Pause{
 public:
@@ -15,6 +16,7 @@ public:
 	int yr;
 	int isReset;
 	int isPause;
+	int pauseSE;
 
 public:
 	void ChangePause(int pad, int& scene);
