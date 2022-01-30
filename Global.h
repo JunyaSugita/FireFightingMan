@@ -34,4 +34,6 @@ enum SceneInfo {
 enum SelectInfo {
 	TUTORIAL,	//0
 	STAGE1,		//1
+	STAGE2,     //2
+	STAGE3		//3
 };

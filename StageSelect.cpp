@@ -34,8 +34,8 @@ void StageSelect::Select(int LInputY,int pad) {
 	if (select < 0) {
 		select = 0;
 	}
-	else if (select > 1) {
-		select = 1;
+	else if (select > 3) {
+		select = 3;
 	}
 }
 
@@ -68,6 +68,8 @@ void StageSelect::DrawStageSelect() {
 	DrawCircle(x + 150, y + height, 30, GetColor(128, 128, 128), true);
 	DrawFormatString(x - 64, 430, GetColor(0, 0, 0), "チュートリアル");
 	DrawFormatString(x - 64, 450, GetColor(0, 0, 0), "ステージ1");
+	DrawFormatString(x - 64, 470, GetColor(0, 0, 0), "ステージ2");
+	DrawFormatString(x - 64, 490, GetColor(0, 0, 0), "ステージ3");
 	DrawFormatString((x - 40) - 64, 430 + (select * 20), GetColor(0, 0, 0), "-->");
 
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
