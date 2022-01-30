@@ -43,4 +43,5 @@ void Smoke::Draw() {
 	);
 
 	DrawExtendGraph(0, 0, WIN_WIDTH, WIN_HEIGHT, smokeGraph[animFlame], true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
