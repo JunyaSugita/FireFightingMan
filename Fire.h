@@ -22,4 +22,7 @@ public:
 	Map* map;
 	Bullet* bullet;
 	Smoke* smoke;
+
+	int fireSE;
+	int hitSE;
 };

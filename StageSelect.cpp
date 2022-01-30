@@ -11,6 +11,11 @@ StageSelect::StageSelect() {
 	maxTime = 60.0f;
 	speed = 122;
 	isStop = 0;
+	isPush = 0;
+
+	selectSE = LoadSoundMem("sound/select.mp3");
+
+	ChangeVolumeSoundMem(120, selectSE);
 }
 
 StageSelect::~StageSelect(){}
@@ -20,15 +25,24 @@ void StageSelect::Select(int LInputY,int pad) {
 	Move();
 
 	if (LInputY < 0 && isSelect == 0 || pad & PAD_INPUT_UP) {
-		select--;
-		isSelect = 1;
+		if (isPush == 0) {
+			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, true);
+			select--;
+			isSelect = 1;
+			isPush = 1;
+		}
 	}
 	else if (LInputY > 0 && isSelect == 0 || pad & PAD_INPUT_DOWN) {
-		select++;
-		isSelect = 1;
+		if (isPush == 0) {
+			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, true);
+			select++;
+			isSelect = 1;
+			isPush = 1;
+		}
 	}
 	else if (LInputY == 0) {
 		isSelect = 0;
+		isPush = 0;
 	}
 
 	if (select < 0) {

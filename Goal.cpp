@@ -11,11 +11,15 @@ Goal::Goal() {
 	isShow = false;
 	x = 144;
 	for (int i = 0; i < 10; i++) {
-		efectX[i] = 3380 + rand() % 101 - 50;
+		efectX[i] = -2380 + rand() % 101 - 50;
 		isMove[i] = false;
 		randNum[i] = 0;
 	}
 	time = 0;
+
+	goalSE = LoadSoundMem("sound/goal.mp3");
+
+	ChangeVolumeSoundMem(120, goalSE);
 }
 
 //デストラクタ
@@ -32,6 +36,7 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
 		if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
 			if (player->player.transform.y + player->player.r > 912 - 96 && 912 > player->player.transform.y - player->player.r) {
 				if (isGoal == false) {
+					PlaySoundMem(goalSE, DX_PLAYTYPE_BACK, true);
 					isGoal = true;
 					isShow = true;
 					for (int i = 0; i < 10; i++) {
@@ -73,16 +78,16 @@ void Goal::Reset(Rescued* rescued, int& hp) {
 void Goal::Efect() {
 	for (int i = 0; i < 10; i++) {
 		if (isMove[i] == true) {
-			efectX[i] -= 64;
+			efectX[i] += 64;
 		}
 		
-		if (efectX[i] < 0) {
+		if (efectX[i] > WIN_HEIGHT + 400) {
 			isMove[i] = false;
 		}
 	}
 
 	for (int i = 0; i < 10; i++) {
-		DrawBox(efectX[i] - 2000, 0 + (i * 120), efectX[i], 120 + (i * 120), GetColor(200 + randNum[i], 200 + randNum[i], 64), true);
-		DrawBox(efectX[i] - 2000, 0 + (i * 120), efectX[i], 120 + (i * 120), GetColor(64, 64, 64), false);
+		DrawBox(efectX[i] + 2000, 0 + (i * 120), efectX[i], 120 + (i * 120), GetColor(200 + randNum[i], 200 + randNum[i], 64), true);
+		DrawBox(efectX[i] + 2000, 0 + (i * 120), efectX[i], 120 + (i * 120), GetColor(64, 64, 64), false);
 	}
 }

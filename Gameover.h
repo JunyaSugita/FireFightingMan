@@ -17,5 +17,8 @@ public:
 	void GotoTitle(int pad, Rescued* rescued, Player* player, Fire* fire, Goal* goal, Particle* particle);
 
 	void DrawGameover();
+
+public:
+	int dieSE;
 };
 

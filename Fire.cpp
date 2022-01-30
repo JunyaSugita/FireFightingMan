@@ -16,6 +16,11 @@ Fire::Fire() {
 	map = new Map;
 	bullet = new Bullet;
 	
+	fireSE = LoadSoundMem("sound/fire.mp3");
+	hitSE = LoadSoundMem("sound/hit.wav");
+
+	ChangeVolumeSoundMem(130, fireSE);
+	ChangeVolumeSoundMem(180, hitSE);
 }
 
 Fire::~Fire() {
@@ -60,8 +65,17 @@ void Fire::FireFighting(BULLET bullet[],Smoke* smoke) {
 						if (smoke->smokeDensity > -2) {
 							smoke->smokeDensity-= 2;
 						}
+						PlaySoundMem(hitSE, DX_PLAYTYPE_BACK, true);
 					}
 				}
+			}
+		}
+	}
+
+	for (int i = 0; i < FIRE_CONST; i++) {
+		if (fire[i].isFire == true) {
+			if (CheckSoundMem(fireSE) == false) {
+				PlaySoundMem(fireSE, DX_PLAYTYPE_BACK, true);
 			}
 		}
 	}

@@ -15,6 +15,7 @@ public:
 	int isMove[10];
 	int randNum[10];
 	int time;
+	int goalSE;
 
 public:
 	Goal();

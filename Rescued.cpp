@@ -19,6 +19,10 @@ Rescued::Rescued() {
 	alpha = 255;
 	catchGraph = LoadGraph("resource/catch.png");
 	map = new Map;
+
+	rescueSE = LoadSoundMem("sound/rescue.ogg");
+
+	ChangeVolumeSoundMem(180, rescueSE);
 }
 
 //デストラクタ
@@ -55,6 +59,9 @@ void Rescued::RescuedCollision(Player* player,int &hp,int scene) {
 				if (scene == TUTORIAL) {
 					hp = 3;
 				}
+				player->speed = 0.8f;
+
+				PlaySoundMem(rescueSE, DX_PLAYTYPE_BACK, true);
 			}
 		}
 	}

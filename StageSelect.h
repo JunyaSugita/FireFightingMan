@@ -24,5 +24,7 @@ public:
 	float maxTime;
 	float speed;
 	int isStop;
+	int isPush;
+	int selectSE;
 };
 

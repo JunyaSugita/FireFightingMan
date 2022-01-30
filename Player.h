@@ -67,6 +67,15 @@ public:
 	Bullet* bullet;
 	//ƒ}ƒbƒv
 	Map* map;
+
+	//SE
+	int damageSE;
+	int waterSE;
+	int walkSE;
+	int startSE;
+	int jumpSE;
+	int dashSE;
+
 public:
 	void Spawn(int mapChip[][50]);
 

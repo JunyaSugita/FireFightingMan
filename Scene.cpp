@@ -22,6 +22,23 @@ Scene::Scene() {
 	isPush = 0;
 	time = 0;
 	isChange = 0;
+
+	//BGM
+	mainBGM = LoadSoundMem("sound/main.mp3");
+	titleBGM = LoadSoundMem("sound/title.mp3");
+	selectBGM = LoadSoundMem("sound/selectBGM.mp3");
+
+	//SE
+	yes = LoadSoundMem("sound/yes.mp3");
+	car = LoadSoundMem("sound/car.ogg");
+
+	//音量調整
+	ChangeVolumeSoundMem(120,mainBGM);
+	ChangeVolumeSoundMem(120,titleBGM);
+	ChangeVolumeSoundMem(120, selectBGM);
+	ChangeVolumeSoundMem(140, yes);
+	ChangeVolumeSoundMem(130, car);
+
 }
 
 //デスストラクタ
@@ -58,11 +75,24 @@ void Scene::Update(char* keys, char* oldkeys) {
 	switch (player->scene) {
 		//タイトル
 		case MAIN_TITLE:
+			if (CheckSoundMem(mainBGM) == true) {
+				StopSoundMem(mainBGM);
+			}
+			if (CheckSoundMem(selectBGM) == true) {
+				StopSoundMem(selectBGM);
+			}
+
+			if (CheckSoundMem(titleBGM) == false) {
+				PlaySoundMem(titleBGM, DX_PLAYTYPE_LOOP, true);
+			}
 			if (time > 14) {
 				if (pad & PAD_INPUT_2) {
-					isPush = 1;
-					isChange = 1;
-					reset();
+					if (isPush == 0) {
+						isPush = 1;
+						isChange = 1;
+						reset();
+						PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+					}
 				}
 			}
 			else {
@@ -80,12 +110,19 @@ void Scene::Update(char* keys, char* oldkeys) {
 					player->scene = 2;
 					time = 0;
 					isChange = 0;
+					PlaySoundMem(car, DX_PLAYTYPE_BACK, true);
 				}
 			}
 			break;
 
 			//ステージセレクト
 		case STAGE_SELECT:
+			if (CheckSoundMem(titleBGM) == true) {
+				StopSoundMem(titleBGM);
+			}
+			if (CheckSoundMem(selectBGM) == false) {
+				PlaySoundMem(selectBGM, DX_PLAYTYPE_LOOP, true);
+			}
 			if (isChange == 0) {
 				if (time < 21) {
 					time++;
@@ -97,12 +134,16 @@ void Scene::Update(char* keys, char* oldkeys) {
 			}
 			stageSelect->Select(padInput.Y, pad);
 			if (stageSelect->isStop == 1) {
+				if (CheckSoundMem(car) == true) {
+					StopSoundMem(car);
+				}
 				if (pad & PAD_INPUT_2) {
 					if (isPush == 0) {
 						if (isChange == 0) {
 							isChange = 1;
 							stageSelect->time = 0;
 							stageSelect->Move();
+							PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
 						}
 					}
 				}
@@ -112,6 +153,9 @@ void Scene::Update(char* keys, char* oldkeys) {
 			}
 
 			if (isChange == 1) {
+				if (CheckSoundMem(car) == false) {
+					PlaySoundMem(car, DX_PLAYTYPE_BACK, true);
+				}
 				time++;
 				//マップ選択
 				if (time > 95) {
@@ -125,12 +169,22 @@ void Scene::Update(char* keys, char* oldkeys) {
 					isChange = 0;
 					y = -480;
 					stageSelect->isStop = 0;
+					if (CheckSoundMem(selectBGM) == true) {
+						StopSoundMem(selectBGM);
+					}
 				}
 			}
 
 			break;
 			//ゲーム
 		case MAIN_GAME:
+			if (CheckSoundMem(car) == true) {
+				StopSoundMem(car);
+			}
+			if (CheckSoundMem(mainBGM) == false) {
+				PlaySoundMem(mainBGM, DX_PLAYTYPE_LOOP, true);
+			}
+
 			//チュートリアルの表示
 			tutorial->CountTimer();
 			tutorial->StepUpdate(stageSelect->select, pad, rescued->isRescued, player->player.transform.x, fire->fire[5].isFire, fire->fire[6].isFire, fire->fire[7].isFire);
@@ -200,6 +254,9 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 		case GAMEOVER:
 			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
+			if (CheckSoundMem(mainBGM) == true) {
+				StopSoundMem(mainBGM);
+			}
 
 			break;
 
@@ -208,11 +265,26 @@ void Scene::Update(char* keys, char* oldkeys) {
 			pause->Move();
 
 			//選択
-			if (padInput.Y < 0 && pause->isReset == 0 || pad & PAD_INPUT_UP) {
-				pause->isReset = 1;
+			if (padInput.Y < 0 || pad & PAD_INPUT_UP) {
+				if (pause->isReset == 0) {
+					if (isPush == 0) {
+						pause->isReset = 1;
+						PlaySoundMem(stageSelect->selectSE, DX_PLAYTYPE_BACK, true);
+						isPush = 1;
+					}
+				}
 			}
-			else if (padInput.Y > 0 && pause->isReset == 1 || pad & PAD_INPUT_DOWN) {
-				pause->isReset = 0;
+			else if (padInput.Y > 0 || pad & PAD_INPUT_DOWN) {
+				if (pause->isReset == 1) {
+					if (isPush == 0) {
+						pause->isReset = 0;
+						PlaySoundMem(stageSelect->selectSE, DX_PLAYTYPE_BACK, true);
+						isPush = 1;
+					}
+				}
+			}
+			else {
+				isPush = 0;
 			}
 
 			//リセットorタイトル
@@ -224,6 +296,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 						pause->isPause = false;
 						restart();
 						player->scene = MAIN_GAME;
+						PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+						if (CheckSoundMem(mainBGM) == true) {
+							StopSoundMem(mainBGM);
+						}
 					}
 					//タイトルへ
 					else if (pause->isReset == 0) {
@@ -232,6 +308,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 						pause->isPause = false;
 						pause->xr = 0;
 						pause->yr = 0;
+						PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
 					}
 				}
 			}
