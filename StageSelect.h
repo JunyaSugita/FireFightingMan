@@ -26,5 +26,7 @@ public:
 	int isStop;
 	int isPush;
 	int selectSE;
+	int carGraph;
+	int backGraph;
 };
 

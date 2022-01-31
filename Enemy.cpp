@@ -57,7 +57,7 @@ void Enemy::BulletColision(BULLET bullet[]) {
 
 					bullet[j].isShot = 0;
 					enemy[i].hp--;
-					if (enemy[i].hp == 0) {
+					if (enemy[i].hp == 5) {
 						PlaySoundMem(hitSE, DX_PLAYTYPE_BACK, true);
 					}
 				}
