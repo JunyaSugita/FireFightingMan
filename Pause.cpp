@@ -53,16 +53,22 @@ void Pause::Draw() {
 		}
 	}
 	DrawBox(x - xr, y - yr, x + xr, y + yr, GetColor(48, 48, 96), true);
+	SetFontSize(64);
 	if (xr >= 500) {
 		if (isReset == 1) {
-			DrawFormatString(640, 460, GetColor(255, 255, 0), "リセット");
-			DrawFormatString(640, 520, GetColor(255, 255, 255), "タイトル");
+			DrawBox(470, 340, 795, 440, GetColor(192, 192, 192 ),true);
+			DrawBox(470, 500, 795, 600, GetColor(192, 192, 192), true);
+			DrawFormatString(510, 360, GetColor(255, 255, 0), "リセット");
+			DrawFormatString(510, 520, GetColor(255, 255, 255), "タイトル");
 		}
 		else {
-			DrawFormatString(640, 460, GetColor(255, 255, 255), "リセット");
-			DrawFormatString(640, 520, GetColor(255, 255, 0), "タイトル");
+			DrawBox(470, 340, 795, 440, GetColor(192, 192, 192), true);
+			DrawBox(470, 500, 795, 600, GetColor(192, 192, 192), true);
+			DrawFormatString(510, 360, GetColor(255, 255, 255), "リセット");
+			DrawFormatString(510, 520, GetColor(255, 255, 0), "タイトル");
 		}
 	}
+	SetFontSize(12);
 }
 
 void Pause::Move() {
