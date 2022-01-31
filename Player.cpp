@@ -73,10 +73,10 @@ Player::Player() {
 
 	ChangeVolumeSoundMem(150, damageSE);
 	ChangeVolumeSoundMem(150, waterSE);
-	ChangeVolumeSoundMem(150, walkSE);
+	ChangeVolumeSoundMem(140, walkSE);
 	ChangeVolumeSoundMem(200, startSE);
 	ChangeVolumeSoundMem(180, jumpSE);
-	ChangeVolumeSoundMem(150, dashSE);
+	ChangeVolumeSoundMem(140, dashSE);
 }
 
 Player::~Player() {

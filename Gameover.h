@@ -20,5 +20,6 @@ public:
 
 public:
 	int dieSE;
+	int gameoverBGM;
 };
 

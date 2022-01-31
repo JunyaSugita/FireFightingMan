@@ -61,12 +61,15 @@ void StageSelect::DrawStageSelect() {
 	DrawBox(0, WIN_HEIGHT / 2, WIN_WIDTH, 510, GetColor(36, 128, 36), true);
 	DrawBox(0, 640, WIN_WIDTH, WIN_HEIGHT, GetColor(64, 48, 48), true);
 
+	for (int i = 0; i < 2; i++) {
+		DrawBox(x - width - (i + 1), y - height - (i + 1), x + width + (i + 1), y + height + (i + 1), GetColor(0, 0, 0), false);
+	}
 	DrawBox(x - width, y - height, x + width, y + height, GetColor(255, 32, 32), true);
 	DrawBox(x - 190, y - 80, x + 150, y +30, GetColor(230, 230, 232), true);
 	DrawBox(x + 190, y - height - 36, x + width - 20, y - height, GetColor(255, 0, 0), true);
 	DrawBox(x + 190, y - height - 10, x + width - 20, y - height, GetColor(64, 64, 64), true);
 	for (int i = 0; i < 10; i++) {
-		DrawBox(x - width+(i*1), y - height - 80 + (i * 1), x + 120 + (i * 1), y - height - 9 + (i * 1), GetColor(128, 128, 128), false);
+		DrawBox(x - width+(i*1), y - height - 82 + (i * 1), x + 120 + (i * 1), y - height - 11 + (i * 1), GetColor(128, 128, 128), false);
 	}
 	for (int i = 0; i < 7; i++) {
 		DrawLine(x - 200 + (i * 50), y - height - 80, x - 200 + (i * 50), y - height - 9, GetColor(128, 128, 128), 8);
@@ -75,7 +78,7 @@ void StageSelect::DrawStageSelect() {
 	DrawBox(x + 200, y - 80, x + width, y + 10, GetColor(64, 192, 192), true);
 	DrawLine(x - 220, y - 20, x - 230, y + 80, GetColor(144, 144, 144), 16);
 	DrawLine(x + 160, y + 20, x + 190, y + 20, GetColor(128, 128, 128), 16);
-	DrawLine(x - width, y + height, x + 120, y + height, GetColor(200, 200, 200), 16);
+	DrawLine(x - width, y + height - 8, x + 120, y + height - 8, GetColor(200, 200, 200), 16);
 	DrawCircle(x - 150, y + height, 40, GetColor(32, 32, 32), true);
 	DrawCircle(x - 150, y + height, 30, GetColor(128, 128, 128), true);
 	DrawCircle(x + 150, y + height, 40, GetColor(32, 32, 32), true);
@@ -87,6 +90,9 @@ void StageSelect::DrawStageSelect() {
 	DrawFormatString((x - 40) - 64, 430 + (select * 20), GetColor(0, 0, 0), "-->");
 
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
+	DrawBox(0, 0, WIN_WIDTH, 30, GetColor(16, 16, 16), true);
+	DrawBox(0, 0, WIN_WIDTH, 40, GetColor(16, 16, 16), true);
+	DrawBox(0, 0, WIN_WIDTH, 120, GetColor(16, 16, 16), true);
 	for (int i = 0; i < 5; i++) {
 		DrawCircle(1000, 0, 300 - (i * 60), GetColor(24, 24, 24), true);
 	}
