@@ -30,6 +30,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// インスタンスを生成
 	Scene* scene = new Scene;
 
+	//フォント変更
+	ChangeFont("美咲ゴシック");
+
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };
 
