@@ -26,6 +26,7 @@ Scene::Scene() {
 
 	vignette = LoadGraph("resource/vignette.png");
 	titleGraph = LoadGraph("resource/title.png");
+	backWall[0] = LoadGraph("resource/BackWall_0.png");
 
 	//BGM
 	mainBGM = LoadSoundMem("sound/main.mp3");
@@ -431,6 +432,7 @@ void Scene::Draw() {
 		case PAUSE:
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			// 描画処理
+			DrawGraph(0- player->scroll, 0, backWall[0], true);
 			goal->Draw(rescued, player->scroll);
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();

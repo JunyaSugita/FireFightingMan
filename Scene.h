@@ -43,7 +43,7 @@ public:
 	int selectBGM;
 	int yes;
 	int car;
-	int backWall[5];
+	int backWall[4];
 	int vignette;
 	int titleGraph;
 
