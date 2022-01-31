@@ -16,6 +16,8 @@ public:
 
 	Map* map;
 
+	int hitSE;
+
 public:
 	Enemy();
 	~Enemy();
