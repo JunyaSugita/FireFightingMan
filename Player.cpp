@@ -114,14 +114,17 @@ void Player::GetPlayerBottom(int BLOCK_SIZE) {
 	rightBottomY = (player.transform.y + player.r - 1 + 1) / BLOCK_SIZE;
 }
 
-void Player::Dash(int pad, int isRescued) {
+void Player::Dash(int pad, int isRescued, int inputX, int inputY) {
+	if (player.isJump == false) {
+		speed = 0.8f;
+	}
 	if (isRescued == false) {
-		if (player.isJump == false) {
-			speed = 0.8f;
-		}
-		if (pad & PAD_INPUT_1 || pad & PAD_INPUT_2 || pad & PAD_INPUT_3 || pad & PAD_INPUT_4) {
+		if ((pad & PAD_INPUT_1 || pad & PAD_INPUT_2 || pad & PAD_INPUT_3 || pad & PAD_INPUT_4) && player.isJump == false) {
 			speed = 1.5f;
 		}
+	}
+	if (inputY > 0 && isRescued == false && water > 0) {
+		speed = 0.8f;
 	}
 }
 
