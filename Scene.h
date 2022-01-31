@@ -43,6 +43,7 @@ public:
 	int selectBGM;
 	int yes;
 	int car;
+	int vignette;
 
 public:
 	Scene();

@@ -20,6 +20,8 @@ Goal::Goal() {
 	goalSE = LoadSoundMem("sound/goal.mp3");
 
 	ChangeVolumeSoundMem(120, goalSE);
+
+	LoadDivGraph("resource/goal.png", 2, 2, 1, 96, 96, goalGraph);
 }
 
 //デストラクタ
@@ -33,9 +35,17 @@ Goal::~Goal() {
 ///-----クラス関数-----///
 void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
 	if (rescued->isRescued == true) {
+		if (isGoal == false) {
+			time++;
+			if (time == 30) {
+				time = 0;
+			}
+		}
+
 		if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
 			if (player->player.transform.y + player->player.r > 912 - 96 && 912 > player->player.transform.y - player->player.r) {
 				if (isGoal == false) {
+					time = 0;
 					PlaySoundMem(goalSE, DX_PLAYTYPE_BACK, true);
 					isGoal = true;
 					isShow = true;
@@ -59,12 +69,17 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
 
 void Goal::Draw(Rescued* rescued, int scroll) {
 	if (rescued->isRescued == true) {
-		if (isGoal == false) {
-			DrawBox(x - 96 - scroll, 812, x - scroll, 912, GetColor(255, 255, 0), false);
+		if (time < 15) {
+			DrawGraph(x - 90 - scroll, 812, goalGraph[0], true);
 		}
 		else {
-			DrawBox(x - 96 - scroll, 812, x - scroll, 912, GetColor(255, 255, 0), true);
+			DrawGraph(x - 90 - scroll, 812, goalGraph[1], true);
 		}
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
+		if (isGoal == false) {
+			DrawBox(x - 96 - scroll, 902, x - scroll, 912, GetColor(255, 255, 0), true);
+		}
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 }
 
@@ -90,4 +105,5 @@ void Goal::Efect() {
 		DrawBox(efectX[i] + 2000, 0 + (i * 120), efectX[i], 120 + (i * 120), GetColor(200 + randNum[i], 200 + randNum[i], 64), true);
 		DrawBox(efectX[i] + 2000, 0 + (i * 120), efectX[i], 120 + (i * 120), GetColor(64, 64, 64), false);
 	}
+
 }
