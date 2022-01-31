@@ -37,7 +37,7 @@ Scene::Scene() {
 	ChangeVolumeSoundMem(120,titleBGM);
 	ChangeVolumeSoundMem(120, selectBGM);
 	ChangeVolumeSoundMem(140, yes);
-	ChangeVolumeSoundMem(130, car);
+	ChangeVolumeSoundMem(120, car);
 
 }
 
@@ -196,7 +196,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetPlayerBottom(map->BLOCK_SIZE);
 
 			//プレイヤーの移動
-			player->Dash(pad, rescued->isRescued);
+			player->Dash(pad, rescued->isRescued,padInput.Rx,padInput.Ry);
 			player->PlayerJump(pad, rescued->isRescued, map->map);
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
 			player->CheckStick(padInput.Ry, rescued->isRescued);
@@ -256,6 +256,18 @@ void Scene::Update(char* keys, char* oldkeys) {
 			gameover->GotoTitle(pad, rescued, player, fire, goal, particle);
 			if (CheckSoundMem(mainBGM) == true) {
 				StopSoundMem(mainBGM);
+			}
+			if (CheckSoundMem(player->walkSE) == true) {
+				StopSoundMem(player->walkSE);
+			}
+			if (CheckSoundMem(player->dashSE) == true) {
+				StopSoundMem(player->dashSE);
+			}
+			if (CheckSoundMem(player->jumpSE) == true) {
+				StopSoundMem(player->jumpSE);
+			}
+			if (CheckSoundMem(player->waterSE) == true) {
+				StopSoundMem(player->waterSE);
 			}
 
 			break;
