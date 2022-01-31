@@ -59,6 +59,7 @@ Player::Player() {
 	//グラフ
 	graph_h = LoadGraph("resource/syoubousi_1.png");
 	graph_h2 = LoadGraph("resource/syoubousi_2.png");
+	waterTank = LoadGraph("resource/waterTank3.png");
 
 	bullet = new Bullet;
 	map = new Map;
@@ -438,7 +439,7 @@ void Player::DrawHp() {
 
 void Player::DrawWater() {
 	if (water > 0) {
-		DrawBox(100, 930, 100 + water, 950, GetColor(0, 200, 200), true);
+		DrawBox(100, 920, 100 + water, 950, GetColor(0, 160, 200), true);
 	}
-	DrawBox(100, 930, 100 + WATER_CONST, 950, GetColor(0, 0, 200), false);
+	DrawGraph(75, 920,waterTank,true);
 }

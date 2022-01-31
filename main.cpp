@@ -57,7 +57,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		scene->Draw();
 		if (scene->player->scene == MAIN_GAME) {
 			if (scene->player->water <= 0)
-				DrawFormatString(100, 932, GetColor(200, 200, 200), "水が無くなった! リトライは三から出来るよ");
+				DrawFormatString(500, 932, GetColor(255,255,255), "水が無くなった! リトライは三から出来るよ");
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//
