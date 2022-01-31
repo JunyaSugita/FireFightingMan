@@ -22,7 +22,7 @@ public:
 
 	//プレイヤーのスピード管理
 	float speed;
-	
+
 	//プレイヤーの上下移動慣性
 	int inertia, inertiaSpeed;
 
@@ -82,11 +82,11 @@ public:
 	void SaveOldPlayer();
 	void GetPlayerBottom(int BLOCK_SIZE);
 
-	void Dash(int pad,int isRescued);
+	void Dash(int pad, int isRescued, int inputX, int inputY);
 	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
 	void PlayerJump(int pad, int isRescued, int map[][50]);
 	void PlayerShot(int InputX, int InputY, int isRescued);
-	void PlayerDamage(int fireX,int fireY,int fireR,int isFire);
+	void PlayerDamage(int fireX, int fireY, int fireR, int isFire);
 	void DamageCount();
 	void GetPlayer(int BLOCK_SIZE);
 	void GetOldPlayer(int BLOCK_SIZE);
