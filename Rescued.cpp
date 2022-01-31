@@ -8,8 +8,10 @@ Rescued::Rescued() {
 	};
 	r = 20;
 	isRescued = false;
+
 	rescueGraph[0] = LoadGraph("resource/syoubousi_kyujo.png");
 	rescueGraph[1] = LoadGraph("resource/syoubousi_kyujo_2.png");
+
 	player = new Player;
 	cx = 0;
 	for (int i = 0; i < 2; i++) {
