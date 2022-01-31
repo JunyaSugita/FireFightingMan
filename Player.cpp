@@ -230,14 +230,18 @@ void Player::PlayerShot(int InputX, int InputY, int isRescued) {
 	}
 }
 
-void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire) {
+void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued) {
 	if (isDamage == 0 && isFire >= 1) {
 		if (fireX - fireR < player.transform.x + player.r &&
 			player.transform.x - player.r < fireX + fireR &&
 			fireY - fireR < player.transform.y + player.r &&
 			player.transform.y - player.r < fireY + fireR) {
-
-			hp--;
+			if (isRescued == 0) {
+				water -= 40;
+			}
+			else {
+				hp--;
+			}
 			isDamage = 1;
 			isDamageTimer = 100;
 			if (CheckSoundMem(damageSE) == false) {
@@ -433,5 +437,8 @@ void Player::DrawHp() {
 }
 
 void Player::DrawWater() {
-	DrawBox(800, 20, 800 + (water / 5), 40, GetColor(0, 200, 200), true);
+	if (water > 0) {
+		DrawBox(100, 930, 100 + water, 950, GetColor(0, 200, 200), true);
+	}
+	DrawBox(100, 930, 100 + WATER_CONST, 950, GetColor(0, 0, 200), false);
 }
