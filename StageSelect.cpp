@@ -16,6 +16,9 @@ StageSelect::StageSelect() {
 	selectSE = LoadSoundMem("sound/select.mp3");
 
 	ChangeVolumeSoundMem(120, selectSE);
+
+	carGraph = LoadGraph("resource/fireTruck.png");
+	backGraph = LoadGraph("resource/selectBack.png");
 }
 
 StageSelect::~StageSelect(){}
@@ -55,48 +58,18 @@ void StageSelect::Select(int LInputY,int pad) {
 
 void StageSelect::DrawStageSelect() {
 
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	DrawBox(0, 0, WIN_WIDTH, WIN_HEIGHT / 2, GetColor(96, 172, 255), true);
-	DrawBox(0, WIN_HEIGHT / 2, WIN_WIDTH, WIN_HEIGHT, GetColor(128, 96, 96), true);
-	DrawBox(0, WIN_HEIGHT / 2, WIN_WIDTH, 510, GetColor(36, 128, 36), true);
-	DrawBox(0, 640, WIN_WIDTH, WIN_HEIGHT, GetColor(64, 48, 48), true);
+	DrawGraph(0, 0, backGraph, true);
 
-	for (int i = 0; i < 2; i++) {
-		DrawBox(x - width - (i + 1), y - height - (i + 1), x + width + (i + 1), y + height + (i + 1), GetColor(0, 0, 0), false);
+	DrawRotaGraph2(x - 400, y - (height*2) - 50,0,0,1.5,0, carGraph, true);
+	DrawBox(x - 210, y - 110, x + 130, y, GetColor(230, 230, 232), true);
+	for (int i = 0; i < 3; i++) {
+		DrawBox(x - 210 -(1+i), y - 110 - (1 + i), x + 130 + (1 + i), y  + (1 + i), GetColor(0, 0, 0), false);
 	}
-	DrawBox(x - width, y - height, x + width, y + height, GetColor(255, 32, 32), true);
-	DrawBox(x - 190, y - 80, x + 150, y +30, GetColor(230, 230, 232), true);
-	DrawBox(x + 190, y - height - 36, x + width - 20, y - height, GetColor(255, 0, 0), true);
-	DrawBox(x + 190, y - height - 10, x + width - 20, y - height, GetColor(64, 64, 64), true);
-	for (int i = 0; i < 10; i++) {
-		DrawBox(x - width+(i*1), y - height - 82 + (i * 1), x + 120 + (i * 1), y - height - 11 + (i * 1), GetColor(128, 128, 128), false);
-	}
-	for (int i = 0; i < 7; i++) {
-		DrawLine(x - 200 + (i * 50), y - height - 80, x - 200 + (i * 50), y - height - 9, GetColor(128, 128, 128), 8);
-	}
-	DrawLine(x - 220, y - height - 80, x - 150, y - height - 80, GetColor(255, 255, 64), 4);
-	DrawBox(x + 200, y - 80, x + width, y + 10, GetColor(64, 192, 192), true);
-	DrawLine(x - 220, y - 20, x - 230, y + 80, GetColor(144, 144, 144), 16);
-	DrawLine(x + 160, y + 20, x + 190, y + 20, GetColor(128, 128, 128), 16);
-	DrawLine(x - width, y + height - 8, x + 120, y + height - 8, GetColor(200, 200, 200), 16);
-	DrawCircle(x - 150, y + height, 40, GetColor(32, 32, 32), true);
-	DrawCircle(x - 150, y + height, 30, GetColor(128, 128, 128), true);
-	DrawCircle(x + 150, y + height, 40, GetColor(32, 32, 32), true);
-	DrawCircle(x + 150, y + height, 30, GetColor(128, 128, 128), true);
-	DrawFormatString(x - 64, 430, GetColor(0, 0, 0), "チュートリアル");
-	DrawFormatString(x - 64, 450, GetColor(0, 0, 0), "ステージ1");
-	DrawFormatString(x - 64, 470, GetColor(0, 0, 0), "ステージ2");
-	DrawFormatString(x - 64, 490, GetColor(0, 0, 0), "ステージ3");
-	DrawFormatString((x - 40) - 64, 430 + (select * 20), GetColor(0, 0, 0), "-->");
-
-	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
-	DrawBox(0, 0, WIN_WIDTH, 30, GetColor(16, 16, 16), true);
-	DrawBox(0, 0, WIN_WIDTH, 40, GetColor(16, 16, 16), true);
-	DrawBox(0, 0, WIN_WIDTH, 120, GetColor(16, 16, 16), true);
-	for (int i = 0; i < 5; i++) {
-		DrawCircle(1000, 0, 300 - (i * 60), GetColor(24, 24, 24), true);
-	}
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	DrawFormatString(x - 84, 380, GetColor(0, 0, 0), "チュートリアル");
+	DrawFormatString(x - 84, 400, GetColor(0, 0, 0), "ステージ1");
+	DrawFormatString(x - 84, 420, GetColor(0, 0, 0), "ステージ2");
+	DrawFormatString(x - 84, 440, GetColor(0, 0, 0), "ステージ3");
+	DrawFormatString((x - 40) - 84, 380 + (select * 20), GetColor(0, 0, 0), "-->");
 }
 
 
