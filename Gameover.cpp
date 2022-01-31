@@ -2,6 +2,9 @@
 
 Gameover::Gameover(){
 	dieSE = LoadSoundMem("sound/die.mp3");
+	gameoverBGM = LoadSoundMem("sound/gameover.ogg");
+
+	ChangeVolumeSoundMem(120, gameoverBGM);
 }
 
 Gameover::~Gameover(){}
@@ -11,6 +14,9 @@ void Gameover::GotoGameover(int& scene, int& hp) {
 		scene = GAMEOVER;
 		if (CheckSoundMem(dieSE) == false) {
 			PlaySoundMem(dieSE, DX_PLAYTYPE_BACK, true);
+		}
+		if (CheckSoundMem(gameoverBGM) == false) {
+			PlaySoundMem(gameoverBGM, DX_PLAYTYPE_BACK, true);
 		}
 	}
 }
