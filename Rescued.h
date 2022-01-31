@@ -9,7 +9,7 @@ public:
 	Transform transform;
 	int r;
 	int isRescued;
-	int graph_r;
+	int rescueGraph[2];
 	Player* player;
 	int cx;
 	int cy[2];

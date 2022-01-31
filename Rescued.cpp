@@ -8,7 +8,8 @@ Rescued::Rescued() {
 	};
 	r = 20;
 	isRescued = false;
-	graph_r = LoadGraph("resource/syoubousi_kyujo.png");
+	rescueGraph[0] = LoadGraph("resource/syoubousi_kyujo.png");
+	rescueGraph[1] = LoadGraph("resource/syoubousi_kyujo_2.png");
 	player = new Player;
 	cx = 0;
 	for (int i = 0; i < 2; i++) {
@@ -78,7 +79,9 @@ void Rescued::Move(Player* player) {
 //描画関数
 void Rescued::Draw(int scroll) {
 	//DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);7
-	DrawRotaGraph(15+transform.x -2 - scroll, transform.y +5, 0.8, 0.0, graph_r, 1, 0, 0);
+	if (isRescued == false) {
+		DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[0], 1, 0, 0);
+	}
 	if (isRescued == true) {
 		SetDrawBlendMode(DX_BLENDMODE_ADD, 200);
 		if (cr > 0) {
@@ -87,6 +90,7 @@ void Rescued::Draw(int scroll) {
 			}
 		}
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[1], 1, 0, 0);
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 		DrawRotaGraph2(cx -scroll - 128, cy[1] - 32,0,0,1.2,0, catchGraph, true);
