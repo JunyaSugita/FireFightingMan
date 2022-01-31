@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Dxlib.h"
 
 //コンストラクタ
 Scene::Scene() {
@@ -23,6 +24,8 @@ Scene::Scene() {
 	time = 0;
 	isChange = 0;
 
+	vignette = LoadGraph("resource/vignette.png");
+
 	//BGM
 	mainBGM = LoadSoundMem("sound/main.mp3");
 	titleBGM = LoadSoundMem("sound/title.mp3");
@@ -38,7 +41,6 @@ Scene::Scene() {
 	ChangeVolumeSoundMem(120, selectBGM);
 	ChangeVolumeSoundMem(140, yes);
 	ChangeVolumeSoundMem(120, car);
-
 }
 
 //デスストラクタ
@@ -65,6 +67,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 	if (keys == nullptr || oldkeys == nullptr) {
 		return;
 	}
+
 
 	GetHitKeyStateAll(keys);
 	ClearDrawScreen();
@@ -440,6 +443,9 @@ void Scene::Draw() {
 				gameover->DrawGameover();
 				damParticle->Draw(player->player.transform.x, player->player.transform.y, player->scroll);
 			}
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 144);
+			DrawExtendGraph(0,0,1280, 960, vignette, true);
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			pause->Draw();
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);

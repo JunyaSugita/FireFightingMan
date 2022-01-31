@@ -16,6 +16,7 @@ public:
 	int randNum[10];
 	int time;
 	int goalSE;
+	int goalGraph[2];
 
 public:
 	Goal();
