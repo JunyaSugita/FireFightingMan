@@ -85,6 +85,13 @@ void Scene::Update(char* keys, char* oldkeys) {
 			if (CheckSoundMem(titleBGM) == false) {
 				PlaySoundMem(titleBGM, DX_PLAYTYPE_LOOP, true);
 			}
+
+			if (time == 0) {
+				if (isPush == 1) {
+					isPush = 0;
+				}
+			}
+
 			if (time > 14) {
 				if (pad & PAD_INPUT_2) {
 					if (isPush == 0) {

@@ -44,7 +44,6 @@ public:
 	int yes;
 	int car;
 
-
 public:
 	Scene();
 	~Scene();
