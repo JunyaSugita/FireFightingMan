@@ -365,7 +365,6 @@ void Scene::reset() {
 	goal = new Goal;
 	ene = new Enemy;
 	particle = new Particle;
-	stageSelect = new StageSelect;
 	gameover = new Gameover;
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
