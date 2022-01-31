@@ -17,12 +17,14 @@ Scene::Scene() {
 	damParticle = new DamParticle;
 	pause = new Pause;
 	smoke = new Smoke;
+	clear = new Clear;
 
 	x = 640;
 	y = -480;
 	isPush = 0;
 	time = 0;
 	isChange = 0;
+	isClear = 0;
 
 	vignette = LoadGraph("resource/vignette.png");
 	titleGraph = LoadGraph("resource/title.png");
@@ -58,6 +60,7 @@ Scene::~Scene() {
 	delete tutorial;
 	delete damParticle;
 	delete smoke;
+	delete clear;
 }
 
 
@@ -96,6 +99,16 @@ void Scene::Update(char* keys, char* oldkeys) {
 				}
 			}
 
+			if (isClear == 1) {
+					y -= 64;
+				if (y + 480 < 0) {
+					isChange = 0;
+					isClear = 0;
+					y = -480;
+				}
+			}
+
+
 			if (time > 14) {
 				if (pad & PAD_INPUT_2) {
 					if (isPush == 0) {
@@ -106,22 +119,25 @@ void Scene::Update(char* keys, char* oldkeys) {
 					}
 				}
 			}
-			else {
+			else if (isClear == 0){
 				time++;
 			}
+			else{}
 			damParticle->Reset();
 			stageSelect->Reset();
 
-			if (isChange == 1) {
-				if (y + 480 < WIN_HEIGHT) {
-					y += 64;
-				}
-				time++;
-				if (time == 65) {
-					player->scene = 2;
-					time = 0;
-					isChange = 0;
-					PlaySoundMem(car, DX_PLAYTYPE_BACK, true);
+			if (isClear == 0) {
+				if (isChange == 1) {
+					if (y + 480 < WIN_HEIGHT) {
+						y += 64;
+					}
+					time++;
+					if (time == 65) {
+						player->scene = 2;
+						time = 0;
+						isChange = 0;
+						PlaySoundMem(car, DX_PLAYTYPE_BACK, true);
+					}
 				}
 			}
 			break;
@@ -340,6 +356,85 @@ void Scene::Update(char* keys, char* oldkeys) {
 			}
 
 			break;
+
+		case CLEAR:
+			if (CheckSoundMem(mainBGM) == true) {
+				StopSoundMem(mainBGM);
+			}
+
+			//選択
+			if (padInput.Y < 0 || pad & PAD_INPUT_UP) {
+				if (clear->isNext == 0) {
+					if (isPush == 0) {
+						clear->isNext = 1;
+						PlaySoundMem(stageSelect->selectSE, DX_PLAYTYPE_BACK, true);
+						isPush = 1;
+					}
+				}
+			}
+			else if (padInput.Y > 0 || pad & PAD_INPUT_DOWN) {
+				if (clear->isNext == 1) {
+					if (isPush == 0) {
+						clear->isNext = 0;
+						PlaySoundMem(stageSelect->selectSE, DX_PLAYTYPE_BACK, true);
+						isPush = 1;
+					}
+				}
+			}
+			else {
+				isPush = 0;
+			}
+
+			//ステージ選択orタイトル
+			if (pad & PAD_INPUT_2) {
+				//ステージ
+				if (clear->isPush == false) {
+					if (clear->isNext == 1) {
+						clear->isPush = true;
+						PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+						if (CheckSoundMem(mainBGM) == true) {
+							StopSoundMem(mainBGM);
+						}
+						isChange = 1;
+						time = 0;
+					}
+					//タイトルへ
+					else if (clear->isNext == 0) {
+						if (clear->isPush == false) {
+							clear->isPush = true;
+							PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							isChange = 1;
+							time = 0;
+						}
+					}
+				}
+			}
+			else {
+				clear->isPush = false;
+			}
+
+			if (isChange == 1) {
+				if (y + 480 < WIN_HEIGHT) {
+					y += 64;
+				}
+				time++;
+				if (time == 50) {
+					reset();
+					if (clear->isNext == 1) {
+						delete stageSelect;
+						player->scene = STAGE_SELECT;
+						stageSelect = new StageSelect;
+						PlaySoundMem(car, DX_PLAYTYPE_BACK, true);
+					}
+					else {
+						player->scene = 0;
+						isClear = 1;
+					}
+					time = 0;
+					isChange = 0;
+				}
+			}
+			break;
 	}
 }
 
@@ -453,6 +548,17 @@ void Scene::Draw() {
 			player->DrawHp();
 			DrawFormatString(0, 0, GetColor(0, 0, 0), "%d",tutorial->step);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			break;
+
+		case CLEAR:
+			
+			clear->Draw();
+
+			DrawBox(x - 640, y - 480, x + 640, y + 480, GetColor(200, 200, 200), true);
+			for (int i = 0; i < 14; i++) {
+				DrawLine(0, y - 420 + (i * 60), 1280, y - 420 + (i * 60), GetColor(128, 128, 128), 8);
+			}
+			DrawLine(0, y + 464, 1280, y + 464, GetColor(72, 72, 72), 32);
 			break;
 	}
 	goal->Efect();
