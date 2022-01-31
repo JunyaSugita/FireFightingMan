@@ -23,6 +23,8 @@ Scene::Scene() {
 	time = 0;
 	isChange = 0;
 
+	
+
 	//BGM
 	mainBGM = LoadSoundMem("sound/main.mp3");
 	titleBGM = LoadSoundMem("sound/title.mp3");
