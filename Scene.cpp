@@ -25,6 +25,7 @@ Scene::Scene() {
 	isChange = 0;
 
 	vignette = LoadGraph("resource/vignette.png");
+	titleGraph = LoadGraph("resource/title.png");
 
 	//BGM
 	mainBGM = LoadSoundMem("sound/main.mp3");
@@ -406,7 +407,8 @@ void Scene::Draw() {
 
 	switch (player->scene) {
 		case MAIN_TITLE:
-			DrawFormatString(640, 450, GetColor(255, 255, 255), "B to Start");
+			DrawGraph(0, 0, titleGraph, true);
+			/*DrawFormatString(640, 450, GetColor(255, 255, 255), "B to Start");*/
 			DrawBox(x - 640, y - 480, x + 640, y + 480, GetColor(200, 200, 200), true);
 			for (int i = 0; i < 14; i++) {
 				DrawLine(0, y - 420 + (i * 60), 1280, y - 420 + (i * 60), GetColor(128, 128, 128), 8);

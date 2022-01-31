@@ -44,6 +44,7 @@ public:
 	int yes;
 	int car;
 	int vignette;
+	int titleGraph;
 
 public:
 	Scene();
