@@ -94,13 +94,13 @@ void DamParticle::Draw(int x,int y,int scroll) {
 		alpha -= 5;
 	}
 
-	SetDrawBlendMode(DX_BLENDMODE_ADD, 144);
+	SetDrawBlendMode(DX_BLENDMODE_ADD, 200);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 		for (int i = 0; i < 10; i++) {
-			DrawCircle(x - scroll, y, cirR[0] - (1 * i), GetColor(32, 192, 255), false);
+			DrawCircle(x - scroll, y, cirR[0] - (1 * i), GetColor(200, 144, 64), false);
 		}
 		for (int i = 0; i < 10; i++) {
-			DrawCircle(x - scroll, y, cirR[1] - (1 * i), GetColor(32, 192, 255), false);
+			DrawCircle(x - scroll, y, cirR[1] - (1 * i), GetColor(200, 144, 64), false);
 		}
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	
@@ -108,9 +108,9 @@ void DamParticle::Draw(int x,int y,int scroll) {
 		if (isShow == 1) {
 			for (int j = 0; j < 3; j++) {
 				for (int i = 0; i < TRI_CONST; i++) {
-					SetDrawBlendMode(DX_BLENDMODE_ADD, 144);
-					DrawTriangle(triX[i] - scroll + triR - (j * 1), triY[i] + triR - (j * 1), triX[i] - scroll - triR - 4 + (j * 1), triY[i] + triR + 4 - (j * 1), triX[i] - scroll - triR + (j * 1), triY[i] - triR + (j * 1), GetColor(64, 144, 144), false);
-					DrawTriangle(triX[i] - scroll - triR - 8 + (j * 1), triY[i] - triR + 8 + (j * 1), triX[i] - scroll + triR - 2 - (j * 1), triY[i] - triR + 2 + (j * 1), triX[i] - scroll + triR - 8 - (j * 1), triY[i] + triR + 8 - (j * 1), GetColor(64, 144, 144), false);
+					SetDrawBlendMode(DX_BLENDMODE_ADD, 200);
+					DrawTriangle(triX[i] - scroll + triR - (j * 1), triY[i] + triR - (j * 1), triX[i] - scroll - triR - 4 + (j * 1), triY[i] + triR + 4 - (j * 1), triX[i] - scroll - triR + (j * 1), triY[i] - triR + (j * 1), GetColor(200, 144, 64), false);
+					DrawTriangle(triX[i] - scroll - triR - 8 + (j * 1), triY[i] - triR + 8 + (j * 1), triX[i] - scroll + triR - 2 - (j * 1), triY[i] - triR + 2 + (j * 1), triX[i] - scroll + triR - 8 - (j * 1), triY[i] + triR + 8 - (j * 1), GetColor(200, 144, 64), false);
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 				}
 			}
@@ -120,8 +120,8 @@ void DamParticle::Draw(int x,int y,int scroll) {
 		for (int j = 0; j < 3; j++) {
 			for (int i = 0; i < TRI_CONST; i++) {
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, triAlpha);
-				DrawTriangle(triX[i] - scroll + triR - (j * 1), triY[i] + triR - (j * 1), triX[i] - scroll - triR - 4 + (j * 1), triY[i] + triR + 4 - (j * 1), triX[i] - scroll - triR + (j * 1), triY[i] - triR + (j * 1), GetColor(64, 144, 144), false);
-				DrawTriangle(triX[i] - scroll - triR - 8 + (j * 1), triY[i] - triR + 8 + (j * 1), triX[i] - scroll + triR - 2 - (j * 1), triY[i] - triR + 2 + (j * 1), triX[i] - scroll + triR - 8 - (j * 1), triY[i] + triR + 8 - (j * 1), GetColor(64, 144, 144), false);
+				DrawTriangle(triX[i] - scroll + triR - (j * 1), triY[i] + triR - (j * 1), triX[i] - scroll - triR - 4 + (j * 1), triY[i] + triR + 4 - (j * 1), triX[i] - scroll - triR + (j * 1), triY[i] - triR + (j * 1), GetColor(128, 72, 32), false);
+				DrawTriangle(triX[i] - scroll - triR - 8 + (j * 1), triY[i] - triR + 8 + (j * 1), triX[i] - scroll + triR - 2 - (j * 1), triY[i] - triR + 2 + (j * 1), triX[i] - scroll + triR - 8 - (j * 1), triY[i] + triR + 8 - (j * 1), GetColor(128, 72, 32), false);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}

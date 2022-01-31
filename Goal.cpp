@@ -90,4 +90,5 @@ void Goal::Efect() {
 		DrawBox(efectX[i] + 2000, 0 + (i * 120), efectX[i], 120 + (i * 120), GetColor(200 + randNum[i], 200 + randNum[i], 64), true);
 		DrawBox(efectX[i] + 2000, 0 + (i * 120), efectX[i], 120 + (i * 120), GetColor(64, 64, 64), false);
 	}
+
 }
