@@ -243,11 +243,11 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetScroll();
 
 			for (int i = 0; i < 100; i++) {
-				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
+				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire, rescued->isRescued);
 				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
 			}
 			for (int i = 0; i < 10; i++) {
-				player->PlayerDamage(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, ene->enemy[i].hp);
+				player->PlayerDamage(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, ene->enemy[i].hp, rescued->isRescued);
 				particle->Emit(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, 1);
 			}
 			player->DamageCount();
