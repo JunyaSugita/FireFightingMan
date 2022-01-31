@@ -16,6 +16,10 @@ Enemy::Enemy() {
 		enemyY[i] = 0;
 	}
 	map = new Map;
+
+	hitSE = LoadSoundMem("sound/hit.wav");
+
+	ChangeVolumeSoundMem(180, hitSE);
 }
 Enemy::~Enemy() {
 	delete map;
@@ -53,6 +57,9 @@ void Enemy::BulletColision(BULLET bullet[]) {
 
 					bullet[j].isShot = 0;
 					enemy[i].hp--;
+					if (enemy[i].hp == 0) {
+						PlaySoundMem(hitSE, DX_PLAYTYPE_BACK, true);
+					}
 				}
 			}
 		}
