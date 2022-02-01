@@ -68,7 +68,7 @@ void Pause::Draw() {
 			DrawFormatString(510, 520, GetColor(255, 255, 0), "ƒ^ƒCƒgƒ‹");
 		}
 	}
-	SetFontSize(12);
+	SetFontSize(16);
 }
 
 void Pause::Move() {

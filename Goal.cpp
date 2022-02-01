@@ -60,7 +60,7 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
 	if (isGoal == true) {
 		time++;
 		if (time == 30) {
-			player->scene = 0;
+			player->scene = 4;
 			Reset(rescued, hp);
 			fire->DeleteFire();
 		}

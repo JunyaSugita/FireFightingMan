@@ -13,6 +13,7 @@
 #include "Damparticle.h"
 #include "Pause.h"
 #include "Smoke.h"
+#include "Clear.h"
 
 class Scene {
 public:
@@ -31,6 +32,7 @@ public:
 	DamParticle* damParticle;
 	Pause* pause;
 	Smoke* smoke;
+	Clear* clear;
 
 	int pad;
 	int x;
@@ -41,11 +43,13 @@ public:
 	int mainBGM;
 	int titleBGM;
 	int selectBGM;
+	int clearBGM;
 	int yes;
 	int car;
 	int backWall[4];
 	int vignette;
 	int titleGraph;
+	int isClear;
 
 public:
 	Scene();
