@@ -43,6 +43,7 @@ public:
 	int mainBGM;
 	int titleBGM;
 	int selectBGM;
+	int clearBGM;
 	int yes;
 	int car;
 	int backWall[5];

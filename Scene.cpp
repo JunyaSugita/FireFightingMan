@@ -33,6 +33,7 @@ Scene::Scene() {
 	mainBGM = LoadSoundMem("sound/main.mp3");
 	titleBGM = LoadSoundMem("sound/title.mp3");
 	selectBGM = LoadSoundMem("sound/selectBGM.mp3");
+	clearBGM = LoadSoundMem("sound/clear.mp3");
 
 	//SE
 	yes = LoadSoundMem("sound/yes.mp3");
@@ -42,6 +43,7 @@ Scene::Scene() {
 	ChangeVolumeSoundMem(120,mainBGM);
 	ChangeVolumeSoundMem(120,titleBGM);
 	ChangeVolumeSoundMem(120, selectBGM);
+	ChangeVolumeSoundMem(120, clearBGM);
 	ChangeVolumeSoundMem(140, yes);
 	ChangeVolumeSoundMem(120, car);
 }
@@ -87,6 +89,9 @@ void Scene::Update(char* keys, char* oldkeys) {
 			}
 			if (CheckSoundMem(selectBGM) == true) {
 				StopSoundMem(selectBGM);
+			}
+			if (CheckSoundMem(clearBGM) == true) {
+				StopSoundMem(clearBGM);
 			}
 
 			if (CheckSoundMem(titleBGM) == false) {
@@ -361,6 +366,11 @@ void Scene::Update(char* keys, char* oldkeys) {
 			if (CheckSoundMem(mainBGM) == true) {
 				StopSoundMem(mainBGM);
 			}
+
+			if (CheckSoundMem(titleBGM) == false) {
+				PlaySoundMem(titleBGM, DX_PLAYTYPE_LOOP, true);
+			}
+
 
 			//選択
 			if (padInput.Y < 0 || pad & PAD_INPUT_UP) {
