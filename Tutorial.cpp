@@ -51,7 +51,7 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
 		DrawRotaGraph2(-100 - scroll, -110,0,0,2.5,0, tutorial7, true);*/
 		DrawRotaGraph2(2100 - scroll, 120, 0, 0, 1.8, 0, help[isRescued], true);
 		SetFontSize(32);
-		if(player)
+		/*if(player)*/
 		switch (textNum) {
 			case 1:
 				DrawLine(432 - scroll, 0, 432 - scroll, 960, GetColor(200, 0, 0), true);
