@@ -28,7 +28,7 @@ Scene::Scene() {
 
 	vignette = LoadGraph("resource/vignette.png");
 	titleGraph = LoadGraph("resource/title.png");
-	backWall[0] = LoadGraph("resource/BackWall_0 .png");
+	backWall[0] = LoadGraph("resource/BackWall_0.png");
 
 	//BGM
 	mainBGM = LoadSoundMem("sound/main.mp3");
