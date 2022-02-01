@@ -733,7 +733,7 @@ void Scene::Draw() {
 
 			DrawGraph(0, 0, blackGraph, true);
 
-			//tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
+			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
 
 			break;
 	}
