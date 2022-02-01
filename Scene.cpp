@@ -540,7 +540,7 @@ void Scene::Draw() {
 			DrawGraph(0 - player->scroll, 0, backWall[0], true);
 			goal->Draw(rescued, player->scroll);
 			/*fire->DrawFire(player->scroll);*/
-			/*smoke->Draw();*/
+			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
 			rescued->Draw(player->scroll);
