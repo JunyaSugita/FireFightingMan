@@ -35,5 +35,6 @@ public:
 	int help[2];
 	int textSE;
 	int isEx;
+	int blackGraph;
 };
 

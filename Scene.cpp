@@ -544,8 +544,6 @@ void Scene::Draw() {
 			rescued->Draw(player->scroll);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
-			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
-			player->DrawWater();
 			if (player->scene == GAMEOVER) {
 				gameover->DrawGameover();
 				damParticle->Draw(player->player.transform.x, player->player.transform.y, player->scroll);
@@ -553,6 +551,8 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 144);
 			DrawExtendGraph(0,0,1280, 960, vignette, true);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			player->DrawWater();
+			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
 			pause->Draw();
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
