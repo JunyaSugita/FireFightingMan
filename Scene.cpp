@@ -28,7 +28,7 @@ Scene::Scene() {
 
 	vignette = LoadGraph("resource/vignette.png");
 	titleGraph = LoadGraph("resource/title.png");
-	backWall[0] = LoadGraph("resource/BackWall_0.png");
+	backWall[0] = LoadGraph("resource/BackWall_0 .png");
 
 	//BGM
 	mainBGM = LoadSoundMem("sound/main.mp3");
@@ -540,7 +540,7 @@ void Scene::Draw() {
 			DrawGraph(0 - player->scroll, 0, backWall[0], true);
 			goal->Draw(rescued, player->scroll);
 			/*fire->DrawFire(player->scroll);*/
-			smoke->Draw();
+			/*smoke->Draw();*/
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
 			rescued->Draw(player->scroll);
@@ -575,5 +575,4 @@ void Scene::Draw() {
 			break;
 	}
 	goal->Efect();
-	ene->Debug(fire,player->scroll);
 }
