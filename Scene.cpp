@@ -29,6 +29,7 @@ Scene::Scene() {
 	vignette = LoadGraph("resource/vignette.png");
 	titleGraph = LoadGraph("resource/title.png");
 	backWall[0] = LoadGraph("resource/BackWall_0.png");
+	blackGraph = LoadGraph("resource/black.png");
 
 	//BGM
 	mainBGM = LoadSoundMem("sound/main.mp3");
@@ -219,8 +220,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			}
 
 			//チュートリアルの表示
-			tutorial->CountTimer();
-			tutorial->StepUpdate(stageSelect->select, pad, rescued->isRescued, player->player.transform.x, fire->fire[5].isFire, fire->fire[6].isFire, fire->fire[7].isFire);
+			tutorial->StepUpdate(stageSelect->select, pad, rescued->isRescued, player->player.transform.x, fire->fire[5].isFire, fire->fire[6].isFire, fire->fire[7].isFire,player->scene);
 
 			//プレイヤー位置の保存
 			player->SaveOldPlayer();
@@ -269,11 +269,11 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetScroll();
 
 			for (int i = 0; i < 100; i++) {
-				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire, rescued->isRescued);
+				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire, rescued->isRescued,stageSelect->select);
 				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
 			}
 			for (int i = 0; i < 10; i++) {
-				player->PlayerDamage(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, ene->enemy[i].hp, rescued->isRescued);
+				player->PlayerDamage(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, ene->enemy[i].hp, rescued->isRescued,stageSelect->select);
 				particle->Emit(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, 1);
 			}
 			player->DamageCount();
@@ -283,6 +283,59 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			pause->ChangePause(pad, player->scene);
 			pause->Move();
+
+
+			//////////ここからチュートリアル記述//////////
+			if (stageSelect->select == TUTORIAL) {
+				//ダッシュ
+				if (tutorial->isCom[0] == 0) {
+					if (tutorial->step == 0) {
+						player->scene = TEXT;
+						tutorial->textNum = 1;
+					}
+				}
+
+				//ジャンプ
+				if (tutorial->isCom[1] == 0) {
+					if (player->player.transform.x > 432) {
+						player->scene = TEXT;
+						tutorial->textNum = 2;
+					}
+				}
+
+				//水
+				if (tutorial->isCom[2] == 0) {
+					if (player->player.transform.x > 624) {
+						player->scene = TEXT;
+						tutorial->textNum = 3;
+					}
+				}
+
+				//火消
+				if (tutorial->isCom[3] == 0) {
+					if (player->player.transform.x > 912) {
+						player->scene = TEXT;
+						tutorial->textNum = 4;
+					}
+				}
+
+				//救出後
+				if (tutorial->isCom[4] == 0) {
+					if (rescued->isRescued == 1) {
+						player->scene = TEXT;
+						tutorial->textNum = 5;
+					}
+				}
+
+				//水切れ
+				if (tutorial->isCom[5] == 0) {
+					if (player->water == 0) {
+						player->scene = TEXT;
+						tutorial->textNum = 6;
+					}
+				}
+			}
+
 			break;
 
 		case GAMEOVER:
@@ -446,6 +499,88 @@ void Scene::Update(char* keys, char* oldkeys) {
 				}
 			}
 			break;
+
+
+
+		case TEXT://チュートリアル
+			if (player->isShow == 1) {
+
+			}
+			else {
+				if (tutorial->textNum == 1) {
+					if (pad & PAD_INPUT_2) {
+						if (isPush == 0) {
+							isPush = 1;
+							player->scene = 1;
+							tutorial->isCom[0] = 1;
+						}
+					}
+					else {
+						isPush = 0;
+					}
+				}
+				else if (tutorial->textNum == 2) {
+					if (pad & PAD_INPUT_2) {
+						if (isPush == 0) {
+							isPush = 1;
+							player->scene = 1;
+							tutorial->isCom[1] = 1;
+						}
+					}
+					else {
+						isPush = 0;
+					}
+				}
+				else if (tutorial->textNum == 3) {
+					if (pad & PAD_INPUT_2) {
+						if (isPush == 0) {
+							isPush = 1;
+							player->scene = 1;
+							tutorial->isCom[1] = 1;
+						}
+					}
+					else {
+						isPush = 0;
+					}
+				}
+				else if (tutorial->textNum == 4) {
+					if (pad & PAD_INPUT_2) {
+						if (isPush == 0) {
+							isPush = 1;
+							player->scene = 1;
+							tutorial->isCom[1] = 1;
+						}
+					}
+					else {
+						isPush = 0;
+					}
+				}
+				else if (tutorial->textNum == 5) {
+					if (pad & PAD_INPUT_2) {
+						if (isPush == 0) {
+							isPush = 1;
+							player->scene = 1;
+							tutorial->isCom[1] = 1;
+						}
+					}
+					else {
+						isPush = 0;
+					}
+				}
+				else if (tutorial->textNum == 6) {
+					if (pad & PAD_INPUT_2) {
+						if (isPush == 0) {
+							isPush = 1;
+							player->scene = 1;
+							tutorial->isCom[1] = 1;
+						}
+					}
+					else {
+						isPush = 0;
+					}
+				}
+			}
+			break;
 	}
 }
 
@@ -552,11 +687,9 @@ void Scene::Draw() {
 			DrawExtendGraph(0,0,1280, 960, vignette, true);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			player->DrawWater();
-			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
 			pause->Draw();
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-			player->DrawHp();
 			DrawFormatString(0, 0, GetColor(0, 0, 0), "%d",tutorial->step);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			break;
@@ -570,6 +703,36 @@ void Scene::Draw() {
 				DrawLine(0, y - 420 + (i * 60), 1280, y - 420 + (i * 60), GetColor(128, 128, 128), 8);
 			}
 			DrawLine(0, y + 464, 1280, y + 464, GetColor(72, 72, 72), 32);
+			break;
+
+		case TEXT://チュートリアル
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			// 描画処理
+			DrawGraph(0 - player->scroll, 0, backWall[0], true);
+			goal->Draw(rescued, player->scroll);
+			/*fire->DrawFire(player->scroll);*/
+			smoke->Draw();
+			particle->Draw(player->scroll);
+			map->DrawMap(map->map, player->scroll);
+			rescued->Draw(player->scroll);
+			player->bullet->DrawBullet(player->scroll);
+			player->DrawPlayer(rescued->isRescued);
+			if (player->scene == GAMEOVER) {
+				gameover->DrawGameover();
+				damParticle->Draw(player->player.transform.x, player->player.transform.y, player->scroll);
+			}
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 144);
+			DrawExtendGraph(0, 0, 1280, 960, vignette, true);
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			player->DrawWater();
+			pause->Draw();
+
+			//////////////ここからチュートリアル描画/////////////
+
+			DrawGraph(0, 0, blackGraph, true);
+
+			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
+
 			break;
 	}
 	goal->Efect();

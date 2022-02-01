@@ -50,6 +50,7 @@ public:
 	int vignette;
 	int titleGraph;
 	int isClear;
+	int blackGraph;
 
 public:
 	Scene();
