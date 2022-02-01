@@ -62,6 +62,8 @@ void Fire::FireFighting(BULLET bullet[],Smoke* smoke) {
 					
 					if (fire[i].Xr <= 5 || fire[i].Yr <= 10) {
 						fire[i].isFire = false;
+						fire[i].Xr = 0;
+						fire[i].Yr = 0;
 						if (smoke->smokeDensity > -2) {
 							smoke->smokeDensity-= 2;
 						}
