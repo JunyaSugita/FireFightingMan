@@ -94,7 +94,7 @@ public:
 	void DamageCount();
 	void GetPlayer(int BLOCK_SIZE);
 	void GetOldPlayer(int BLOCK_SIZE);
-	void GetScroll();
+	void GetScroll(int select);
 	void BlockCollision(int map[][50]);
 	void DownPlayer(int map[][50], int BLOCK_SIZE);
 	void CheckStick(int InputY, int isRescued);

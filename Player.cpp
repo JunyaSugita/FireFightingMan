@@ -233,7 +233,7 @@ void Player::PlayerShot(int InputX, int InputY, int isRescued) {
 	}
 }
 
-void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued,int select) {
+void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued, int select) {
 	if (isDamage == 0 && isFire >= 1) {
 		if (fireX - fireR < player.transform.x + player.r &&
 			player.transform.x - player.r < fireX + fireR &&
@@ -241,12 +241,6 @@ void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRes
 			player.transform.y - player.r < fireY + fireR) {
 			if (isRescued == 0) {
 				water -= 40;
-				if (select == 0) {
-					if (isShow == 0) {
-						scene = TEXT;
-						isShow = 1;
-					}
-				}
 			}
 			else {
 				hp--;
@@ -305,9 +299,11 @@ void Player::GetOldPlayer(int BLOCK_SIZE) {
 	oldRightBottomY = (oldPlayer.y + player.r - 1) / BLOCK_SIZE;
 }
 
-void Player::GetScroll() {
-	if (player.transform.x >= WIN_WIDTH / 2 && player.transform.x <= WIN_WIDTH + (48 * 10)) {
-		scroll = player.transform.x - WIN_WIDTH / 2;
+void Player::GetScroll(int select) {
+	if (select == 0) {
+		if (player.transform.x >= WIN_WIDTH / 2 && player.transform.x <= WIN_WIDTH - (48 * 4)) {
+			scroll = player.transform.x - WIN_WIDTH / 2;
+		}
 	}
 }
 
@@ -449,5 +445,5 @@ void Player::DrawWater() {
 	if (water > 0) {
 		DrawBox(100, 920, 100 + water, 950, GetColor(0, 160, 200), true);
 	}
-	DrawGraph(75, 920,waterTank,true);
+	DrawGraph(75, 920, waterTank, true);
 }
