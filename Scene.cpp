@@ -263,8 +263,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 			rescued->CatchRescued();
 
 			//敵の出現
-			ene->Update(player->bullet->bullet, map->map, fire);
-
+			ene->Update(player->bullet->bullet, map->map);
+			for (int i = 0; i < fire->FIRE_CONST; i++) {
+				ene->FireColision(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].Yr, fire->fire[i].isFire);
+			}
 			//スクロール
 			player->GetScroll();
 
@@ -573,4 +575,5 @@ void Scene::Draw() {
 			break;
 	}
 	goal->Efect();
+	ene->Debug(fire,player->scroll);
 }

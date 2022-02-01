@@ -45,10 +45,28 @@ void Enemy::Make(int mapChip[][50]) {
 
 }
 
-void Enemy::Update(BULLET bullet[], int mapChip[][50], Fire* fire) {
+void Enemy::Update(BULLET bullet[], int mapChip[][50]) {
 	BulletColision(bullet);
-	Move(mapChip,fire);
+	Move(mapChip);
 }
+void Enemy::FireColision(double fireX, double fireY, int fireXr, int fireYr, int isFire) {
+	for (int i = 0; i < ENEMY_CONST; i++) {
+		if (enemy[i].hp > 0 && isFire == true) {
+			if (fireX - fireXr < enemy[i].transform.x + (enemy[i].hp / 4) &&
+				enemy[i].transform.x - (enemy[i].hp / 4) < fireX + fireXr &&
+				fireY - fireYr < enemy[i].transform.y + (enemy[i].hp / 4) &&
+				enemy[i].transform.y - (enemy[i].hp / 4) < fireY + fireYr) {
+				if (enemy[i].arrow == 0) {
+					enemy[i].arrow = 1;
+				}
+				else if (enemy[i].arrow == 1) {
+					enemy[i].arrow = 0;
+				}
+			}
+		}
+	}
+}
+
 void Enemy::BulletColision(BULLET bullet[]) {
 	for (int i = 0; i < ENEMY_CONST; i++) {
 		for (int j = 0; j < 5000; j++) {
@@ -68,7 +86,7 @@ void Enemy::BulletColision(BULLET bullet[]) {
 	}
 }
 
-void Enemy::Move(int map[][50],Fire* fire) {
+void Enemy::Move(int map[][50]) {
 	for (int i = 0; i < ENEMY_CONST; i++) {
 		enemyRX[i] = (enemy[i].transform.x + enemy[i].hp - 1) / this->map->BLOCK_SIZE;
 		enemyLX[i] = (enemy[i].transform.x - enemy[i].hp) / this->map->BLOCK_SIZE;
@@ -77,12 +95,11 @@ void Enemy::Move(int map[][50],Fire* fire) {
 		enemyDY[i] = (enemy[i].transform.y + (enemy[i].hp / 4) - 1) / this->map->BLOCK_SIZE;
 		enemyY[i] = enemy[i].transform.y / this->map->BLOCK_SIZE;
 		for (int j = 0; j < ENEMY_CONST; j++) {
-			if (i == j) {
-				break;
-			}
-			if (enemy[i].hp > 0 && enemy[j].hp > 0) {
-				//xŽ²ˆÚ“®
-				if (enemy[i].arrow == 0) {
+
+
+			//xŽ²ˆÚ“®
+			if (enemy[i].arrow == 0) {
+				if (enemy[i].hp > 0 && enemy[j].hp > 0) {
 					enemy[i].transform.x--;
 					if (map[enemyY[i]][enemyLX[i] + 1] == BLOCK) {
 						enemy[i].arrow = 1;
@@ -91,16 +108,23 @@ void Enemy::Move(int map[][50],Fire* fire) {
 						enemy[i].transform.x += 2;
 						enemy[i].arrow = 1;
 					}
-					if (enemy[j].transform.x - (enemy[j].hp / 4) < enemy[i].transform.x + (enemy[i].hp / 4) &&
-							enemy[i].transform.x - (enemy[i].hp / 4) < enemy[j].transform.x + (enemy[j].hp / 4) &&
-							enemy[j].transform.y - (enemy[j].hp / 4) < enemy[i].transform.y + (enemy[i].hp / 4) &&
-							enemy[i].transform.y - (enemy[i].hp / 4) < enemy[j].transform.y + (enemy[j].hp / 4)) {
+
+					if (i == j) {
+						break;
+					}
+					else if (enemy[j].transform.x - (enemy[j].hp / 4) < enemy[i].transform.x + (enemy[i].hp / 4) &&
+						enemy[i].transform.x - (enemy[i].hp / 4) < enemy[j].transform.x + (enemy[j].hp / 4) &&
+						enemy[j].transform.y - (enemy[j].hp / 4) < enemy[i].transform.y + (enemy[i].hp / 4) &&
+						enemy[i].transform.y - (enemy[i].hp / 4) < enemy[j].transform.y + (enemy[j].hp / 4)) {
 
 						enemy[i].arrow = 1;
+						enemy[j].arrow = 0;
 					}
 				}
-				else if (enemy[i].arrow == 1) {
-					enemy[i].transform.x ++;
+			}
+			else if (enemy[i].arrow == 1) {
+				if (enemy[i].hp > 0 && enemy[j].hp > 0) {
+					enemy[i].transform.x++;
 					if (map[enemyY[i]][enemyRX[i] - 1] == BLOCK) {
 						enemy[i].arrow = 0;
 					}
@@ -108,24 +132,36 @@ void Enemy::Move(int map[][50],Fire* fire) {
 						enemy[i].transform.x -= 2;
 						enemy[i].arrow = 0;
 					}
-					if (enemy[j].transform.x - (enemy[j].hp / 4) < enemy[i].transform.x + (enemy[i].hp / 4) &&
-							enemy[i].transform.x - (enemy[i].hp / 4) < enemy[j].transform.x + (enemy[j].hp / 4) &&
-							enemy[j].transform.y - (enemy[j].hp / 4) < enemy[i].transform.y + (enemy[i].hp / 4) &&
-							enemy[i].transform.y - (enemy[i].hp / 4) < enemy[j].transform.y + (enemy[j].hp / 4)) {
+
+					if (i == j) {
+						break;
+					}
+					else if (enemy[j].transform.x - (enemy[j].hp / 4) < enemy[i].transform.x + (enemy[i].hp / 4) &&
+						enemy[i].transform.x - (enemy[i].hp / 4) < enemy[j].transform.x + (enemy[j].hp / 4) &&
+						enemy[j].transform.y - (enemy[j].hp / 4) < enemy[i].transform.y + (enemy[i].hp / 4) &&
+						enemy[i].transform.y - (enemy[i].hp / 4) < enemy[j].transform.y + (enemy[j].hp / 4)) {
 
 						enemy[i].arrow = 0;
+						enemy[j].arrow = 1;
 					}
 				}
 			}
-			//yŽ²ˆÚ“®
-			enemy[i].transform.y += 1;
-			if (map[enemyDY[i]][enemyX[i]] == BLOCK) {
-				enemy[i].transform.y--;
-			}
-
-			if (enemy[i].hp <= 8) {
-				enemy[i].hp = 0;
-			}
 		}
+		//yŽ²ˆÚ“®
+		enemy[i].transform.y += 1;
+		if (map[enemyDY[i]][enemyX[i]] == BLOCK) {
+			enemy[i].transform.y--;
+		}
+
+		if (enemy[i].hp <= 16) {
+			enemy[i].hp = 0;
+		}
+	}
+}
+
+void Enemy::Debug(Fire* fire, int scroll) {
+	for (int i = 0; i < ENEMY_CONST; i++) {
+		DrawBox(enemy[i].transform.x - (enemy[i].hp / 4) - scroll, enemy[i].transform.y - (enemy[i].hp / 4), enemy[i].transform.x + (enemy[i].hp / 4) - scroll, enemy[i].transform.y + (enemy[i].hp / 4), GetColor(255, 255, 255), true);
+		DrawBox(fire->fire[i].transform.x - fire->fire[i].Xr - scroll, fire->fire[i].transform.y - fire->fire[i].Yr, fire->fire[i].transform.x + fire->fire[i].Xr - scroll, fire->fire[i].transform.y + fire->fire[i].Yr, GetColor(255, 255, 255), true);
 	}
 }

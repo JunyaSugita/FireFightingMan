@@ -25,8 +25,11 @@ public:
 	~Enemy();
 
 	void Make(int mapChip[][50]);
-	void Update(BULLET bullet[], int mapChip[][50], Fire* fire);
+	void Update(BULLET bullet[], int mapChip[][50]);
 	void BulletColision(BULLET bullet[]);
 
-	void Move(int mapChip[][50], Fire* fire);
+	void Move(int mapChip[][50]);
+	void FireColision(double fireX, double fireY, int fireXr, int fireYr, int isFire);
+
+	void Debug(Fire* fire,int scroll);
 };
