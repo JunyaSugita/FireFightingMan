@@ -14,6 +14,7 @@ Tutorial::Tutorial() {
 	tutorial5 = LoadGraph("resource/tutorial5.png");
 	tutorial6 = LoadGraph("resource/tutorial6.png");
 	tutorial7 = LoadGraph("resource/tutorial7.png");
+	blackGraph = LoadGraph("resource/black.png");
 
 	textSE = LoadSoundMem("sound/text.mp3");
 
@@ -118,6 +119,7 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued) {
 		DrawGraph(800 - scroll, 450, tutorial5, true);
 		DrawGraph(1950 - scroll, 500, tutorial6, true);
 		DrawRotaGraph2(-100 - scroll, -110,0,0,2.5,0, tutorial7, true);*/
+		/*DrawGraph(0, 0, blackGraph, true);*/
 		DrawRotaGraph2(2100 - scroll, 120, 0, 0, 1.8, 0, help[isRescued], true);
 		switch (step) {
 			case 0:
