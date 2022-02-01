@@ -41,8 +41,8 @@ Scene::Scene() {
 	car = LoadSoundMem("sound/car.ogg");
 
 	//音量調整
-	ChangeVolumeSoundMem(120,mainBGM);
-	ChangeVolumeSoundMem(120,titleBGM);
+	ChangeVolumeSoundMem(120, mainBGM);
+	ChangeVolumeSoundMem(120, titleBGM);
 	ChangeVolumeSoundMem(120, selectBGM);
 	ChangeVolumeSoundMem(120, clearBGM);
 	ChangeVolumeSoundMem(140, yes);
@@ -106,7 +106,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			}
 
 			if (isClear == 1) {
-					y -= 64;
+				y -= 64;
 				if (y + 480 < 0) {
 					isChange = 0;
 					isClear = 0;
@@ -125,10 +125,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 					}
 				}
 			}
-			else if (isClear == 0){
+			else if (isClear == 0) {
 				time++;
 			}
-			else{}
+			else {}
 			damParticle->Reset();
 			stageSelect->Reset();
 
@@ -229,7 +229,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->GetPlayerBottom(map->BLOCK_SIZE);
 
 			//プレイヤーの移動
-			player->Dash(pad, rescued->isRescued,padInput.Rx,padInput.Ry);
+			player->Dash(pad, rescued->isRescued, padInput.Rx, padInput.Ry);
 			player->PlayerJump(pad, rescued->isRescued, map->map);
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
 			player->CheckStick(padInput.Ry, rescued->isRescued);
@@ -263,7 +263,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			rescued->CatchRescued();
 
 			//敵の出現
-			ene->Update(player->bullet->bullet, map->map);
+			ene->Update(player->bullet->bullet, map->map, fire);
 
 			//スクロール
 			player->GetScroll();
@@ -535,7 +535,7 @@ void Scene::Draw() {
 		case PAUSE:
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			// 描画処理
-			DrawGraph(0- player->scroll, 0, backWall[0], true);
+			DrawGraph(0 - player->scroll, 0, backWall[0], true);
 			goal->Draw(rescued, player->scroll);
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();
@@ -549,7 +549,7 @@ void Scene::Draw() {
 				damParticle->Draw(player->player.transform.x, player->player.transform.y, player->scroll);
 			}
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 144);
-			DrawExtendGraph(0,0,1280, 960, vignette, true);
+			DrawExtendGraph(0, 0, 1280, 960, vignette, true);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			player->DrawWater();
 			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued);
@@ -557,12 +557,12 @@ void Scene::Draw() {
 			//デバッグ
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 			player->DrawHp();
-			DrawFormatString(0, 0, GetColor(0, 0, 0), "%d",tutorial->step);
+			DrawFormatString(0, 0, GetColor(0, 0, 0), "%d", tutorial->step);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			break;
 
 		case CLEAR:
-			
+
 			clear->Draw();
 
 			DrawBox(x - 640, y - 480, x + 640, y + 480, GetColor(200, 200, 200), true);

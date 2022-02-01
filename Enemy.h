@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "bullet.h"
 #include "Map.h"
+#include "fire.h"
 
 class Enemy {
 public:
@@ -15,6 +16,7 @@ public:
 	int enemyY[ENEMY_CONST];
 
 	Map* map;
+	Fire* fire;
 
 	int hitSE;
 
@@ -23,8 +25,8 @@ public:
 	~Enemy();
 
 	void Make(int mapChip[][50]);
-	void Update(BULLET bullet[], int mapChip[][50]);
+	void Update(BULLET bullet[], int mapChip[][50], Fire* fire);
 	void BulletColision(BULLET bullet[]);
 
-	void Move(int mapChip[][50]);
+	void Move(int mapChip[][50], Fire* fire);
 };

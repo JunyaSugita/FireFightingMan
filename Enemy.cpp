@@ -16,6 +16,7 @@ Enemy::Enemy() {
 		enemyY[i] = 0;
 	}
 	map = new Map;
+	fire = new Fire;
 
 	hitSE = LoadSoundMem("sound/hit.wav");
 
@@ -23,6 +24,7 @@ Enemy::Enemy() {
 }
 Enemy::~Enemy() {
 	delete map;
+	delete fire;
 }
 
 void Enemy::Make(int mapChip[][50]) {
@@ -43,9 +45,9 @@ void Enemy::Make(int mapChip[][50]) {
 
 }
 
-void Enemy::Update(BULLET bullet[],int mapChip[][50]) {
+void Enemy::Update(BULLET bullet[], int mapChip[][50], Fire* fire) {
 	BulletColision(bullet);
-	Move(mapChip);
+	Move(mapChip,fire);
 }
 void Enemy::BulletColision(BULLET bullet[]) {
 	for (int i = 0; i < ENEMY_CONST; i++) {
@@ -66,7 +68,7 @@ void Enemy::BulletColision(BULLET bullet[]) {
 	}
 }
 
-void Enemy::Move(int map[][50]) {
+void Enemy::Move(int map[][50],Fire* fire) {
 	for (int i = 0; i < ENEMY_CONST; i++) {
 		enemyRX[i] = (enemy[i].transform.x + enemy[i].hp - 1) / this->map->BLOCK_SIZE;
 		enemyLX[i] = (enemy[i].transform.x - enemy[i].hp) / this->map->BLOCK_SIZE;
@@ -74,32 +76,55 @@ void Enemy::Move(int map[][50]) {
 		enemyX[i] = enemy[i].transform.x / this->map->BLOCK_SIZE;
 		enemyDY[i] = (enemy[i].transform.y + (enemy[i].hp / 4) - 1) / this->map->BLOCK_SIZE;
 		enemyY[i] = enemy[i].transform.y / this->map->BLOCK_SIZE;
-		if (enemy[i].hp > 0) {
-			//xŽ²ˆÚ“®
-			if (enemy[i].arrow == 0) {
-				enemy[i].transform.x--;
-				if (map[enemyY[i]][enemyLX[i] + 1] == BLOCK) {
-					enemy[i].arrow = 1;
-				}
-				else if (map[enemyDY[i]][enemyLX[i] + 1] != BLOCK) {
-					enemy[i].transform.x++;
-					enemy[i].arrow = 1;
-				}
+		for (int j = 0; j < ENEMY_CONST; j++) {
+			if (i == j) {
+				break;
 			}
-			else if (enemy[i].arrow == 1) {
-				enemy[i].transform.x++;
-				if (map[enemyY[i]][enemyRX[i] - 1] == BLOCK) {
-					enemy[i].arrow = 0;
-				}
-				else if (map[enemyDY[i]][enemyRX[i] - 1] != BLOCK) {
+			if (enemy[i].hp > 0 && enemy[j].hp > 0) {
+				//xŽ²ˆÚ“®
+				if (enemy[i].arrow == 0) {
 					enemy[i].transform.x--;
-					enemy[i].arrow = 0;
+					if (map[enemyY[i]][enemyLX[i] + 1] == BLOCK) {
+						enemy[i].arrow = 1;
+					}
+					else if (map[enemyDY[i]][enemyLX[i] + 1] != BLOCK) {
+						enemy[i].transform.x += 2;
+						enemy[i].arrow = 1;
+					}
+					if (enemy[j].transform.x - (enemy[j].hp / 4) < enemy[i].transform.x + (enemy[i].hp / 4) &&
+							enemy[i].transform.x - (enemy[i].hp / 4) < enemy[j].transform.x + (enemy[j].hp / 4) &&
+							enemy[j].transform.y - (enemy[j].hp / 4) < enemy[i].transform.y + (enemy[i].hp / 4) &&
+							enemy[i].transform.y - (enemy[i].hp / 4) < enemy[j].transform.y + (enemy[j].hp / 4)) {
+
+						enemy[i].arrow = 1;
+					}
+				}
+				else if (enemy[i].arrow == 1) {
+					enemy[i].transform.x ++;
+					if (map[enemyY[i]][enemyRX[i] - 1] == BLOCK) {
+						enemy[i].arrow = 0;
+					}
+					else if (map[enemyDY[i]][enemyRX[i] - 1] != BLOCK) {
+						enemy[i].transform.x -= 2;
+						enemy[i].arrow = 0;
+					}
+					if (enemy[j].transform.x - (enemy[j].hp / 4) < enemy[i].transform.x + (enemy[i].hp / 4) &&
+							enemy[i].transform.x - (enemy[i].hp / 4) < enemy[j].transform.x + (enemy[j].hp / 4) &&
+							enemy[j].transform.y - (enemy[j].hp / 4) < enemy[i].transform.y + (enemy[i].hp / 4) &&
+							enemy[i].transform.y - (enemy[i].hp / 4) < enemy[j].transform.y + (enemy[j].hp / 4)) {
+
+						enemy[i].arrow = 0;
+					}
 				}
 			}
 			//yŽ²ˆÚ“®
 			enemy[i].transform.y += 1;
 			if (map[enemyDY[i]][enemyX[i]] == BLOCK) {
 				enemy[i].transform.y--;
+			}
+
+			if (enemy[i].hp <= 8) {
+				enemy[i].hp = 0;
 			}
 		}
 	}
