@@ -241,7 +241,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->bullet->BulletMove(player->G, padInput.X, padInput.Y);
 
 			//消化
-			fire->FireFighting(player->bullet->bullet, smoke);
+			fire->FireFighting(player->bullet->bullet, smoke, map->map);
 
 			//マップチップ上の座標位置の取得
 			player->GetOldPlayer(map->BLOCK_SIZE);
