@@ -3,6 +3,7 @@
 #include "map.h"
 #include "bullet.h"
 #include "Smoke.h"
+#include "Charcoal.h"
 
 class Fire {
 public:
@@ -11,7 +12,7 @@ public:
 
 public:
 	void SetFire(int map[][50]);
-	void FireFighting(BULLET bullet[], Smoke* smoke);
+	void FireFighting(BULLET bullet[], Smoke* smoke, int map[][50]);
 	void DeleteFire();
 
 	void DrawFire(int scroll);
@@ -22,6 +23,7 @@ public:
 	Map* map;
 	Bullet* bullet;
 	Smoke* smoke;
+	Charcoal* charcoal;
 
 	int fireSE;
 	int hitSE;

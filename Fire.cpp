@@ -47,7 +47,7 @@ void Fire::SetFire(int mapChip[][50]) {
 	}
 }
 
-void Fire::FireFighting(BULLET bullet[],Smoke* smoke) {
+void Fire::FireFighting(BULLET bullet[],Smoke* smoke,int map[][50]) {
 	for (int i = 0; i < FIRE_CONST; i++) {
 		for (int j = 0; j < this->bullet->BULLET_CONST; j++) {
 			if (fire[i].isFire == true && bullet[j].isShot == true) {
@@ -61,6 +61,7 @@ void Fire::FireFighting(BULLET bullet[],Smoke* smoke) {
 					bullet[j].isShot = false;
 					
 					if (fire[i].Xr <= 5 || fire[i].Yr <= 10) {
+						charcoal->SetChar(fire[i].transform.x, fire[i].transform.y,map);
 						fire[i].isFire = false;
 						fire[i].Xr = 0;
 						fire[i].Yr = 0;
