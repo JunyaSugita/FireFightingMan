@@ -64,6 +64,9 @@ public:
 	int graph_h2;
 	int waterTank;
 
+	//チュートリアル用
+	int isShow;
+
 	//弾
 	Bullet* bullet;
 	//マップ
@@ -87,7 +90,7 @@ public:
 	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
 	void PlayerJump(int pad, int isRescued, int map[][50]);
 	void PlayerShot(int InputX, int InputY, int isRescued);
-	void PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued);
+	void PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued, int select);
 	void DamageCount();
 	void GetPlayer(int BLOCK_SIZE);
 	void GetOldPlayer(int BLOCK_SIZE);

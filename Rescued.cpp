@@ -78,7 +78,7 @@ void Rescued::Move(Player* player) {
 	}
 	if (isRescued == false) {
 		rescueAniTime++;
-		if (160 <= rescueAniTime) {
+		if (40 <= rescueAniTime) {
 			rescueAniTime = 0;
 		}
 	}
@@ -88,16 +88,16 @@ void Rescued::Move(Player* player) {
 void Rescued::Draw(int scroll) {
 	//DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);7
 	if (isRescued == false) {
-		if (0 <= rescueAniTime && rescueAniTime <= 40) {
+		if (0 <= rescueAniTime && rescueAniTime <= 10) {
 			DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[0], 1, 0, 0);
 		}
-		if (41 <= rescueAniTime && rescueAniTime <= 80) {
+		if (11 <= rescueAniTime && rescueAniTime <= 20) {
 			DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[1], 1, 0, 0);
 		}
-		if (81 <= rescueAniTime && rescueAniTime <= 120) {
+		if (21 <= rescueAniTime && rescueAniTime <= 30) {
 			DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[2], 1, 0, 0);
 		}
-		if (121 <= rescueAniTime && rescueAniTime <= 160) {
+		if (31 <= rescueAniTime && rescueAniTime <= 40) {
 			DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[3], 1, 0, 0);
 		}
 	}

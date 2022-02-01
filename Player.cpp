@@ -27,6 +27,8 @@ Player::Player() {
 
 	isButton = 0;
 
+	isShow = 0;
+
 	water = WATER_CONST;
 
 	//左上の座標
@@ -231,7 +233,7 @@ void Player::PlayerShot(int InputX, int InputY, int isRescued) {
 	}
 }
 
-void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued) {
+void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued,int select) {
 	if (isDamage == 0 && isFire >= 1) {
 		if (fireX - fireR < player.transform.x + player.r &&
 			player.transform.x - player.r < fireX + fireR &&
@@ -239,6 +241,12 @@ void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRes
 			player.transform.y - player.r < fireY + fireR) {
 			if (isRescued == 0) {
 				water -= 40;
+				if (select == 0) {
+					if (isShow == 0) {
+						scene = TEXT;
+						isShow = 1;
+					}
+				}
 			}
 			else {
 				hp--;
