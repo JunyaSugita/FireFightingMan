@@ -9,7 +9,8 @@ public:
 	Transform transform;
 	int r;
 	int isRescued;
-	int rescueGraph[2];
+	int rescueGraph[5];
+	int rescueAniTime;
 	Player* player;
 	int cx;
 	int cy[2];

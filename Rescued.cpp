@@ -9,8 +9,7 @@ Rescued::Rescued() {
 	r = 20;
 	isRescued = false;
 
-	rescueGraph[0] = LoadGraph("resource/syoubousi_kyujo.png");
-	rescueGraph[1] = LoadGraph("resource/syoubousi_kyujo_2.png");
+	LoadDivGraph("resource/syoubousi_kyujo.png",5,5,1,64,64, rescueGraph,true);
 
 	player = new Player;
 	cx = 0;
@@ -19,6 +18,7 @@ Rescued::Rescued() {
 	}
 	cr = 36;
 	time = 0;
+	rescueAniTime = 0;
 	alpha = 255;
 	catchGraph = LoadGraph("resource/catch.png");
 	map = new Map;
@@ -76,13 +76,30 @@ void Rescued::Move(Player* player) {
 		transform.x = player->player.transform.x;
 		transform.y = player->player.transform.y - 25;
 	}
+	if (isRescued == false) {
+		rescueAniTime++;
+		if (160 <= rescueAniTime) {
+			rescueAniTime = 0;
+		}
+	}
 }
 
 //描画関数
 void Rescued::Draw(int scroll) {
 	//DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);7
 	if (isRescued == false) {
-		DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[0], 1, 0, 0);
+		if (0 <= rescueAniTime && rescueAniTime <= 40) {
+			DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[0], 1, 0, 0);
+		}
+		if (41 <= rescueAniTime && rescueAniTime <= 80) {
+			DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[1], 1, 0, 0);
+		}
+		if (81 <= rescueAniTime && rescueAniTime <= 120) {
+			DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[2], 1, 0, 0);
+		}
+		if (121 <= rescueAniTime && rescueAniTime <= 160) {
+			DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[3], 1, 0, 0);
+		}
 	}
 	if (isRescued == true) {
 		SetDrawBlendMode(DX_BLENDMODE_ADD, 200);
@@ -92,7 +109,7 @@ void Rescued::Draw(int scroll) {
 			}
 		}
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[1], 1, 0, 0);
+		DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[4], 1, 0, 0);
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 		DrawRotaGraph2(cx -scroll - 128, cy[1] - 32,0,0,1.2,0, catchGraph, true);
@@ -106,6 +123,7 @@ void Rescued::Reset() {
 	transform.y = 300;
 	cr = 36;
 	time = 0;
+	rescueAniTime = 0;
 	alpha = 255;
 	isRescued = false;
 }
