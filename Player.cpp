@@ -174,7 +174,7 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 
 	inertia = 0;
 	if (isRescued == false && player.jumpPow <= G && water > 0) {
-		if (RInputX <= 0 && RInputY >= 0 && (RInputX != 0 || RInputY != 0)) {
+		if (RInputX != 0 || RInputY != 0) {
 			player.transform.x += (RInputX * -1) / 180;
 			inertia = (RInputY * -1) / 70;
 
@@ -226,7 +226,7 @@ void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
 
 void Player::PlayerShot(int InputX, int InputY, int isRescued) {
 	if (isRescued == false && player.jumpPow <= G && water > 0) {
-		if (InputX <= 0 && InputY >= 0 && (InputX != 0 || InputY != 0)) {
+		if (InputX != 0 || InputY != 0) {
 			bullet->BulletShot(player.transform, InputX, InputY);
 			water--;
 		}
