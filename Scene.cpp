@@ -249,7 +249,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
 			rescued->RescuedCollision(player, player->hp, stageSelect->select);
-			goal->GetGoal(player, rescued, player->hp, fire);
+			goal->GetGoal(player, rescued, player->hp, fire, stageSelect->select);
 			gameover->GotoGameover(player->scene, player->hp);
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
@@ -788,7 +788,7 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			// 描画処理
 			DrawGraph(0 - player->scroll, 0, backWall[0], true);
-			goal->Draw(rescued, player->scroll);
+			goal->Draw(rescued, player->scroll,stageSelect->select);
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();
 			particle->Draw(player->scroll);
@@ -822,7 +822,7 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			// 描画処理
 			DrawGraph(0 - player->scroll, 0, backWall[0], true);
-			goal->Draw(rescued, player->scroll);
+			goal->Draw(rescued, player->scroll,stageSelect->select);
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();
 			particle->Draw(player->scroll);
