@@ -18,6 +18,7 @@ Scene::Scene() {
 	pause = new Pause;
 	smoke = new Smoke;
 	clear = new Clear;
+	charcoal = new Charcoal;
 
 	x = 640;
 	y = -480;
@@ -65,6 +66,7 @@ Scene::~Scene() {
 	delete damParticle;
 	delete smoke;
 	delete clear;
+	delete charcoal;
 }
 
 
@@ -219,9 +221,6 @@ void Scene::Update(char* keys, char* oldkeys) {
 				PlaySoundMem(mainBGM, DX_PLAYTYPE_LOOP, true);
 			}
 
-			//チュートリアルの表示
-			tutorial->StepUpdate(stageSelect->select, pad, rescued->isRescued, player->player.transform.x, fire->fire[5].isFire, fire->fire[6].isFire, fire->fire[7].isFire,player->scene);
-
 			//プレイヤー位置の保存
 			player->SaveOldPlayer();
 
@@ -230,7 +229,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			//プレイヤーの移動
 			player->Dash(pad, rescued->isRescued, padInput.Rx, padInput.Ry);
-			player->PlayerJump(pad, rescued->isRescued, map->map);
+			player->PlayerJump(pad, rescued->isRescued, map->map, charcoal->isChar);
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
 			player->CheckStick(padInput.Ry, rescued->isRescued);
 
@@ -249,10 +248,10 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->bullet->GetBullet(map->BLOCK_SIZE);
 
 			//当たり判定
-			player->BlockCollision(map->map);
+			player->BlockCollision(map->map, charcoal->isChar);
 			player->bullet->BlockCollision(map->map);
 			rescued->RescuedCollision(player, player->hp, stageSelect->select);
-			goal->GetGoal(player, rescued, player->hp, fire);
+			goal->GetGoal(player, rescued, player->hp, fire, stageSelect->select);
 			gameover->GotoGameover(player->scene, player->hp);
 			//プレイヤーが地面で浮かないように
 			player->GetPlayer(map->BLOCK_SIZE);
@@ -268,14 +267,14 @@ void Scene::Update(char* keys, char* oldkeys) {
 				ene->FireColision(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].Yr, fire->fire[i].isFire);
 			}
 			//スクロール
-			player->GetScroll();
+			player->GetScroll(stageSelect->select);
 
 			for (int i = 0; i < 100; i++) {
-				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire, rescued->isRescued,stageSelect->select);
+				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire, rescued->isRescued, stageSelect->select);
 				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
 			}
 			for (int i = 0; i < 10; i++) {
-				player->PlayerDamage(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, ene->enemy[i].hp, rescued->isRescued,stageSelect->select);
+				player->PlayerDamage(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, ene->enemy[i].hp, rescued->isRescued, stageSelect->select);
 				particle->Emit(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, 1);
 			}
 			player->DamageCount();
@@ -299,7 +298,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 				//ジャンプ
 				if (tutorial->isCom[1] == 0) {
-					if (player->player.transform.x > 432) {
+					if (player->player.transform.x > 400) {
 						player->scene = TEXT;
 						tutorial->textNum = 2;
 					}
@@ -307,7 +306,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 				//水
 				if (tutorial->isCom[2] == 0) {
-					if (player->player.transform.x > 624) {
+					if (player->player.transform.x > 778) {
 						player->scene = TEXT;
 						tutorial->textNum = 3;
 					}
@@ -315,26 +314,33 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 				//火消
 				if (tutorial->isCom[3] == 0) {
-					if (player->player.transform.x > 912) {
+					if (player->player.transform.x > 1018) {
 						player->scene = TEXT;
 						tutorial->textNum = 4;
 					}
 				}
 
-				//救出後
+				//ブロック
 				if (tutorial->isCom[4] == 0) {
-					if (rescued->isRescued == 1) {
+					if (player->player.transform.x > 1278) {
 						player->scene = TEXT;
 						tutorial->textNum = 5;
 					}
 				}
 
-				//水切れ
+				//救出後
 				if (tutorial->isCom[5] == 0) {
-					if (player->water == 0) {
+					if (rescued->isRescued == 1) {
 						player->scene = TEXT;
 						tutorial->textNum = 6;
 					}
+				}
+			}
+
+			if (isLost == 0) {
+				if (player->water == 0) {
+					player->scene = TEXT;
+					isLost = 1;
 				}
 			}
 
@@ -471,6 +477,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 							PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
 							isChange = 1;
 							time = 0;
+							isLost = 0;
 						}
 					}
 				}
@@ -505,8 +512,43 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 
 		case TEXT://チュートリアル
-			if (player->isShow == 1) {
+			pause->ChangePause(pad, player->scene);
+			pause->Move();
 
+			if (CheckSoundMem(player->walkSE) == 1) {
+				StopSoundMem(player->walkSE);
+			}
+			if (CheckSoundMem(player->dashSE) == 1) {
+				StopSoundMem(player->dashSE);
+			}
+
+
+			if (isLost == 1) {
+				if (tutorial->lostNum == 0) {
+					if (pad & PAD_INPUT_2) {
+						if (isPush == 0) {
+							isPush = 1;
+							tutorial->lostNum = 1;
+							PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+						}
+					}
+					else {
+						isPush = 0;
+					}
+				}
+				else if (tutorial->lostNum == 1) {
+					if (pad & PAD_INPUT_2) {
+						if (isPush == 0) {
+							isPush = 1;
+							player->scene = 1;
+							isLost = 2;
+							PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+						}
+					}
+					else {
+						isPush = 0;
+					}
+				}
 			}
 			else {
 				if (tutorial->textNum == 1) {
@@ -515,6 +557,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 							isPush = 1;
 							player->scene = 1;
 							tutorial->isCom[0] = 1;
+							PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
 						}
 					}
 					else {
@@ -527,6 +570,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 							isPush = 1;
 							player->scene = 1;
 							tutorial->isCom[1] = 1;
+							PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
 						}
 					}
 					else {
@@ -534,51 +578,124 @@ void Scene::Update(char* keys, char* oldkeys) {
 					}
 				}
 				else if (tutorial->textNum == 3) {
-					if (pad & PAD_INPUT_2) {
-						if (isPush == 0) {
-							isPush = 1;
-							player->scene = 1;
-							tutorial->isCom[1] = 1;
+					if (tutorial->exNum[0] == 0) {
+						if (pad & PAD_INPUT_2) {
+							if (isPush == 0) {
+								isPush = 1;
+								tutorial->exNum[0] = 1;
+								PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							}
+						}
+						else {
+							isPush = 0;
 						}
 					}
-					else {
-						isPush = 0;
+					if (tutorial->exNum[0] == 1) {
+						if (pad & PAD_INPUT_2) {
+							if (isPush == 0) {
+								isPush = 1;
+								player->scene = 1;
+								tutorial->isCom[2] = 1;
+								PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							}
+						}
+						else {
+							isPush = 0;
+						}
 					}
 				}
 				else if (tutorial->textNum == 4) {
-					if (pad & PAD_INPUT_2) {
-						if (isPush == 0) {
-							isPush = 1;
-							player->scene = 1;
-							tutorial->isCom[1] = 1;
+					if (tutorial->exNum[1] == 0) {
+						if (pad & PAD_INPUT_2) {
+							if (isPush == 0) {
+								isPush = 1;
+								tutorial->exNum[1] = 1;
+								PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							}
+						}
+						else {
+							isPush = 0;
 						}
 					}
-					else {
-						isPush = 0;
+					if (tutorial->exNum[1] == 1) {
+						if (pad & PAD_INPUT_2) {
+							if (isPush == 0) {
+								isPush = 1;
+								tutorial->exNum[1] = 1;
+								tutorial->isCom[3] = 1;
+								player->scene = 1;
+								PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							}
+						}
+						else {
+							isPush = 0;
+						}
 					}
 				}
 				else if (tutorial->textNum == 5) {
-					if (pad & PAD_INPUT_2) {
-						if (isPush == 0) {
-							isPush = 1;
-							player->scene = 1;
-							tutorial->isCom[1] = 1;
+					if (tutorial->exNum[2] == 0) {
+						if (pad & PAD_INPUT_2) {
+							if (isPush == 0) {
+								isPush = 1;
+								tutorial->exNum[2] = 1;
+								PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							}
+						}
+						else {
+							isPush = 0;
 						}
 					}
-					else {
-						isPush = 0;
+					if (tutorial->exNum[2] == 1) {
+						if (pad & PAD_INPUT_2) {
+							if (isPush == 0) {
+								isPush = 1;
+								player->scene = 1;
+								tutorial->isCom[4] = 1;
+								PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							}
+						}
+						else {
+							isPush = 0;
+						}
 					}
 				}
 				else if (tutorial->textNum == 6) {
-					if (pad & PAD_INPUT_2) {
-						if (isPush == 0) {
-							isPush = 1;
-							player->scene = 1;
-							tutorial->isCom[1] = 1;
+					if (tutorial->exNum[3] == 0) {
+						if (pad & PAD_INPUT_2) {
+							if (isPush == 0) {
+								isPush = 1;
+								tutorial->exNum[3] = 1;
+								PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							}
+						}
+						else {
+							isPush = 0;
 						}
 					}
-					else {
-						isPush = 0;
+					if (tutorial->exNum[3] == 1) {
+						if (pad & PAD_INPUT_2) {
+							if (isPush == 0) {
+								isPush = 1;
+								tutorial->exNum[3] = 2;
+								PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							}
+						}
+						else {
+							isPush = 0;
+						}
+					}
+					if (tutorial->exNum[3] == 2) {
+						if (pad & PAD_INPUT_2) {
+							if (isPush == 0) {
+								isPush = 1;
+								tutorial->isCom[5] = 1;
+								player->scene = 1;
+								PlaySoundMem(yes, DX_PLAYTYPE_BACK, true);
+							}
+						}
+						else {
+							isPush = 0;
+						}
 					}
 				}
 			}
@@ -673,12 +790,12 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			// 描画処理
 			DrawGraph(0 - player->scroll, 0, backWall[0], true);
-			goal->Draw(rescued, player->scroll);
+			goal->Draw(rescued, player->scroll, stageSelect->select);
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll);
+			rescued->Draw(player->scroll,player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {
@@ -690,10 +807,6 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			player->DrawWater();
 			pause->Draw();
-			//デバッグ
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-			DrawFormatString(0, 0, GetColor(0, 0, 0), "%d",tutorial->step);
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			break;
 
 		case CLEAR:
@@ -711,12 +824,12 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			// 描画処理
 			DrawGraph(0 - player->scroll, 0, backWall[0], true);
-			goal->Draw(rescued, player->scroll);
+			goal->Draw(rescued, player->scroll, stageSelect->select);
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll);
+			rescued->Draw(player->scroll,player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {
@@ -733,7 +846,13 @@ void Scene::Draw() {
 
 			DrawGraph(0, 0, blackGraph, true);
 
-			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued,stageSelect->select);
+			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued, isLost);
+			if (tutorial->textNum == 3) {
+				if (player->water > 0) {
+					DrawBox(100, 920, 100 + player->water, 950, GetColor(0, 160, 200), true);
+				}
+				DrawGraph(75, 920, player->waterTank, true);
+			}
 
 			break;
 	}

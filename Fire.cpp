@@ -15,6 +15,7 @@ Fire::Fire() {
 
 	map = new Map;
 	bullet = new Bullet;
+	charcoal = new Charcoal;
 	
 	fireSE = LoadSoundMem("sound/fire.mp3");
 	hitSE = LoadSoundMem("sound/hit.wav");
@@ -26,6 +27,7 @@ Fire::Fire() {
 Fire::~Fire() {
 	delete map;
 	delete bullet;
+	delete charcoal;
 }
 
 void Fire::SetFire(int mapChip[][50]) {
