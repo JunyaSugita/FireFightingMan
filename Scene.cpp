@@ -18,6 +18,7 @@ Scene::Scene() {
 	pause = new Pause;
 	smoke = new Smoke;
 	clear = new Clear;
+	charcoal = new Charcoal;
 
 	x = 640;
 	y = -480;
@@ -79,6 +80,7 @@ Scene::~Scene() {
 	delete damParticle;
 	delete smoke;
 	delete clear;
+	delete charcoal;
 }
 
 
@@ -242,6 +244,45 @@ void Scene::Update(char* keys, char* oldkeys) {
 						whiteX[i] = 1480;
 					}
 				}
+			//プレイヤー位置の保存
+			player->SaveOldPlayer();
+
+			//プレイヤーのジャンプの可否
+			player->GetPlayerBottom(map->BLOCK_SIZE);
+
+			//プレイヤーの移動
+			player->Dash(pad, rescued->isRescued, padInput.Rx, padInput.Ry);
+			player->PlayerJump(pad, rescued->isRescued, map->map);
+			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
+			player->CheckStick(padInput.Ry, rescued->isRescued);
+
+			//弾の発射
+			player->PlayerShot(padInput.Rx, padInput.Ry, rescued->isRescued);
+
+			//弾の挙動
+			player->bullet->BulletMove(player->G, padInput.X, padInput.Y);
+
+			//消化
+			fire->FireFighting(player->bullet->bullet, smoke, map->map);
+
+			//マップチップ上の座標位置の取得
+			player->GetOldPlayer(map->BLOCK_SIZE);
+			player->GetPlayer(map->BLOCK_SIZE);
+			player->bullet->GetBullet(map->BLOCK_SIZE);
+
+			//当たり判定
+			player->BlockCollision(map->map);
+			player->bullet->BlockCollision(map->map);
+			rescued->RescuedCollision(player, player->hp, stageSelect->select);
+			goal->GetGoal(player, rescued, player->hp, fire, stageSelect->select);
+			gameover->GotoGameover(player->scene, player->hp);
+			//プレイヤーが地面で浮かないように
+			player->GetPlayer(map->BLOCK_SIZE);
+			player->GetPlayerBottom(map->BLOCK_SIZE);
+			player->CheckStick(padInput.Ry, rescued->isRescued);
+			player->DownPlayer(map->map, map->BLOCK_SIZE);
+			rescued->Move(player);
+			rescued->CatchRescued();
 
 				if (openTime < 12) {
 					textX -= 64;
@@ -258,6 +299,9 @@ void Scene::Update(char* keys, char* oldkeys) {
 					textX = 1480;
 					openTime = 0;
 				}
+			for (int i = 0; i < 100; i++) {
+				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire, rescued->isRescued, stageSelect->select);
+				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
 			}
 			else {
 				//プレイヤー位置の保存
@@ -831,12 +875,12 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			// 描画処理
 			DrawGraph(0 - player->scroll, 0, backWall[0], true);
-			goal->Draw(rescued, player->scroll,stageSelect->select);
+			goal->Draw(rescued, player->scroll, stageSelect->select);
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll);
+			rescued->Draw(player->scroll,player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {
@@ -881,12 +925,12 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			// 描画処理
 			DrawGraph(0 - player->scroll, 0, backWall[0], true);
-			goal->Draw(rescued, player->scroll,stageSelect->select);
+			goal->Draw(rescued, player->scroll, stageSelect->select);
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll);
+			rescued->Draw(player->scroll,player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {
@@ -903,7 +947,7 @@ void Scene::Draw() {
 
 			DrawGraph(0, 0, blackGraph, true);
 
-			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued,isLost);
+			tutorial->DrawTutorial(stageSelect->select, player->scroll, rescued->isRescued, isLost);
 			if (tutorial->textNum == 3) {
 				if (player->water > 0) {
 					DrawBox(100, 920, 100 + player->water, 950, GetColor(0, 160, 200), true);

@@ -11,7 +11,7 @@ typedef struct {
 	Transform transform;
 	int r;
 	int isJump;
-	int jumpPow;
+	double jumpPow;
 } PLAYER;
 
 //前フレームのプレイヤーの定義
