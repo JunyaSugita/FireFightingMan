@@ -33,6 +33,9 @@ Tutorial::~Tutorial() {}
 
 
 void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
+	SetFontSize(64);
+	DrawFormatString(525, 80, GetColor(255, 255, 255), "‚­‚ñ‚ê‚ñ");
+	SetFontSize(32);
 	if (serect == 0) {
 		DrawRotaGraph2(2100 - scroll, 120, 0, 0, 1.8, 0, help[isRescued], true);
 		SetFontSize(32);
