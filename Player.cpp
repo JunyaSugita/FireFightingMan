@@ -37,49 +37,49 @@ Player::Player() {
 	//左下の座標
 	leftBottomX = 0;
 	leftBottomY = 0;
-	//右下の座標
-	rightTopX = 0;
-	rightTopY = 0;
-	//右下の座標
-	rightBottomX = 0;
-	rightBottomY = 0;
-	//1フレーム前の左上の座標
-	oldLeftTopX = 0;
-	oldLeftTopY = 0;
-	//1フレーム前の右上の座標
-	oldRightTopX = 0;
-	oldRightTopY = 0;
-	//1フレーム前の左下の座標
-	oldLeftBottomX = 0;
-	oldLeftBottomY = 0;
-	//1フレーム前の右下の座標
-	oldRightBottomX = 0;
-	oldRightBottomY = 0;
+//右下の座標
+rightTopX = 0;
+rightTopY = 0;
+//右下の座標
+rightBottomX = 0;
+rightBottomY = 0;
+//1フレーム前の左上の座標
+oldLeftTopX = 0;
+oldLeftTopY = 0;
+//1フレーム前の右上の座標
+oldRightTopX = 0;
+oldRightTopY = 0;
+//1フレーム前の左下の座標
+oldLeftBottomX = 0;
+oldLeftBottomY = 0;
+//1フレーム前の右下の座標
+oldRightBottomX = 0;
+oldRightBottomY = 0;
 
-	scroll = 0;
+scroll = 0;
 
-	//グラフ
-	graph_h = LoadGraph("resource/syoubousi_1.png");
-	graph_h2 = LoadGraph("resource/syoubousi_2.png");
-	waterTank = LoadGraph("resource/waterTank3.png");
+//グラフ
+graph_h = LoadGraph("resource/syoubousi_1.png");
+graph_h2 = LoadGraph("resource/syoubousi_2.png");
+waterTank = LoadGraph("resource/waterTank3.png");
 
-	bullet = new Bullet;
-	map = new Map;
+bullet = new Bullet;
+map = new Map;
 
-	//SE
-	damageSE = LoadSoundMem("sound/damage.mp3");
-	waterSE = LoadSoundMem("sound/water.mp3");
-	walkSE = LoadSoundMem("sound/walk.ogg");
-	startSE = LoadSoundMem("sound/start.mp3");
-	jumpSE = LoadSoundMem("sound/jump.wav");
-	dashSE = LoadSoundMem("sound/dash.ogg");
+//SE
+damageSE = LoadSoundMem("sound/damage.mp3");
+waterSE = LoadSoundMem("sound/water.mp3");
+walkSE = LoadSoundMem("sound/walk.ogg");
+startSE = LoadSoundMem("sound/start.mp3");
+jumpSE = LoadSoundMem("sound/jump.wav");
+dashSE = LoadSoundMem("sound/dash.ogg");
 
-	ChangeVolumeSoundMem(150, damageSE);
-	ChangeVolumeSoundMem(150, waterSE);
-	ChangeVolumeSoundMem(140, walkSE);
-	ChangeVolumeSoundMem(200, startSE);
-	ChangeVolumeSoundMem(180, jumpSE);
-	ChangeVolumeSoundMem(140, dashSE);
+ChangeVolumeSoundMem(150, damageSE);
+ChangeVolumeSoundMem(150, waterSE);
+ChangeVolumeSoundMem(140, walkSE);
+ChangeVolumeSoundMem(200, startSE);
+ChangeVolumeSoundMem(180, jumpSE);
+ChangeVolumeSoundMem(140, dashSE);
 }
 
 Player::~Player() {
@@ -134,10 +134,10 @@ void Player::Dash(int pad, int isRescued, int inputX, int inputY) {
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	if (LInputX > 0 || LInputX < 0) {
 		player.transform.x += (LInputX / 200) * speed;
-		if (((LInputX / 200) * speed) <= 0) {
+		if (( (LInputX / 200) * speed ) <= 0) {
 			way = 1;
 		}
-		if (((LInputX / 200) * speed) >= 0) {
+		if (( (LInputX / 200) *speed ) >= 0){
 			way = 0;
 		}
 		if (player.isJump == false) {
@@ -202,7 +202,7 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 }
 
 void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
-	if (map[leftBottomY][leftBottomX] != (BLOCK || CHARCOAL) && map[rightBottomY][rightBottomX] != (BLOCK || CHARCOAL)) {
+	if (map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] != BLOCK && map[leftBottomY][leftBottomX] != CHARCOAL && map[rightBottomY][rightBottomX] != CHARCOAL) {
 		player.isJump = true;
 	}
 	if (pad & PAD_INPUT_5) {
@@ -315,86 +315,170 @@ void Player::GetScroll(int select) {
 void Player::BlockCollision(int map[][50]) {
 
 	if (player.jumpPow <= G) {
-		if (map[leftBottomY][leftBottomX] == (BLOCK || CHARCOAL) && map[rightBottomY][rightBottomX] != (BLOCK || CHARCOAL) && map[leftTopY][leftTopX] != (BLOCK || CHARCOAL)) {
+		if (map[leftBottomY][leftBottomX] == BLOCK && map[rightBottomY][rightBottomX] != BLOCK && map[leftTopY][leftTopX] != BLOCK) {
 			player.isJump = false;
 		}
-		if (map[leftBottomY][leftBottomX] != (BLOCK || CHARCOAL) && map[rightBottomY][rightBottomX] == (BLOCK || CHARCOAL) && map[rightTopY][rightTopX] != (BLOCK || CHARCOAL)) {
+		if (map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] == BLOCK && map[rightTopY][rightTopX] != BLOCK) {
 			player.isJump = false;
 		}
-		if (map[leftBottomY][leftBottomX] == (BLOCK || CHARCOAL) && map[jumpLeftBottomY][jumpLeftBottomX] != (BLOCK || CHARCOAL)) {
+		if (map[leftBottomY][leftBottomX] == BLOCK && map[jumpLeftBottomY][jumpLeftBottomX] != BLOCK) {
 			player.isJump = false;
 		}
-		if (map[rightBottomY][rightBottomX] == (BLOCK || CHARCOAL) && map[jumpRightBottomY][jumpRightBottomX] != (BLOCK || CHARCOAL)) {
+		if (map[rightBottomY][rightBottomX] == BLOCK && map[jumpRightBottomY][jumpRightBottomX] != BLOCK) {
 			player.isJump = false;
 		}
-		if (map[leftBottomY][leftBottomX] == (BLOCK || CHARCOAL) && map[rightBottomY][rightBottomX] == (BLOCK || CHARCOAL)) {
+		if (map[leftBottomY][leftBottomX] == BLOCK && map[rightBottomY][rightBottomX] == BLOCK) {
+			player.isJump = false;
+		}
+
+		if (map[leftBottomY][leftBottomX] == CHARCOAL && map[rightBottomY][rightBottomX] != CHARCOAL && map[leftTopY][leftTopX] != CHARCOAL) {
+			player.isJump = false;
+		}
+		if (map[leftBottomY][leftBottomX] != CHARCOAL && map[rightBottomY][rightBottomX] == CHARCOAL && map[rightTopY][rightTopX] != CHARCOAL) {
+			player.isJump = false;
+		}
+		if (map[leftBottomY][leftBottomX] == CHARCOAL && map[jumpLeftBottomY][jumpLeftBottomX] != CHARCOAL) {
+			player.isJump = false;
+		}
+		if (map[rightBottomY][rightBottomX] == CHARCOAL && map[jumpRightBottomY][jumpRightBottomX] != CHARCOAL) {
+			player.isJump = false;
+		}
+		if (map[leftBottomY][leftBottomX] == CHARCOAL && map[rightBottomY][rightBottomX] == CHARCOAL) {
 			player.isJump = false;
 		}
 	}
 
-	if (map[leftTopY][leftTopX] == (BLOCK || CHARCOAL)) {
-		if (map[oldLeftTopY][leftTopX] != (BLOCK || CHARCOAL) && map[leftTopY][oldLeftTopX] != (BLOCK || CHARCOAL)) {}
+	if (map[leftTopY][leftTopX] == BLOCK) {
+		if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {}
 
-		else if (map[oldLeftTopY][leftTopX] != (BLOCK || CHARCOAL) && map[leftTopY][oldLeftTopX] == (BLOCK || CHARCOAL)) {
+		else if (map[oldLeftTopY][leftTopX] != BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
 			player.transform.y = oldPlayer.y;
 
 		}
 
-		else if (map[oldLeftTopY][leftTopX] == (BLOCK || CHARCOAL) && map[leftTopY][oldLeftTopX] != (BLOCK || CHARCOAL)) {
+		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] != BLOCK) {
 			player.transform.x = oldPlayer.x;
 		}
 
-		else if (map[oldLeftTopY][leftTopX] == (BLOCK || CHARCOAL) && map[leftTopY][oldLeftTopX] == (BLOCK || CHARCOAL)) {
-			player.transform.x = oldPlayer.x;
-			player.transform.y = oldPlayer.y;
-		}
-	}
-	if (map[rightTopY][rightTopX] == (BLOCK || CHARCOAL)) {
-		if (map[oldRightTopY][rightTopX] != (BLOCK || CHARCOAL) && map[rightTopY][oldRightTopX] != (BLOCK || CHARCOAL)) {}
-
-		else if (map[oldRightTopY][rightTopX] != (BLOCK || CHARCOAL) && map[rightTopY][oldRightTopX] == (BLOCK || CHARCOAL)) {
-			player.transform.y = oldPlayer.y;
-
-		}
-
-		else if (map[oldRightTopY][rightTopX] == (BLOCK || CHARCOAL) && map[rightTopY][oldRightTopX] != (BLOCK || CHARCOAL)) {
-			player.transform.x = oldPlayer.x;
-		}
-
-		else if (map[oldRightTopY][rightTopX] == (BLOCK || CHARCOAL) && map[rightTopY][oldRightTopX] == (BLOCK || CHARCOAL)) {
+		else if (map[oldLeftTopY][leftTopX] == BLOCK && map[leftTopY][oldLeftTopX] == BLOCK) {
 			player.transform.x = oldPlayer.x;
 			player.transform.y = oldPlayer.y;
 		}
 	}
-	if (map[leftBottomY][leftBottomX] == (BLOCK || CHARCOAL)) {
+	if (map[rightTopY][rightTopX] == BLOCK) {
+		if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] != BLOCK) {}
 
-		if (map[oldLeftBottomY][leftBottomX] != (BLOCK || CHARCOAL) && map[leftBottomY][oldLeftBottomX] != (BLOCK || CHARCOAL)) {}
-
-		else if (map[oldLeftBottomY][leftBottomX] != (BLOCK || CHARCOAL) && map[leftBottomY][oldLeftBottomX] == (BLOCK || CHARCOAL)) {
+		else if (map[oldRightTopY][rightTopX] != BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
 			player.transform.y = oldPlayer.y;
+
 		}
 
-		else if (map[oldLeftBottomY][leftBottomX] == (BLOCK || CHARCOAL) && map[leftBottomY][oldLeftBottomX] != (BLOCK || CHARCOAL)) {
+		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] != BLOCK) {
 			player.transform.x = oldPlayer.x;
 		}
 
-		else if (map[oldLeftBottomY][leftBottomX] == (BLOCK || CHARCOAL) && map[leftBottomY][oldLeftBottomX] == (BLOCK || CHARCOAL)) {
+		else if (map[oldRightTopY][rightTopX] == BLOCK && map[rightTopY][oldRightTopX] == BLOCK) {
 			player.transform.x = oldPlayer.x;
 			player.transform.y = oldPlayer.y;
 		}
 	}
-	if (map[rightBottomY][rightBottomX] == (BLOCK || CHARCOAL)) {
-		if (map[oldRightBottomY][rightBottomX] != (BLOCK || CHARCOAL) && map[rightBottomY][oldRightBottomX] != (BLOCK || CHARCOAL)) {}
+	if (map[leftBottomY][leftBottomX] == BLOCK) {
 
-		else if (map[oldRightBottomY][rightBottomX] != (BLOCK || CHARCOAL) && map[rightBottomY][oldRightBottomX] == (BLOCK || CHARCOAL)) {
+		if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] != BLOCK) {}
+
+		else if (map[oldLeftBottomY][leftBottomX] != BLOCK && map[leftBottomY][oldLeftBottomX] == BLOCK) {
 			player.transform.y = oldPlayer.y;
 		}
 
-		else if (map[oldRightBottomY][rightBottomX] == (BLOCK || CHARCOAL) && map[rightBottomY][oldRightBottomX] != (BLOCK || CHARCOAL)) {
+		else if (map[oldLeftBottomY][leftBottomX] == BLOCK && map[leftBottomY][oldLeftBottomX] != BLOCK) {
 			player.transform.x = oldPlayer.x;
 		}
 
-		else if (map[oldRightBottomY][rightBottomX] == (BLOCK || CHARCOAL) && map[rightBottomY][oldRightBottomX] == (BLOCK || CHARCOAL)) {
+		else if (map[oldLeftBottomY][leftBottomX] == BLOCK && map[leftBottomY][oldLeftBottomX] == BLOCK) {
+			player.transform.x = oldPlayer.x;
+			player.transform.y = oldPlayer.y;
+		}
+	}
+	if (map[rightBottomY][rightBottomX] == BLOCK) {
+		if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] != BLOCK) {}
+
+		else if (map[oldRightBottomY][rightBottomX] != BLOCK && map[rightBottomY][oldRightBottomX] == BLOCK) {
+			player.transform.y = oldPlayer.y;
+		}
+
+		else if (map[oldRightBottomY][rightBottomX] == BLOCK && map[rightBottomY][oldRightBottomX] != BLOCK) {
+			player.transform.x = oldPlayer.x;
+		}
+
+		else if (map[oldRightBottomY][rightBottomX] == BLOCK && map[rightBottomY][oldRightBottomX] == BLOCK) {
+			player.transform.x = oldPlayer.x;
+			player.transform.y = oldPlayer.y;
+		}
+	}
+
+	if (map[leftTopY][leftTopX] == CHARCOAL) {
+		if (map[oldLeftTopY][leftTopX] != CHARCOAL && map[leftTopY][oldLeftTopX] != CHARCOAL) {}
+
+		else if (map[oldLeftTopY][leftTopX] != CHARCOAL && map[leftTopY][oldLeftTopX] == CHARCOAL) {
+			player.transform.y = oldPlayer.y;
+
+		}
+
+		else if (map[oldLeftTopY][leftTopX] == CHARCOAL && map[leftTopY][oldLeftTopX] != CHARCOAL) {
+			player.transform.x = oldPlayer.x;
+		}
+
+		else if (map[oldLeftTopY][leftTopX] == CHARCOAL && map[leftTopY][oldLeftTopX] == CHARCOAL) {
+			player.transform.x = oldPlayer.x;
+			player.transform.y = oldPlayer.y;
+		}
+	}
+	if (map[rightTopY][rightTopX] == CHARCOAL) {
+		if (map[oldRightTopY][rightTopX] != CHARCOAL && map[rightTopY][oldRightTopX] != CHARCOAL) {}
+
+		else if (map[oldRightTopY][rightTopX] != CHARCOAL && map[rightTopY][oldRightTopX] == CHARCOAL) {
+			player.transform.y = oldPlayer.y;
+
+		}
+
+		else if (map[oldRightTopY][rightTopX] == CHARCOAL && map[rightTopY][oldRightTopX] != CHARCOAL) {
+			player.transform.x = oldPlayer.x;
+		}
+
+		else if (map[oldRightTopY][rightTopX] == CHARCOAL && map[rightTopY][oldRightTopX] == CHARCOAL) {
+			player.transform.x = oldPlayer.x;
+			player.transform.y = oldPlayer.y;
+		}
+	}
+	if (map[leftBottomY][leftBottomX] == CHARCOAL) {
+
+		if (map[oldLeftBottomY][leftBottomX] != CHARCOAL && map[leftBottomY][oldLeftBottomX] != CHARCOAL) {}
+
+		else if (map[oldLeftBottomY][leftBottomX] != CHARCOAL && map[leftBottomY][oldLeftBottomX] == CHARCOAL) {
+			player.transform.y = oldPlayer.y;
+		}
+
+		else if (map[oldLeftBottomY][leftBottomX] == CHARCOAL && map[leftBottomY][oldLeftBottomX] != CHARCOAL) {
+			player.transform.x = oldPlayer.x;
+		}
+
+		else if (map[oldLeftBottomY][leftBottomX] == CHARCOAL && map[leftBottomY][oldLeftBottomX] == CHARCOAL) {
+			player.transform.x = oldPlayer.x;
+			player.transform.y = oldPlayer.y;
+		}
+	}
+	if (map[rightBottomY][rightBottomX] == CHARCOAL) {
+		if (map[oldRightBottomY][rightBottomX] != CHARCOAL && map[rightBottomY][oldRightBottomX] != CHARCOAL) {}
+
+		else if (map[oldRightBottomY][rightBottomX] != CHARCOAL && map[rightBottomY][oldRightBottomX] == CHARCOAL) {
+			player.transform.y = oldPlayer.y;
+		}
+
+		else if (map[oldRightBottomY][rightBottomX] == CHARCOAL && map[rightBottomY][oldRightBottomX] != CHARCOAL) {
+			player.transform.x = oldPlayer.x;
+		}
+
+		else if (map[oldRightBottomY][rightBottomX] == CHARCOAL && map[rightBottomY][oldRightBottomX] == CHARCOAL) {
 			player.transform.x = oldPlayer.x;
 			player.transform.y = oldPlayer.y;
 		}
@@ -404,7 +488,10 @@ void Player::BlockCollision(int map[][50]) {
 void Player::DownPlayer(int map[][50], int BLOCK_SIZE) {
 	if (player.isJump == false) {
 		for (int i = 0; i < G; i++) {
-			if (map[leftBottomY][leftBottomX] == (BLOCK || CHARCOAL) || map[rightBottomY][rightBottomX] == (BLOCK || CHARCOAL)) {
+			if (map[leftBottomY][leftBottomX] == BLOCK || map[rightBottomY][rightBottomX] == BLOCK) {
+				break;
+			}
+			if (map[leftBottomY][leftBottomX] == CHARCOAL || map[rightBottomY][rightBottomX] == CHARCOAL) {
 				break;
 			}
 			else {
@@ -434,7 +521,7 @@ void Player::DrawPlayer(int isRescued) {
 		}
 
 	}
-
+	
 }
 
 void Player::DrawHp() {

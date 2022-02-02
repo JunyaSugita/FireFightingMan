@@ -94,6 +94,19 @@ void Bullet::BlockCollision(int map[][50]) {
 			if (map[rightBottomY[i]][rightBottomX[i]] == BLOCK) {
 				bullet[i].isShot = false;
 			}
+
+			if (map[leftTopY[i]][leftTopX[i]] == CHARCOAL) {
+				bullet[i].isShot = false;
+			}
+			if (map[leftBottomY[i]][leftBottomX[i]] == CHARCOAL) {
+				bullet[i].isShot = false;
+			}
+			if (map[rightTopY[i]][rightTopX[i]] == CHARCOAL) {
+				bullet[i].isShot = false;
+			}
+			if (map[rightBottomY[i]][rightBottomX[i]] == CHARCOAL) {
+				bullet[i].isShot = false;
+			}
 		}
 	}
 }
