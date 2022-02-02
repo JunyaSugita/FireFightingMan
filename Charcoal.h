@@ -8,10 +8,10 @@ public:
 
 public:
 	void SetChar(int fireX,int fireY,int map[][50]);
+	void BrockenChar(int map[][50]);
 
 public:
-	int brockenChar[20][50];
+	int brockenTimer[20][50];
 	int isBrocken[20][50];
-	bool isChar[20][50];
 };
 

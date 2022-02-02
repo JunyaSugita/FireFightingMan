@@ -37,49 +37,49 @@ Player::Player() {
 	//左下の座標
 	leftBottomX = 0;
 	leftBottomY = 0;
-//右下の座標
-rightTopX = 0;
-rightTopY = 0;
-//右下の座標
-rightBottomX = 0;
-rightBottomY = 0;
-//1フレーム前の左上の座標
-oldLeftTopX = 0;
-oldLeftTopY = 0;
-//1フレーム前の右上の座標
-oldRightTopX = 0;
-oldRightTopY = 0;
-//1フレーム前の左下の座標
-oldLeftBottomX = 0;
-oldLeftBottomY = 0;
-//1フレーム前の右下の座標
-oldRightBottomX = 0;
-oldRightBottomY = 0;
+	//右下の座標
+	rightTopX = 0;
+	rightTopY = 0;
+	//右下の座標
+	rightBottomX = 0;
+	rightBottomY = 0;
+	//1フレーム前の左上の座標
+	oldLeftTopX = 0;
+	oldLeftTopY = 0;
+	//1フレーム前の右上の座標
+	oldRightTopX = 0;
+	oldRightTopY = 0;
+	//1フレーム前の左下の座標
+	oldLeftBottomX = 0;
+	oldLeftBottomY = 0;
+	//1フレーム前の右下の座標
+	oldRightBottomX = 0;
+	oldRightBottomY = 0;
 
-scroll = 0;
+	scroll = 0;
 
-//グラフ
-graph_h = LoadGraph("resource/syoubousi_1.png");
-graph_h2 = LoadGraph("resource/syoubousi_2.png");
-waterTank = LoadGraph("resource/waterTank3.png");
+	//グラフ
+	graph_h = LoadGraph("resource/syoubousi_1.png");
+	graph_h2 = LoadGraph("resource/syoubousi_2.png");
+	waterTank = LoadGraph("resource/waterTank3.png");
 
-bullet = new Bullet;
-map = new Map;
+	bullet = new Bullet;
+	map = new Map;
 
-//SE
-damageSE = LoadSoundMem("sound/damage.mp3");
-waterSE = LoadSoundMem("sound/water.mp3");
-walkSE = LoadSoundMem("sound/walk.ogg");
-startSE = LoadSoundMem("sound/start.mp3");
-jumpSE = LoadSoundMem("sound/jump.wav");
-dashSE = LoadSoundMem("sound/dash.ogg");
+	//SE
+	damageSE = LoadSoundMem("sound/damage.mp3");
+	waterSE = LoadSoundMem("sound/water.mp3");
+	walkSE = LoadSoundMem("sound/walk.ogg");
+	startSE = LoadSoundMem("sound/start.mp3");
+	jumpSE = LoadSoundMem("sound/jump.wav");
+	dashSE = LoadSoundMem("sound/dash.ogg");
 
-ChangeVolumeSoundMem(150, damageSE);
-ChangeVolumeSoundMem(150, waterSE);
-ChangeVolumeSoundMem(140, walkSE);
-ChangeVolumeSoundMem(200, startSE);
-ChangeVolumeSoundMem(180, jumpSE);
-ChangeVolumeSoundMem(140, dashSE);
+	ChangeVolumeSoundMem(150, damageSE);
+	ChangeVolumeSoundMem(150, waterSE);
+	ChangeVolumeSoundMem(140, walkSE);
+	ChangeVolumeSoundMem(200, startSE);
+	ChangeVolumeSoundMem(180, jumpSE);
+	ChangeVolumeSoundMem(140, dashSE);
 }
 
 Player::~Player() {
@@ -134,10 +134,10 @@ void Player::Dash(int pad, int isRescued, int inputX, int inputY) {
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	if (LInputX > 0 || LInputX < 0) {
 		player.transform.x += (LInputX / 200) * speed;
-		if (( (LInputX / 200) * speed ) <= 0) {
+		if (((LInputX / 200) * speed) <= 0) {
 			way = 1;
 		}
-		if (( (LInputX / 200) *speed ) >= 0){
+		if (((LInputX / 200) * speed) >= 0) {
 			way = 0;
 		}
 		if (player.isJump == false) {
@@ -312,7 +312,7 @@ void Player::GetScroll(int select) {
 	}
 }
 
-void Player::BlockCollision(int map[][50]) {
+void Player::BlockCollision(int map[][50], int isBrocken[][50]) {
 
 	if (player.jumpPow <= G) {
 		if (map[leftBottomY][leftBottomX] == BLOCK && map[rightBottomY][rightBottomX] != BLOCK && map[leftTopY][leftTopX] != BLOCK) {
@@ -333,18 +333,24 @@ void Player::BlockCollision(int map[][50]) {
 
 		if (map[leftBottomY][leftBottomX] == CHARCOAL && map[rightBottomY][rightBottomX] != CHARCOAL && map[leftTopY][leftTopX] != CHARCOAL) {
 			player.isJump = false;
+			isBrocken[leftBottomY][leftBottomX] = true;
 		}
 		if (map[leftBottomY][leftBottomX] != CHARCOAL && map[rightBottomY][rightBottomX] == CHARCOAL && map[rightTopY][rightTopX] != CHARCOAL) {
 			player.isJump = false;
+			isBrocken[rightBottomY][rightBottomX] = true;
 		}
 		if (map[leftBottomY][leftBottomX] == CHARCOAL && map[jumpLeftBottomY][jumpLeftBottomX] != CHARCOAL) {
 			player.isJump = false;
+			isBrocken[leftBottomY][leftBottomX] = true;
 		}
 		if (map[rightBottomY][rightBottomX] == CHARCOAL && map[jumpRightBottomY][jumpRightBottomX] != CHARCOAL) {
 			player.isJump = false;
+			isBrocken[rightBottomY][rightBottomX] = true;
 		}
 		if (map[leftBottomY][leftBottomX] == CHARCOAL && map[rightBottomY][rightBottomX] == CHARCOAL) {
 			player.isJump = false;
+			isBrocken[leftBottomY][leftBottomX] = true;
+			isBrocken[rightBottomY][rightBottomX] = true;
 		}
 	}
 
@@ -521,7 +527,7 @@ void Player::DrawPlayer(int isRescued) {
 		}
 
 	}
-	
+
 }
 
 void Player::DrawHp() {

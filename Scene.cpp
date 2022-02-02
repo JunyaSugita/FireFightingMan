@@ -235,6 +235,56 @@ void Scene::Update(char* keys, char* oldkeys) {
 				PlaySoundMem(mainBGM, DX_PLAYTYPE_LOOP, true);
 			}
 
+			//プレイヤー位置の保存
+			player->SaveOldPlayer();
+
+			//プレイヤーのジャンプの可否
+			player->GetPlayerBottom(map->BLOCK_SIZE);
+
+			//プレイヤーの移動
+			player->Dash(pad, rescued->isRescued, padInput.Rx, padInput.Ry);
+			player->PlayerJump(pad, rescued->isRescued, map->map);
+			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
+			player->CheckStick(padInput.Ry, rescued->isRescued);
+
+			//弾の発射
+			player->PlayerShot(padInput.Rx, padInput.Ry, rescued->isRescued);
+
+			//弾の挙動
+			player->bullet->BulletMove(player->G, padInput.X, padInput.Y);
+
+			//消化
+			fire->FireFighting(player->bullet->bullet, smoke, map->map);
+
+			//マップチップ上の座標位置の取得
+			player->GetOldPlayer(map->BLOCK_SIZE);
+			player->GetPlayer(map->BLOCK_SIZE);
+			player->bullet->GetBullet(map->BLOCK_SIZE);
+
+			//当たり判定
+			player->BlockCollision(map->map,charcoal->isBrocken);
+			player->bullet->BlockCollision(map->map);
+			rescued->RescuedCollision(player, player->hp, stageSelect->select);
+			goal->GetGoal(player, rescued, player->hp, fire, stageSelect->select);
+			gameover->GotoGameover(player->scene, player->hp);
+			//プレイヤーが地面で浮かないように
+			player->GetPlayer(map->BLOCK_SIZE);
+			player->GetPlayerBottom(map->BLOCK_SIZE);
+			player->CheckStick(padInput.Ry, rescued->isRescued);
+			player->DownPlayer(map->map, map->BLOCK_SIZE);
+			rescued->Move(player);
+			rescued->CatchRescued();
+
+			//ブロックの破壊
+			charcoal->BrockenChar(map->map);
+
+			//敵の出現
+			ene->Update(player->bullet->bullet, map->map);
+			for (int i = 0; i < fire->FIRE_CONST; i++) {
+				ene->FireColision(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].Yr, fire->fire[i].isFire);
+			}
+			//スクロール
+			player->GetScroll(stageSelect->select);
 			//開幕演出
 			if (isOpen == 0) {
 				openTime++;
