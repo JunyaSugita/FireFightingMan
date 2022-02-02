@@ -33,17 +33,33 @@ Goal::~Goal() {
 
 
 ///-----ƒNƒ‰ƒXŠÖ”-----///
-void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
-	if (rescued->isRescued == true) {
-		if (isGoal == false) {
-			time++;
-			if (time == 30) {
-				time = 0;
-			}
+void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire, int select) {
+	if (isGoal == false) {
+		time++;
+		if (time == 30) {
+			time = 0;
 		}
 
+		if (select == 0) {
+			if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
+				if (player->player.transform.y + player->player.r > 912 - 96 && 912 > player->player.transform.y - player->player.r) {
+					if (isGoal == false) {
+						time = 0;
+						PlaySoundMem(goalSE, DX_PLAYTYPE_BACK, true);
+						isGoal = true;
+						isShow = true;
+						for (int i = 0; i < 10; i++) {
+							isMove[i] = true;
+							randNum[i] = rand() % 51 - 25;
+						}
+					}
+				}
+			}
+		}
+	}
+	else {
 		if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
-			if (player->player.transform.y + player->player.r > 912 - 96 && 912 > player->player.transform.y - player->player.r) {
+			if (player->player.transform.y + player->player.r > 128 - 96 && 128 > player->player.transform.y - player->player.r) {
 				if (isGoal == false) {
 					time = 0;
 					PlaySoundMem(goalSE, DX_PLAYTYPE_BACK, true);
@@ -57,6 +73,7 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
 			}
 		}
 	}
+
 	if (isGoal == true) {
 		time++;
 		if (time == 30) {
@@ -67,17 +84,34 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire) {
 	}
 }
 
-void Goal::Draw(Rescued* rescued, int scroll) {
-	if (rescued->isRescued == true) {
+void Goal::Draw(Rescued* rescued, int scroll, int select) {
+	if (select == 0) {
 		if (time < 15) {
 			DrawGraph(x - 90 - scroll, 812, goalGraph[0], true);
 		}
 		else {
 			DrawGraph(x - 90 - scroll, 812, goalGraph[1], true);
 		}
+	}
+	else {
+		if (time < 15) {
+			DrawGraph(x - 90 - scroll, 48, goalGraph[0], true);
+		}
+		else {
+			DrawGraph(x - 90 - scroll, 48, goalGraph[1], true);
+		}
+	}
+	if (rescued->isRescued == true) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-		if (isGoal == false) {
-			DrawBox(x - 96 - scroll, 902, x - scroll, 912, GetColor(255, 255, 0), true);
+		if (select == 0) {
+			if (isGoal == false) {
+				DrawBox(x - 96 - scroll, 902, x - scroll, 912, GetColor(255, 255, 0), true);
+			}
+		}
+		else {
+			if (isGoal == false) {
+				DrawBox(x - 96 - scroll, 902, x - scroll, 128, GetColor(255, 255, 0), true);
+			}
 		}
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
@@ -95,7 +129,7 @@ void Goal::Efect() {
 		if (isMove[i] == true) {
 			efectX[i] += 64;
 		}
-		
+
 		if (efectX[i] > WIN_HEIGHT + 400) {
 			isMove[i] = false;
 		}

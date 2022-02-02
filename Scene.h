@@ -51,6 +51,7 @@ public:
 	int titleGraph;
 	int isClear;
 	int blackGraph;
+	int isLost;
 
 public:
 	Scene();
