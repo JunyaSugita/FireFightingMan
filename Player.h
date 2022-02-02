@@ -18,7 +18,7 @@ public:
 
 	//水タンク
 	static const int WATER_CONST = 350;
-	int water;
+	double water;
 
 	//プレイヤーのスピード管理
 	float speed;
@@ -92,7 +92,7 @@ public:
 	void Dash(int pad, int isRescued, int inputX, int inputY);
 	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
 	void PlayerJump(int pad, int isRescued, int map[][50]);
-	void PlayerShot(int InputX, int InputY, int isRescued);
+	void PlayerShot(int InputX, int InputY, int isRescued, int select);
 	void PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued, int select);
 	void DamageCount();
 	void GetPlayer(int BLOCK_SIZE);
