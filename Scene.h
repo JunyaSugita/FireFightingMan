@@ -52,6 +52,13 @@ public:
 	int isClear;
 	int blackGraph;
 	int isLost;
+	int whiteLine;
+	int whiteX[20];
+	int whiteY[20];
+	int isOpen;
+	int textX;
+	int openGraph;
+	int openTime;
 
 public:
 	Scene();
