@@ -793,7 +793,7 @@ void Scene::Draw() {
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll);
+			rescued->Draw(player->scroll,player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {
@@ -827,7 +827,7 @@ void Scene::Draw() {
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll);
+			rescued->Draw(player->scroll,player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {

@@ -85,7 +85,7 @@ void Rescued::Move(Player* player) {
 }
 
 //描画関数
-void Rescued::Draw(int scroll) {
+void Rescued::Draw(int scroll,int way) {
 	//DrawBox(transform.x - r - scroll, transform.y - r, transform.x + r - scroll, transform.y + r, GetColor(0, 255, 255), true);7
 	if (isRescued == false) {
 		if (0 <= rescueAniTime && rescueAniTime <= 10) {
@@ -109,7 +109,13 @@ void Rescued::Draw(int scroll) {
 			}
 		}
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[4], 1, 0, 0);
+		if (way == 0) {
+			DrawRotaGraph(15 + transform.x - 20 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[4], 1, 1, 0);
+		}
+		if (way == 1) {
+			DrawRotaGraph(15 + transform.x - 2 - scroll, transform.y + 5, 0.8, 0.0, rescueGraph[4], 1, 0, 0);
+		}
+		
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 		DrawRotaGraph2(cx -scroll - 128, cy[1] - 32,0,0,1.2,0, catchGraph, true);

@@ -29,7 +29,7 @@ public:
 	void Spawn(int mapChip[][50]);
 	void RescuedCollision(Player* player, int& hp, int scene);
 	void Move(Player* player);
-	void Draw(int scroll);
+	void Draw(int scroll,int way);
 	void Reset();
 	void CatchRescued();
 };
