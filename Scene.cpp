@@ -229,7 +229,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 
 			//プレイヤーの移動
 			player->Dash(pad, rescued->isRescued, padInput.Rx, padInput.Ry);
-			player->PlayerJump(pad, rescued->isRescued, map->map, charcoal->isChar);
+			player->PlayerJump(pad, rescued->isRescued, map->map);
 			player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
 			player->CheckStick(padInput.Ry, rescued->isRescued);
 
@@ -248,7 +248,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 			player->bullet->GetBullet(map->BLOCK_SIZE);
 
 			//当たり判定
-			player->BlockCollision(map->map, charcoal->isChar);
+			player->BlockCollision(map->map);
 			player->bullet->BlockCollision(map->map);
 			rescued->RescuedCollision(player, player->hp, stageSelect->select);
 			goal->GetGoal(player, rescued, player->hp, fire, stageSelect->select);
