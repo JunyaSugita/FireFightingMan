@@ -8,7 +8,7 @@ Player::Player() {
 		},
 		20,
 		0,
-		0
+		0.0f
 	};
 
 	oldPlayer = {
@@ -210,10 +210,10 @@ void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
 			player.isJump = true;
 			isButton = 1;
 			if (isRescued == false) {
-				player.jumpPow = 25;
+				player.jumpPow = 24.3;
 			}
 			else {
-				player.jumpPow = 22;
+				player.jumpPow = 24.3;
 			}
 			if (CheckSoundMem(jumpSE) == false) {
 				PlaySoundMem(jumpSE, DX_PLAYTYPE_BACK, true);
