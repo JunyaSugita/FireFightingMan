@@ -23,6 +23,6 @@ public:
 
 	void MapSelect(int select);
 
-	void DrawMap(int map[][Map_MAX_X], int scroll);
+	void DrawMap(int map[][Map_MAX_X], int scroll, int brockenTime[][50]);
 
 };

@@ -140,7 +140,7 @@ void Map::MapSelect(int select) {
 	}
 }
 
-void Map::DrawMap(int map[][Map_MAX_X], int scroll) {
+void Map::DrawMap(int map[][Map_MAX_X], int scroll, int brockenTime[][50]) {
 	for (int y = 0; y < mapCountY; y++) {
 		for (int x = 0; x < mapCountX; x++) {
 			if (map[y][x] == BLOCK) {
@@ -149,7 +149,24 @@ void Map::DrawMap(int map[][Map_MAX_X], int scroll) {
 			}
 			if (map[y][x] == CHARCOAL) {
 				//DrawBox(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, (x + 1) * BLOCK_SIZE - scroll, (y + 1) * BLOCK_SIZE, GetColor(255, 255, 255), true);
-				DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[2], true);
+				if (brockenTime[y][x] >= 50) {
+					DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[2], true);
+				}
+				else if (brockenTime[y][x] >= 40) {
+					DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[3], true);
+				}
+				else if (brockenTime[y][x] >= 30) {
+					DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[4], true);
+				}
+				else if (brockenTime[y][x] >= 20) {
+					DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[5], true);
+				}
+				else if (brockenTime[y][x] >= 10) {
+					DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[6], true);
+				}
+				else if (brockenTime[y][x] >= 0) {
+					DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[7], true);
+				}
 			}
 		}
 	}
