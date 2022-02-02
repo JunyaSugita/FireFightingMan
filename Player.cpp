@@ -196,8 +196,8 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	player.transform.y += inertiaSpeed;
 }
 
-void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
-	if (map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] != BLOCK) {
+void Player::PlayerJump(int pad, int isRescued, int map[][50], bool isChar[][50]) {
+	if ((map[leftBottomY][leftBottomX] != BLOCK && isChar[leftBottomY][leftBottomX] != true) && (map[rightBottomY][rightBottomX] != BLOCK && isChar[rightBottomY][rightBottomX] != true)) {
 		player.isJump = true;
 	}
 	if (pad & PAD_INPUT_5) {
@@ -307,7 +307,7 @@ void Player::GetScroll(int select) {
 	}
 }
 
-void Player::BlockCollision(int map[][50]) {
+void Player::BlockCollision(int map[][50], bool isChar[][50]) {
 
 	if (player.jumpPow <= G) {
 		if (map[leftBottomY][leftBottomX] == BLOCK && map[rightBottomY][rightBottomX] != BLOCK && map[leftTopY][leftTopX] != BLOCK) {

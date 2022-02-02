@@ -14,6 +14,7 @@
 #include "Pause.h"
 #include "Smoke.h"
 #include "Clear.h"
+#include "Charcoal.h"
 
 class Scene {
 public:
@@ -33,6 +34,7 @@ public:
 	Pause* pause;
 	Smoke* smoke;
 	Clear* clear;
+	Charcoal* charcoal;
 
 	int pad;
 	int x;
