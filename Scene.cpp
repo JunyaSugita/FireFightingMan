@@ -281,7 +281,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 				player->bullet->BulletMove(player->G, padInput.X, padInput.Y);
 
 				//消化
-				fire->FireFighting(player->bullet->bullet, smoke,map->map);
+				fire->FireFighting(player->bullet->bullet, smoke, map->map);
 
 				//マップチップ上の座標位置の取得
 				player->GetOldPlayer(map->BLOCK_SIZE);
@@ -838,7 +838,7 @@ void Scene::Draw() {
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll,player->way);
+			rescued->Draw(player->scroll, player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {
@@ -863,7 +863,7 @@ void Scene::Draw() {
 				}
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 				DrawGraph(textX - 280, 400, openGraph, true);
-			
+
 			}
 
 			break;
@@ -888,7 +888,7 @@ void Scene::Draw() {
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll,player->way);
+			rescued->Draw(player->scroll, player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {
