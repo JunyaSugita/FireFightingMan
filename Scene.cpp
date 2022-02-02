@@ -862,8 +862,7 @@ void Scene::Draw() {
 					}
 				}
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-				DrawGraph(textX - 280, 400, openGraph, true);
-
+				DrawGraph(textX - 280, 450, openGraph, true);
 			}
 
 			break;
