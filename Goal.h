@@ -21,8 +21,7 @@ public:
 public:
 	Goal();
 	~Goal();
-	void GetGoal_1(Player* player, Rescued* rescued, int& hp, Fire* fire,int select);
-	void GetGoal_2(Player* player, Rescued* rescued, int& hp, Fire* fire, int select);
+	void GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire,int select);
 	void Draw(Rescued* rescued, int scroll,int select);
 	void Reset(Rescued* rescued, int& hp);
 	void Efect();
