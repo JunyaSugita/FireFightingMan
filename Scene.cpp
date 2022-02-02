@@ -777,6 +777,13 @@ void Scene::reset() {
 }
 
 void Scene::restart() {
+	for (int y = 0; y < map->mapCountY; y++) {
+		for (int x = 0; x < map->mapCountX; x++) {
+			if (map->map[y][x] == CHARCOAL) {
+				map->map[y][x] = FLAME;
+			}
+		}
+	}
 	delete bullet;
 	delete rescued;
 	delete fire;
