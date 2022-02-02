@@ -6,7 +6,7 @@ Map::Map() {
 	//マップの列の数
 	mapCountY = sizeof(map) / sizeof(map[0]);
 	//mapの画像読み込み
-	LoadDivGraph("resource/map.png", 4, 2, 2, 48, 48, mapGraph);
+	LoadDivGraph("resource/map.png", 9, 3, 3, 48, 48, mapGraph);
 }
 
 Map::~Map() {}
