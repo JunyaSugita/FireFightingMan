@@ -812,6 +812,7 @@ void Scene::restart() {
 	fire->SetFire(map->map);
 	player->Spawn(map->map);
 	rescued->Spawn(map->map);
+	ene->Make(map->map);
 	player->scroll = 0;
 	player->water = player->WATER_CONST;
 	player->hp = 3;
