@@ -101,10 +101,10 @@ void Enemy::Move(int map[][50]) {
 			if (enemy[i].arrow == 0) {
 				if (enemy[i].hp > 0 && enemy[j].hp > 0) {
 					enemy[i].transform.x--;
-					if (map[enemyY[i]][enemyLX[i] + 1] == BLOCK) {
+					if (map[enemyY[i]][enemyLX[i] + 1] == BLOCK || map[enemyY[i]][enemyLX[i] + 1] == CHARCOAL) {
 						enemy[i].arrow = 1;
 					}
-					else if (map[enemyDY[i]][enemyLX[i] + 1] != BLOCK) {
+					else if (map[enemyDY[i]][enemyLX[i] + 1] != BLOCK && map[enemyDY[i]][enemyLX[i] + 1] != CHARCOAL) {
 						enemy[i].transform.x += 2;
 						enemy[i].arrow = 1;
 					}
@@ -125,10 +125,10 @@ void Enemy::Move(int map[][50]) {
 			else if (enemy[i].arrow == 1) {
 				if (enemy[i].hp > 0 && enemy[j].hp > 0) {
 					enemy[i].transform.x++;
-					if (map[enemyY[i]][enemyRX[i] - 1] == BLOCK) {
+					if (map[enemyY[i]][enemyRX[i] - 1] == BLOCK || map[enemyY[i]][enemyRX[i] - 1] == CHARCOAL) {
 						enemy[i].arrow = 0;
 					}
-					else if (map[enemyDY[i]][enemyRX[i] - 1] != BLOCK) {
+					else if (map[enemyDY[i]][enemyRX[i] - 1] != BLOCK && map[enemyDY[i]][enemyRX[i] - 1] != CHARCOAL) {
 						enemy[i].transform.x -= 2;
 						enemy[i].arrow = 0;
 					}
@@ -150,6 +150,9 @@ void Enemy::Move(int map[][50]) {
 		//yŽ²ˆÚ“®
 		enemy[i].transform.y += 1;
 		if (map[enemyDY[i]][enemyX[i]] == BLOCK) {
+			enemy[i].transform.y--;
+		}
+		else if (map[enemyDY[i]][enemyX[i]] == CHARCOAL) {
 			enemy[i].transform.y--;
 		}
 

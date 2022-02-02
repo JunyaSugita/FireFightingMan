@@ -808,6 +808,7 @@ void Scene::reset() {
 	delete tutorial;
 	delete damParticle;
 	delete smoke;
+	delete charcoal;
 	player = new Player;
 	bullet = new Bullet;
 	rescued = new Rescued;
@@ -820,6 +821,7 @@ void Scene::reset() {
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
 	smoke = new Smoke;
+	charcoal = new Charcoal;
 	isOpen = 0;
 }
 
