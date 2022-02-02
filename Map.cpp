@@ -148,7 +148,8 @@ void Map::DrawMap(int map[][Map_MAX_X], int scroll) {
 				DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[1], true);
 			}
 			if (map[y][x] == CHARCOAL) {
-				DrawBox(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, (x + 1) * BLOCK_SIZE - scroll, (y + 1) * BLOCK_SIZE, GetColor(255, 255, 255), true);
+				//DrawBox(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, (x + 1) * BLOCK_SIZE - scroll, (y + 1) * BLOCK_SIZE, GetColor(255, 255, 255), true);
+				DrawGraph(x * BLOCK_SIZE - scroll, y * BLOCK_SIZE, mapGraph[2], true);
 			}
 		}
 	}
