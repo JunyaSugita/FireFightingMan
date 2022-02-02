@@ -21,7 +21,7 @@ enum MapInfo {
 	PLAYER_SPAWN,	//4
 	WOMAN_SPAWN,	//5
 	CHARCOAL,		//6
-	NONE2,			//7
+	BROCKEN			//7
 };
 
 enum SceneInfo {

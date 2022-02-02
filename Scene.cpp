@@ -303,6 +303,9 @@ void Scene::Update(char* keys, char* oldkeys) {
 				rescued->Move(player);
 				rescued->CatchRescued();
 
+				//ブロックが破壊されるように
+				charcoal->BrockenChar(map->map);
+
 				//敵の出現
 				ene->Update(player->bullet->bullet, map->map);
 				for (int i = 0; i < fire->FIRE_CONST; i++) {
@@ -847,7 +850,7 @@ void Scene::Draw() {
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();
 			particle->Draw(player->scroll);
-			map->DrawMap(map->map, player->scroll);
+			map->DrawMap(map->map, player->scroll, charcoal->brockenTimer);
 			rescued->Draw(player->scroll, player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
@@ -896,7 +899,7 @@ void Scene::Draw() {
 			/*fire->DrawFire(player->scroll);*/
 			smoke->Draw();
 			particle->Draw(player->scroll);
-			map->DrawMap(map->map, player->scroll);
+			map->DrawMap(map->map, player->scroll,charcoal->brockenTimer);
 			rescued->Draw(player->scroll, player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);

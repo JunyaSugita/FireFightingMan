@@ -21,7 +21,7 @@ void Charcoal::BrockenChar(int map[][50]) {
 			if (isBrocken[i][j] == true) {
 				brockenTimer[i][j]--;
 				if (brockenTimer[i][j] <= 0) {
-					map[i][j] = NONE2;
+					map[i][j] = BROCKEN;
 				}
 			}
 		}
