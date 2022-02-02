@@ -797,6 +797,7 @@ void Scene::restart() {
 	delete tutorial;
 	delete damParticle;
 	delete smoke;
+	delete charcoal;
 	bullet = new Bullet;
 	rescued = new Rescued;
 	fire = new Fire;
@@ -807,6 +808,7 @@ void Scene::restart() {
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
 	smoke = new Smoke;
+	charcoal = new Charcoal;
 	fire->SetFire(map->map);
 	player->Spawn(map->map);
 	rescued->Spawn(map->map);
