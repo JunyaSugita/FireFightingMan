@@ -7,8 +7,10 @@ Pause::Pause() {
 	y = WIN_HEIGHT / 2;
 	xr = 0;
 	yr = 0;
+	py = -50;
 	isReset = true;
 	isPause = false;
+	botan = LoadGraph("resource/botan.png");
 
 	pauseSE = LoadSoundMem("sound/pause.ogg");
 
@@ -18,6 +20,9 @@ Pause::Pause() {
 Pause::~Pause(){}
 
 void Pause::ChangePause(int pad, int& scene) {
+	if (py < 0) {
+		py += 4;
+	}
 	
 		if (pad & PAD_INPUT_8) {
 			if (isPush == false) {
@@ -47,6 +52,14 @@ void Pause::ChangeScene(int pad, int& scene) {
 }
 
 void Pause::Draw() {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
+	DrawBox(0, py - 50, 150, py + 50, GetColor(0, 0, 12), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	for (int i = 0; i < 2; i++) {
+		DrawBox(0 - (i + 1), py - 50 - (i + 1), 150 + (i + 1), py + 50 + (i + 1), GetColor(255,255,255), false);
+	}
+	DrawGraph(10, py + 8, botan,true);
+	DrawFormatString(50, py + 16, GetColor(255, 255, 255), ": ƒ|[ƒY");
 	if (xr > 0 && yr > 0) {
 		for (int i = 0; i < 5; i++) {
 			DrawBox(x - xr - (1 * i), y - yr - (1 * i), x + xr + (1 * i), y + yr + (1 * i), GetColor(192, 192, 192), false);

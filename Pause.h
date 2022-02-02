@@ -17,6 +17,8 @@ public:
 	int isReset;
 	int isPause;
 	int pauseSE;
+	int botan;
+	int py;
 
 public:
 	void ChangePause(int pad, int& scene);
