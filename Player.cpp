@@ -37,49 +37,49 @@ Player::Player() {
 	//左下の座標
 	leftBottomX = 0;
 	leftBottomY = 0;
-	//右下の座標
-	rightTopX = 0;
-	rightTopY = 0;
-	//右下の座標
-	rightBottomX = 0;
-	rightBottomY = 0;
-	//1フレーム前の左上の座標
-	oldLeftTopX = 0;
-	oldLeftTopY = 0;
-	//1フレーム前の右上の座標
-	oldRightTopX = 0;
-	oldRightTopY = 0;
-	//1フレーム前の左下の座標
-	oldLeftBottomX = 0;
-	oldLeftBottomY = 0;
-	//1フレーム前の右下の座標
-	oldRightBottomX = 0;
-	oldRightBottomY = 0;
+//右下の座標
+rightTopX = 0;
+rightTopY = 0;
+//右下の座標
+rightBottomX = 0;
+rightBottomY = 0;
+//1フレーム前の左上の座標
+oldLeftTopX = 0;
+oldLeftTopY = 0;
+//1フレーム前の右上の座標
+oldRightTopX = 0;
+oldRightTopY = 0;
+//1フレーム前の左下の座標
+oldLeftBottomX = 0;
+oldLeftBottomY = 0;
+//1フレーム前の右下の座標
+oldRightBottomX = 0;
+oldRightBottomY = 0;
 
-	scroll = 0;
+scroll = 0;
 
-	//グラフ
-	graph_h = LoadGraph("resource/syoubousi_1.png");
-	graph_h2 = LoadGraph("resource/syoubousi_2.png");
-	waterTank = LoadGraph("resource/waterTank3.png");
+//グラフ
+graph_h = LoadGraph("resource/syoubousi_1.png");
+graph_h2 = LoadGraph("resource/syoubousi_2.png");
+waterTank = LoadGraph("resource/waterTank3.png");
 
-	bullet = new Bullet;
-	map = new Map;
+bullet = new Bullet;
+map = new Map;
 
-	//SE
-	damageSE = LoadSoundMem("sound/damage.mp3");
-	waterSE = LoadSoundMem("sound/water.mp3");
-	walkSE = LoadSoundMem("sound/walk.ogg");
-	startSE = LoadSoundMem("sound/start.mp3");
-	jumpSE = LoadSoundMem("sound/jump.wav");
-	dashSE = LoadSoundMem("sound/dash.ogg");
+//SE
+damageSE = LoadSoundMem("sound/damage.mp3");
+waterSE = LoadSoundMem("sound/water.mp3");
+walkSE = LoadSoundMem("sound/walk.ogg");
+startSE = LoadSoundMem("sound/start.mp3");
+jumpSE = LoadSoundMem("sound/jump.wav");
+dashSE = LoadSoundMem("sound/dash.ogg");
 
-	ChangeVolumeSoundMem(150, damageSE);
-	ChangeVolumeSoundMem(150, waterSE);
-	ChangeVolumeSoundMem(140, walkSE);
-	ChangeVolumeSoundMem(200, startSE);
-	ChangeVolumeSoundMem(180, jumpSE);
-	ChangeVolumeSoundMem(140, dashSE);
+ChangeVolumeSoundMem(150, damageSE);
+ChangeVolumeSoundMem(150, waterSE);
+ChangeVolumeSoundMem(140, walkSE);
+ChangeVolumeSoundMem(200, startSE);
+ChangeVolumeSoundMem(180, jumpSE);
+ChangeVolumeSoundMem(140, dashSE);
 }
 
 Player::~Player() {
@@ -134,7 +134,12 @@ void Player::Dash(int pad, int isRescued, int inputX, int inputY) {
 void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	if (LInputX > 0 || LInputX < 0) {
 		player.transform.x += (LInputX / 200) * speed;
-
+		if (( (LInputX / 200) * speed ) <= 0) {
+			way = 1;
+		}
+		if (( (LInputX / 200) *speed ) >= 0){
+			way = 0;
+		}
 		if (player.isJump == false) {
 			if (speed == 0.8f) {
 				if (CheckSoundMem(walkSE) == false) {
@@ -174,7 +179,7 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 
 	inertia = 0;
 	if (isRescued == false && player.jumpPow <= G && water > 0) {
-		if (RInputX <= 0 && RInputY >= 0 && (RInputX != 0 || RInputY != 0)) {
+		if (RInputX != 0 || RInputY != 0) {
 			player.transform.x += (RInputX * -1) / 180;
 			inertia = (RInputY * -1) / 70;
 
@@ -196,8 +201,8 @@ void Player::PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued) {
 	player.transform.y += inertiaSpeed;
 }
 
-void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
-	if (map[leftBottomY][leftBottomX] != BLOCK && map[rightBottomY][rightBottomX] != BLOCK) {
+void Player::PlayerJump(int pad, int isRescued, int map[][50], bool isChar[][50]) {
+	if ((map[leftBottomY][leftBottomX] != BLOCK && isChar[leftBottomY][leftBottomX] != true) && (map[rightBottomY][rightBottomX] != BLOCK && isChar[rightBottomY][rightBottomX] != true)) {
 		player.isJump = true;
 	}
 	if (pad & PAD_INPUT_5) {
@@ -226,14 +231,14 @@ void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
 
 void Player::PlayerShot(int InputX, int InputY, int isRescued) {
 	if (isRescued == false && player.jumpPow <= G && water > 0) {
-		if (InputX <= 0 && InputY >= 0 && (InputX != 0 || InputY != 0)) {
+		if (InputX != 0 || InputY != 0) {
 			bullet->BulletShot(player.transform, InputX, InputY);
 			water--;
 		}
 	}
 }
 
-void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued,int select) {
+void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued, int select) {
 	if (isDamage == 0 && isFire >= 1) {
 		if (fireX - fireR < player.transform.x + player.r &&
 			player.transform.x - player.r < fireX + fireR &&
@@ -241,12 +246,6 @@ void Player::PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRes
 			player.transform.y - player.r < fireY + fireR) {
 			if (isRescued == 0) {
 				water -= 40;
-				if (select == 0) {
-					if (isShow == 0) {
-						scene = TEXT;
-						isShow = 1;
-					}
-				}
 			}
 			else {
 				hp--;
@@ -305,13 +304,15 @@ void Player::GetOldPlayer(int BLOCK_SIZE) {
 	oldRightBottomY = (oldPlayer.y + player.r - 1) / BLOCK_SIZE;
 }
 
-void Player::GetScroll() {
-	if (player.transform.x >= WIN_WIDTH / 2 && player.transform.x <= WIN_WIDTH + (48 * 10)) {
-		scroll = player.transform.x - WIN_WIDTH / 2;
+void Player::GetScroll(int select) {
+	if (select == 0) {
+		if (player.transform.x >= WIN_WIDTH / 2 && player.transform.x <= WIN_WIDTH - (48 * 4)) {
+			scroll = player.transform.x - WIN_WIDTH / 2;
+		}
 	}
 }
 
-void Player::BlockCollision(int map[][50]) {
+void Player::BlockCollision(int map[][50], bool isChar[][50]) {
 
 	if (player.jumpPow <= G) {
 		if (map[leftBottomY][leftBottomX] == BLOCK && map[rightBottomY][rightBottomX] != BLOCK && map[leftTopY][leftTopX] != BLOCK) {
@@ -426,13 +427,14 @@ void Player::DrawPlayer(int isRescued) {
 		//DrawBox(player.transform.x - player.r - scroll, player.transform.y - player.r,
 			//player.transform.x + player.r - scroll, player.transform.y + player.r, GetColor(200, 200, 200), true);
 		if (isRescued == false) {
-			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y - 3, 0.8, 0.0, graph_h, 1, 0, 0);
+			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y - 3, 0.8, 0.0, graph_h, 1, way, 0);
 		}
 		if (isRescued == true) {
-			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y - 3, 0.8, 0.0, graph_h2, 1, 1, 0);
+			DrawRotaGraph(player.transform.x - scroll + 3, player.transform.y - 3, 0.8, 0.0, graph_h2, 1, way, 0);
 		}
 
 	}
+	
 }
 
 void Player::DrawHp() {
@@ -449,5 +451,5 @@ void Player::DrawWater() {
 	if (water > 0) {
 		DrawBox(100, 920, 100 + water, 950, GetColor(0, 160, 200), true);
 	}
-	DrawGraph(75, 920,waterTank,true);
+	DrawGraph(75, 920, waterTank, true);
 }

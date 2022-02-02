@@ -29,6 +29,9 @@ public:
 	//ボタンの長押し対策
 	int isButton;
 
+	//プレイヤーの左右向き
+	int way;
+
 	//左上の座標
 	int leftTopX, leftTopY;
 	//左下の座標
@@ -88,14 +91,14 @@ public:
 
 	void Dash(int pad, int isRescued, int inputX, int inputY);
 	void PlayerMove(int LInputX, int RInputX, int RInputY, int isRescued);
-	void PlayerJump(int pad, int isRescued, int map[][50]);
+	void PlayerJump(int pad, int isRescued, int map[][50], bool isChar[][50]);
 	void PlayerShot(int InputX, int InputY, int isRescued);
 	void PlayerDamage(int fireX, int fireY, int fireR, int isFire, int isRescued, int select);
 	void DamageCount();
 	void GetPlayer(int BLOCK_SIZE);
 	void GetOldPlayer(int BLOCK_SIZE);
-	void GetScroll();
-	void BlockCollision(int map[][50]);
+	void GetScroll(int select);
+	void BlockCollision(int map[][50], bool isChar[][50]);
 	void DownPlayer(int map[][50], int BLOCK_SIZE);
 	void CheckStick(int InputY, int isRescued);
 
