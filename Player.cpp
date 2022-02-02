@@ -229,11 +229,24 @@ void Player::PlayerJump(int pad, int isRescued, int map[][50]) {
 	}
 }
 
-void Player::PlayerShot(int InputX, int InputY, int isRescued) {
+void Player::PlayerShot(int InputX, int InputY, int isRescued, int select) {
 	if (isRescued == false && player.jumpPow <= G && water > 0) {
 		if (InputX != 0 || InputY != 0) {
 			bullet->BulletShot(player.transform, InputX, InputY);
-			water--;
+			switch (select) {
+				case 0:
+					water--;
+					break;
+				case 1:
+					water -= 350 / 50;
+					break;
+				case 2:
+					water -= 350 / 80;
+					break;
+				case 3:
+					water -= 350 / 150;
+					break;
+			}
 		}
 	}
 }

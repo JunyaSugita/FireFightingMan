@@ -276,7 +276,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 				player->CheckStick(padInput.Ry, rescued->isRescued);
 
 				//弾の発射
-				player->PlayerShot(padInput.Rx, padInput.Ry, rescued->isRescued);
+				player->PlayerShot(padInput.Rx, padInput.Ry, rescued->isRescued, stageSelect->select);
 
 				//弾の挙動
 				player->bullet->BulletMove(player->G, padInput.X, padInput.Y);
