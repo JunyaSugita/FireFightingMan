@@ -29,7 +29,6 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
 	SetFontSize(64);
 	DrawFormatString(525, 80, GetColor(255, 255, 255), "くんれん");
 	SetFontSize(32);
-	if (serect == 0) {
 		DrawRotaGraph2(2100 - scroll, 120, 0, 0, 1.8, 0, help[isRescued], true);
 		SetFontSize(32);
 		if (isShow == 1) {
@@ -45,27 +44,27 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
 				DrawFormatString(130, 400, GetColor(255, 255, 255), "  ボタンから\nリセットしよう");
 			}
 		}
-		else {
+		if (serect == 0) {
 			switch (textNum) {
 				case 1:
 					for (int i = 0; i < 2; i++) {
 						DrawBox(100 - (1 + i), 375 - (1 + i), 500 + (1 + i), 480 + (1 + i), GetColor(255, 255, 255), false);
 					}
-					DrawBox(100, 375, 500, 480, GetColor(0,0,8), true);
+					DrawBox(100, 375, 500, 480, GetColor(0, 0, 8), true);
 					DrawFormatString(130, 400, GetColor(255, 255, 255), "B + Rスティックで\nダッシュしよう");
 					break;
 				case 2:
 					for (int i = 0; i < 2; i++) {
 						DrawBox(100 - (1 + i), 375 - (1 + i), 500 + (1 + i), 480 + (1 + i), GetColor(255, 255, 255), false);
 					}
-					DrawBox(100, 375, 500, 480, GetColor(0,0,8), true);
+					DrawBox(100, 375, 500, 480, GetColor(0, 0, 8), true);
 					DrawFormatString(130, 400, GetColor(255, 255, 255), "Lボタンで\nジャンプしよう");
 					break;
 				case 3:
 					for (int i = 0; i < 2; i++) {
 						DrawBox(100 - (1 + i), 375 - (1 + i), 500 + (1 + i), 480 + (1 + i), GetColor(255, 255, 255), false);
 					}
-					DrawBox(100, 375, 500, 480, GetColor(0,0,8), true);
+					DrawBox(100, 375, 500, 480, GetColor(0, 0, 8), true);
 					if (exNum[0] == 0) {
 						DrawFormatString(130, 400, GetColor(255, 255, 255), "タンクの水をつかって\nいどうができる");
 					}
@@ -77,7 +76,7 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
 					for (int i = 0; i < 2; i++) {
 						DrawBox(100 - (1 + i), 375 - (1 + i), 500 + (1 + i), 480 + (1 + i), GetColor(255, 255, 255), false);
 					}
-					DrawBox(100, 375, 500, 480, GetColor(0,0,8), true);
+					DrawBox(100, 375, 500, 480, GetColor(0, 0, 8), true);
 					if (exNum[1] == 0) {
 						DrawFormatString(130, 400, GetColor(255, 255, 255), "火にぶつかると\nタンクの水がへる");
 					}
@@ -89,7 +88,7 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
 					for (int i = 0; i < 2; i++) {
 						DrawBox(100 - (1 + i), 375 - (1 + i), 500 + (1 + i), 480 + (1 + i), GetColor(255, 255, 255), false);
 					}
-					DrawBox(100, 375, 500, 480, GetColor(0,0,8), true);
+					DrawBox(100, 375, 500, 480, GetColor(0, 0, 8), true);
 					if (exNum[2] == 0) {
 						DrawFormatString(130, 400, GetColor(255, 255, 255), "火をけすと\nケシズミになる");
 					}
@@ -101,7 +100,7 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
 					for (int i = 0; i < 2; i++) {
 						DrawBox(100 - (1 + i), 375 - (1 + i), 500 + (1 + i), 480 + (1 + i), GetColor(255, 255, 255), false);
 					}
-					DrawBox(100, 375, 500, 480, GetColor(0,0,8), true);
+					DrawBox(100, 375, 500, 480, GetColor(0, 0, 8), true);
 					if (exNum[3] == 0) {
 						DrawFormatString(130, 400, GetColor(255, 255, 255), "被災者のほごに成功");
 					}
@@ -113,9 +112,9 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
 					}
 					break;
 			}
+
 		}
 		DrawFormatString(120, 345, GetColor(255, 255, 255), "Info");
 		SetFontSize(16);
 		DrawFormatString(425, 455, GetColor(255, 255, 255), "B:つぎへ");
-	}
 }

@@ -777,6 +777,7 @@ void Scene::reset() {
 	smoke = new Smoke;
 	charcoal = new Charcoal;
 	isOpen = 0;
+	isLost = 0;
 }
 
 void Scene::restart() {
