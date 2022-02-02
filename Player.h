@@ -29,6 +29,9 @@ public:
 	//ボタンの長押し対策
 	int isButton;
 
+	//プレイヤーの左右向き
+	int way;
+
 	//左上の座標
 	int leftTopX, leftTopY;
 	//左下の座標
