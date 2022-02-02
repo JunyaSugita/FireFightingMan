@@ -20,7 +20,8 @@ enum MapInfo {
 	FLAMEENEMY,		//3
 	PLAYER_SPAWN,	//4
 	WOMAN_SPAWN,	//5
-	CHARCOAL		//6
+	CHARCOAL,		//6
+	NONE2,			//7
 };
 
 enum SceneInfo {
