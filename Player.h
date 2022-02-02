@@ -98,7 +98,7 @@ public:
 	void GetPlayer(int BLOCK_SIZE);
 	void GetOldPlayer(int BLOCK_SIZE);
 	void GetScroll(int select);
-	void BlockCollision(int map[][50]);
+	void BlockCollision(int map[][50], int isBrocken[][50]);
 	void DownPlayer(int map[][50], int BLOCK_SIZE);
 	void CheckStick(int InputY, int isRescued);
 
