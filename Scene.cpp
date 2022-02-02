@@ -816,6 +816,9 @@ void Scene::restart() {
 	player->scroll = 0;
 	player->water = player->WATER_CONST;
 	player->hp = 3;
+	for (int i = 0; i < 5000; i++) {
+		player->bullet->bullet[i].isShot = false;
+	}
 }
 
 
