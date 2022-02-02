@@ -12,5 +12,6 @@ public:
 public:
 	int brockenChar[20][50];
 	int isBrocken[20][50];
+	bool isChar[20][50];
 };
 

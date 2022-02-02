@@ -795,6 +795,7 @@ void Scene::Draw() {
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
+			charcoal->DrawChar();
 			rescued->Draw(player->scroll,player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
