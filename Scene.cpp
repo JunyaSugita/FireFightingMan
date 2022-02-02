@@ -27,10 +27,24 @@ Scene::Scene() {
 	isChange = 0;
 	isClear = 0;
 
+	for (int i = 0; i < 20; i++) {
+		whiteX[i] = 1480 + (i * 128);
+		if (i < 10) {
+			whiteY[i] = 280 + rand() % 51 - 25;
+		}
+		else if (i >= 10) {
+			whiteY[i] = 680 + rand() % 51 - 25;
+		}
+	}
+	isOpen = 0;
+	textX = 1480;
+
 	vignette = LoadGraph("resource/vignette.png");
 	titleGraph = LoadGraph("resource/title.png");
 	backWall[0] = LoadGraph("resource/BackWall_0.png");
 	blackGraph = LoadGraph("resource/black.png");
+	whiteLine = LoadGraph("resource/whiteLine.png");
+	openGraph = LoadGraph("resource/open.png");
 
 	//BGM
 	mainBGM = LoadSoundMem("sound/main.mp3");
@@ -271,82 +285,157 @@ void Scene::Update(char* keys, char* oldkeys) {
 			}
 			//スクロール
 			player->GetScroll(stageSelect->select);
-
-			for (int i = 0; i < 100; i++) {
-				player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire, rescued->isRescued, stageSelect->select);
-				particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
-			}
-			for (int i = 0; i < 10; i++) {
-				player->PlayerDamage(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, ene->enemy[i].hp, rescued->isRescued, stageSelect->select);
-				particle->Emit(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, 1);
-			}
-			player->DamageCount();
-			particle->Move();
-
-			smoke->Move();
-
-			pause->ChangePause(pad, player->scene);
-			pause->Move();
-
-
-			//////////ここからチュートリアル記述//////////
-			if (stageSelect->select == TUTORIAL) {
-				//ダッシュ
-				if (tutorial->isCom[0] == 0) {
-					if (tutorial->step == 0) {
-						player->scene = TEXT;
-						tutorial->textNum = 1;
+			//開幕演出
+			if (isOpen == 0) {
+				openTime++;
+				for (int i = 0; i < 20; i++) {
+					whiteX[i] -= 96;
+					if (whiteX[i] + 200 < 0) {
+						whiteX[i] = 1480;
 					}
 				}
 
-				//ジャンプ
-				if (tutorial->isCom[1] == 0) {
-					if (player->player.transform.x > 400) {
-						player->scene = TEXT;
-						tutorial->textNum = 2;
-					}
+				if (openTime < 12) {
+					textX -= 64;
+				}
+				else if (openTime > 12 && openTime < 66) {
+					textX -= 3;
+				}
+				else {
+					textX -= 72;
 				}
 
-				//水
-				if (tutorial->isCom[2] == 0) {
-					if (player->player.transform.x > 778) {
-						player->scene = TEXT;
-						tutorial->textNum = 3;
-					}
-				}
-
-				//火消
-				if (tutorial->isCom[3] == 0) {
-					if (player->player.transform.x > 1018) {
-						player->scene = TEXT;
-						tutorial->textNum = 4;
-					}
-				}
-
-				//ブロック
-				if (tutorial->isCom[4] == 0) {
-					if (player->player.transform.x > 1278) {
-						player->scene = TEXT;
-						tutorial->textNum = 5;
-					}
-				}
-
-				//救出後
-				if (tutorial->isCom[5] == 0) {
-					if (rescued->isRescued == 1) {
-						player->scene = TEXT;
-						tutorial->textNum = 6;
-					}
+				if (textX + 240 < 0) {
+					isOpen = 1;
+					textX = 1480;
+					openTime = 0;
 				}
 			}
+			else {
+				//プレイヤー位置の保存
+				player->SaveOldPlayer();
 
-			if (isLost == 0) {
-				if (player->water == 0) {
-					player->scene = TEXT;
-					isLost = 1;
+				//プレイヤーのジャンプの可否
+				player->GetPlayerBottom(map->BLOCK_SIZE);
+
+				//プレイヤーの移動
+				player->Dash(pad, rescued->isRescued, padInput.Rx, padInput.Ry);
+				player->PlayerJump(pad, rescued->isRescued, map->map);
+				player->PlayerMove(padInput.X, padInput.Rx, padInput.Ry, rescued->isRescued);
+				player->CheckStick(padInput.Ry, rescued->isRescued);
+
+				//弾の発射
+				player->PlayerShot(padInput.Rx, padInput.Ry, rescued->isRescued);
+
+				//弾の挙動
+				player->bullet->BulletMove(player->G, padInput.X, padInput.Y);
+
+				//消化
+				fire->FireFighting(player->bullet->bullet, smoke, map->map);
+
+				//マップチップ上の座標位置の取得
+				player->GetOldPlayer(map->BLOCK_SIZE);
+				player->GetPlayer(map->BLOCK_SIZE);
+				player->bullet->GetBullet(map->BLOCK_SIZE);
+
+				//当たり判定
+				player->BlockCollision(map->map);
+				player->bullet->BlockCollision(map->map);
+				rescued->RescuedCollision(player, player->hp, stageSelect->select);
+				goal->GetGoal(player, rescued, player->hp, fire, stageSelect->select);
+				gameover->GotoGameover(player->scene, player->hp);
+				//プレイヤーが地面で浮かないように
+				player->GetPlayer(map->BLOCK_SIZE);
+				player->GetPlayerBottom(map->BLOCK_SIZE);
+				player->CheckStick(padInput.Ry, rescued->isRescued);
+				player->DownPlayer(map->map, map->BLOCK_SIZE);
+				rescued->Move(player);
+				rescued->CatchRescued();
+
+				//敵の出現
+				ene->Update(player->bullet->bullet, map->map);
+				for (int i = 0; i < fire->FIRE_CONST; i++) {
+					ene->FireColision(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].Yr, fire->fire[i].isFire);
 				}
-			}
+				//スクロール
+				player->GetScroll(stageSelect->select);
 
+				for (int i = 0; i < 100; i++) {
+					player->PlayerDamage(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire, rescued->isRescued, stageSelect->select);
+					particle->Emit(fire->fire[i].transform.x, fire->fire[i].transform.y, fire->fire[i].Xr, fire->fire[i].isFire);
+				}
+				for (int i = 0; i < 10; i++) {
+					player->PlayerDamage(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, ene->enemy[i].hp, rescued->isRescued, stageSelect->select);
+					particle->Emit(ene->enemy[i].transform.x, ene->enemy[i].transform.y + ene->enemy[i].hp / 4, ene->enemy[i].hp / 4, 1);
+				}
+				player->DamageCount();
+				particle->Move();
+
+				smoke->Move();
+
+				pause->ChangePause(pad, player->scene);
+				pause->Move();
+
+
+				//////////ここからチュートリアル記述//////////
+				if (stageSelect->select == TUTORIAL) {
+					//ダッシュ
+					if (tutorial->isCom[0] == 0) {
+						if (tutorial->step == 0) {
+							player->scene = TEXT;
+							tutorial->textNum = 1;
+						}
+					}
+
+					//ジャンプ
+					if (tutorial->isCom[1] == 0) {
+						if (player->player.transform.x > 400) {
+							player->scene = TEXT;
+							tutorial->textNum = 2;
+						}
+					}
+
+					//水
+					if (tutorial->isCom[2] == 0) {
+						if (player->player.transform.x > 778) {
+							player->scene = TEXT;
+							tutorial->textNum = 3;
+						}
+					}
+
+					//火消
+					if (tutorial->isCom[3] == 0) {
+						if (player->player.transform.x > 1018) {
+							player->scene = TEXT;
+							tutorial->textNum = 4;
+						}
+					}
+
+					//ブロック
+					if (tutorial->isCom[4] == 0) {
+						if (player->player.transform.x > 1278) {
+							player->scene = TEXT;
+							tutorial->textNum = 5;
+						}
+					}
+
+					//救出後
+					if (tutorial->isCom[5] == 0) {
+						if (rescued->isRescued == 1) {
+							player->scene = TEXT;
+							tutorial->textNum = 6;
+						}
+					}
+				}
+
+				if (isLost == 0) {
+					if (player->water == 0) {
+						player->scene = TEXT;
+						isLost = 1;
+					}
+				}
+
+			}
 			break;
 
 		case GAMEOVER:
@@ -731,6 +820,7 @@ void Scene::reset() {
 	tutorial = new Tutorial;
 	damParticle = new DamParticle;
 	smoke = new Smoke;
+	isOpen = 0;
 }
 
 void Scene::restart() {
@@ -798,7 +888,7 @@ void Scene::Draw() {
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll,player->way);
+			rescued->Draw(player->scroll, player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {
@@ -810,6 +900,21 @@ void Scene::Draw() {
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			player->DrawWater();
 			pause->Draw();
+
+			if (isOpen == 0) {
+
+				DrawGraph(0, 0, blackGraph, true);
+
+				SetDrawBlendMode(DX_BLENDMODE_ADD, 64);
+				for (int j = 0; j < 8; j++) {
+					for (int i = 0; i < 20; i++) {
+						DrawGraph(whiteX[i], whiteY[i], whiteLine, true);
+					}
+				}
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+				DrawGraph(textX - 280, 450, openGraph, true);
+			}
+
 			break;
 
 		case CLEAR:
@@ -832,7 +937,7 @@ void Scene::Draw() {
 			smoke->Draw();
 			particle->Draw(player->scroll);
 			map->DrawMap(map->map, player->scroll);
-			rescued->Draw(player->scroll,player->way);
+			rescued->Draw(player->scroll, player->way);
 			player->bullet->DrawBullet(player->scroll);
 			player->DrawPlayer(rescued->isRescued);
 			if (player->scene == GAMEOVER) {

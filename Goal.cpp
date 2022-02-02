@@ -40,9 +40,32 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire, int se
 			time = 0;
 		}
 
+
 		if (select == 0) {
 			if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
 				if (player->player.transform.y + player->player.r > 912 - 96 && 912 > player->player.transform.y - player->player.r) {
+					if (rescued->isRescued == 1) {
+						if (isGoal == false) {
+							time = 0;
+							PlaySoundMem(goalSE, DX_PLAYTYPE_BACK, true);
+							isGoal = true;
+							isShow = true;
+							for (int i = 0; i < 10; i++) {
+								isMove[i] = true;
+								randNum[i] = rand() % 51 - 25;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if (select > 0) {
+		x = 192;
+		if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
+			if (player->player.transform.y + player->player.r > 128 - 96 && 128 > player->player.transform.y - player->player.r) {
+				if (rescued->isRescued == 1) {
 					if (isGoal == false) {
 						time = 0;
 						PlaySoundMem(goalSE, DX_PLAYTYPE_BACK, true);
@@ -57,22 +80,7 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire, int se
 			}
 		}
 	}
-	else {
-		if (player->player.transform.x + player->player.r > x - 96 && x > player->player.transform.x - player->player.r) {
-			if (player->player.transform.y + player->player.r > 128 - 96 && 128 > player->player.transform.y - player->player.r) {
-				if (isGoal == false) {
-					time = 0;
-					PlaySoundMem(goalSE, DX_PLAYTYPE_BACK, true);
-					isGoal = true;
-					isShow = true;
-					for (int i = 0; i < 10; i++) {
-						isMove[i] = true;
-						randNum[i] = rand() % 51 - 25;
-					}
-				}
-			}
-		}
-	}
+
 
 	if (isGoal == true) {
 		time++;
@@ -83,6 +91,7 @@ void Goal::GetGoal(Player* player, Rescued* rescued, int& hp, Fire* fire, int se
 		}
 	}
 }
+
 
 void Goal::Draw(Rescued* rescued, int scroll, int select) {
 	if (select == 0) {
@@ -108,9 +117,9 @@ void Goal::Draw(Rescued* rescued, int scroll, int select) {
 				DrawBox(x - 96 - scroll, 902, x - scroll, 912, GetColor(255, 255, 0), true);
 			}
 		}
-		else {
+		if (select > 0) {
 			if (isGoal == false) {
-				DrawBox(x - 96 - scroll, 902, x - scroll, 128, GetColor(255, 255, 0), true);
+				DrawBox(x - 96 - scroll, 128, x - scroll, 148, GetColor(255, 255, 0), true);
 			}
 		}
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);

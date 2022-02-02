@@ -14,14 +14,7 @@ Tutorial::Tutorial() {
 	lostNum = 0;
 	textNum = 0;
 
-	//LoadDivGraph("resource/tutorial1.png", 4, 4, 1, 149, 149, tutorial1);
-	//LoadDivGraph("resource/tutorial2.png", 4, 4, 1, 149, 149, tutorial2);
-	//LoadDivGraph("resource/tutorial3.png", 4, 4, 1, 149, 149, tutorial3);
-	//LoadDivGraph("resource/tutorial4.png", 4, 4, 1, 149, 149, tutorial4);
-	//LoadDivGraph("resource/help.png", 2, 2, 1, 128, 64, help);
-	//tutorial5 = LoadGraph("resource/tutorial5.png");
-	//tutorial6 = LoadGraph("resource/tutorial6.png");
-	//tutorial7 = LoadGraph("resource/tutorial7.png");
+	botan = LoadGraph("resource/botan.png");
 
 	textSE = LoadSoundMem("sound/text.mp3");
 
@@ -48,7 +41,8 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
 				DrawFormatString(130, 400, GetColor(255, 255, 255), "水がなくなってしまった");
 			}
 			else {
-				DrawFormatString(130, 400, GetColor(255, 255, 255), "三ボタンから\nリセットしよう");
+				DrawGraph(128, 398, botan, true);
+				DrawFormatString(130, 400, GetColor(255, 255, 255), "  ボタンから\nリセットしよう");
 			}
 		}
 		else {
