@@ -12,6 +12,10 @@ Clear::~Clear(){}
 void Clear::Draw() {
 	DrawGraph(0, 0, backGraph, true);
 
+	SetFontSize(128);
+
+	DrawFormatString(255, 250, GetColor(255, 255, 64), "STAGE  CLEAR");
+
 	SetFontSize(64);
 
 	if (isNext == 1) {
