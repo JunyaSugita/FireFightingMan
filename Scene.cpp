@@ -339,7 +339,7 @@ void Scene::Update(char* keys, char* oldkeys) {
 				player->bullet->GetBullet(map->BLOCK_SIZE);
 
 				//当たり判定
-				player->BlockCollision(map->map);
+				player->BlockCollision(map->map,charcoal->isBrocken);
 				player->bullet->BlockCollision(map->map);
 				rescued->RescuedCollision(player, player->hp, stageSelect->select);
 				goal->GetGoal(player, rescued, player->hp, fire, stageSelect->select);
