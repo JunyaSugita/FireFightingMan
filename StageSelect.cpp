@@ -72,7 +72,6 @@ void StageSelect::DrawStageSelect() {
 	DrawFormatString(x - 84, 420, GetColor(0, 0, 0), "ステージ2");
 	DrawFormatString(x - 84, 440, GetColor(0, 0, 0), "ステージ3");
 	DrawFormatString((x - 40) - 84, 380 + (select * 20), GetColor(0, 0, 0), "-->");
-	DrawFormatString(x - 84, 460, GetColor(0, 0, 0), "%f",x);
 }
 
 

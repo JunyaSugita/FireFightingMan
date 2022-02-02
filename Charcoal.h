@@ -13,5 +13,7 @@ public:
 public:
 	int brockenTimer[20][50];
 	int isBrocken[20][50];
+
+	int brockenSE;
 };
 
