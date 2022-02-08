@@ -55,6 +55,7 @@ void Bullet::BulletShot(Transform transform, int x, int y) {
 void Bullet::BulletMove(const int G, int x, int y) {
 	for (int i = 0; i < BULLET_CONST; i++) {
 		if (bullet[i].isShot == true) {
+			//微妙に揺らす
 			bullet[i].transform.x += bullet[i].speedX + rand() % 3 - 1;
 			bullet[i].transform.y += bullet[i].speedY;
 			bullet[i].speedY++;
@@ -116,6 +117,7 @@ void Bullet::DeleteBullet() {
 		bullet[i].isShot = false;
 	}
 }
+
 
 void Bullet::DrawBullet(int scroll) {
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 72);
