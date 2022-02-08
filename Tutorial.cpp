@@ -51,7 +51,7 @@ void Tutorial::DrawTutorial(int serect, int scroll, int isRescued,int isShow) {
 						DrawBox(100 - (1 + i), 375 - (1 + i), 500 + (1 + i), 480 + (1 + i), GetColor(255, 255, 255), false);
 					}
 					DrawBox(100, 375, 500, 480, GetColor(0, 0, 8), true);
-					DrawFormatString(130, 400, GetColor(255, 255, 255), "B + Rスティックで\nダッシュしよう");
+					DrawFormatString(130, 400, GetColor(255, 255, 255), "B + Lスティックで\nダッシュしよう");
 					break;
 				case 2:
 					for (int i = 0; i < 2; i++) {
